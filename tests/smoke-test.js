@@ -27,6 +27,7 @@ function fakeElement(id = "") {
     innerHTML: "",
     onclick: null,
     appendChild(child) { this.children.push(child); return child; },
+    replaceChildren(...children) { this.children = children; this.innerHTML = ""; },
     getBoundingClientRect() { return { width: 1280, height: 720 }; }
   };
 }
@@ -76,6 +77,7 @@ global.localStorage = {
 let randomSeed = 1337;
 Math.random = () => ((randomSeed = randomSeed * 16807 % 2147483647) - 1) / 2147483646;
 
+require(path.join(__dirname, "..", "balance.js"));
 require(path.join(__dirname, "..", "game.js"));
 
 const start = getElement("startButton");
@@ -97,12 +99,22 @@ getElement("hardButton").onclick();
 assert.equal(getElement("hardButton").classList.contains("selected"), true, "难度按钮应更新选择状态");
 getElement("normalButton").onclick();
 start.onclick();
-assert.equal(getElement("originScreen").classList.contains("hidden"), false, "开始远征后应进入随机原型选秀");
-assert.equal(getElement("originChoices").children.length, 3, "每局应随机提供三个原型");
+assert.equal(getElement("originScreen").classList.contains("hidden"), false, "开始远征后应进入角色选择");
+assert.equal(getElement("originChoices").children.length, 8, "开局应提供全部八种角色流派供自主选择");
+assert.match(getElement("originChoices").children[0].innerHTML, /限制：/, "角色卡应明确展示自身限制");
+getElement("originChoices").children[0].onclick();
+assert.match(getElement("originTitle").textContent, /选择武器/, "选择角色后应进入初始武器选择");
+assert.equal(getElement("originChoices").children.length, 3, "角色应提供适配的初始武器选项");
+assert.match(getElement("originChoices").children[0].innerHTML, /weapon-visual/, "武器选择应展示实体外观预览");
 getElement("originChoices").children[0].onclick();
 assert.ok(storage.has("emberEchoProfile"), "选择原型后应保存跨局研究进度");
 assert.equal(getElement("hud").classList.contains("hidden"), false, "开始后应显示 HUD");
 assert.equal(getElement("touchControls").classList.contains("hidden"), false, "战斗开始后应启用移动端触控层");
+const aimProbe = window.__EMBER_TEST_API__.probeAutoAim();
+assert.ok(aimProbe.length > 0, "远程武器应能生成锁敌弹丸");
+assert.ok(aimProbe.every(shot => shot.locked && shot.homing > 0), "所有远程弹丸都应绑定目标并持续追踪");
+assert.ok(aimProbe.every(shot => shot.angleError < .001), "武器初始射击方向不应加入随机偏差");
+assert.ok(aimProbe.some(shot => Math.abs(shot.damage - shot.baseDamage) > .001), "随机性应体现在实际伤害数值上");
 
 let now = performance.now();
 for (let index = 0; index < 120; index++) {
@@ -115,6 +127,7 @@ for (let index = 0; index < 120; index++) {
 assert.match(getElement("timerText").textContent, /^00:0[12]$/, "关卡倒计时应随帧循环更新");
 assert.match(getElement("hpText").textContent, /^\d+ \/ \d+$/, "原型生命值应正确显示");
 assert.match(getElement("weaponStrip").innerHTML, /LV\./, "HUD 应展示当前武器");
+assert.match(getElement("weaponStrip").innerHTML, /weapon-visual/, "HUD 应展示武器实体外观");
 assert.match(getElement("weaponStrip").innerHTML, /guardian/, "HUD 应单独展示守护装备");
 
 window.__EMBER_TEST_API__.openEliteChest();
@@ -132,6 +145,7 @@ listeners.keydown[0]({ key: "Tab", repeat: false, preventDefault: noOp });
 assert.equal(getElement("detailsScreen").classList.contains("hidden"), false, "Tab 应打开构筑面板");
 assert.match(getElement("detailsLoadout").innerHTML, /角色属性/, "构筑面板应展示角色属性");
 assert.match(getElement("detailsLoadout").innerHTML, /实体武器/, "构筑面板应展示全部实体武器");
+assert.match(getElement("detailsLoadout").innerHTML, /weapon-visual/, "构筑面板应展示武器外观预览");
 assert.match(getElement("detailsLoadout").innerHTML, /守护装备/, "构筑面板应展示守护装备");
 getElement("closeDetailsButton").onclick();
 

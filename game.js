@@ -6,6 +6,8 @@
   const frame = document.getElementById("gameFrame");
   const TAU = Math.PI * 2;
   const FAST_TEST = Boolean(window.__GAME_TEST__);
+  const BALANCE = window.__EMBER_BALANCE__;
+  if (!BALANCE) throw new Error("balance.js must load before game.js");
   const keys = new Set();
   const ui = {
     hud: byId("hud"), start: byId("startScreen"), upgrade: byId("upgradeScreen"),
@@ -20,7 +22,8 @@
     reroll: byId("rerollButton"), toast: byId("toast"), endTitle: byId("endTitle"),
     endEyebrow: byId("endEyebrow"), endStats: byId("endStats"), modeDescription: byId("modeDescription"),
     rogueMode: byId("rogueModeButton"), endlessMode: byId("endlessModeButton"), difficultyGroup: byId("difficultyGroup"),
-    origin: byId("originScreen"), originChoices: byId("originChoices"), codex: byId("codexScreen"),
+    origin: byId("originScreen"), originChoices: byId("originChoices"), originEyebrow: byId("originEyebrow"),
+    originTitle: byId("originTitle"), originCopy: byId("originCopy"), codex: byId("codexScreen"),
     codexContent: byId("codexContent"), metaProgress: byId("metaProgress"), mutationText: byId("mutationText"),
     routeSection: byId("routeSection"), routeChoices: byId("routeChoices"), routeStatus: byId("routeStatus"),
     chest: byId("chestScreen"), chestChoices: byId("chestChoices"), achievement: byId("achievementScreen"),
@@ -49,24 +52,30 @@
   ];
 
   const origins = [
-    { id: "ranger", name: "灰烬游侠", icon: "➤", color: "#fb923c", style: "精准追踪 · 弹道成长",
-      desc: "放弃侧炮，以高等级连弩和分裂弹丸快速建立正面火力。", kit: ["余烬连弩 LV.2", "分岔火舌 ×1", "伤害 +10%"],
-      apply(p) { p.weapons = [{ id: "ember", level: 2, cooldown: 0 }]; p.multishot = 1; p.damageMult *= 1.1; } },
-    { id: "gunner", name: "四向枪手", icon: "↔", color: "#22d3ee", style: "多向齐射 · 高速弹幕",
-      desc: "保留两套枪械，用更高攻速同时封锁正面与侧面。", kit: ["双生侧炮 LV.2", "余烬连弩 LV.1", "攻击速度 +12%"],
-      apply(p) { p.weapons.find(w => w.id === "twins").level = 2; p.fireRateMult *= .88; } },
-    { id: "dancer", name: "环刃舞者", icon: "◌", color: "#6ee7b7", style: "贴身环绕 · 高速走位",
-      desc: "以移动速度换取贴身切割优势，适合围绕敌群穿梭。", kit: ["星环刃 LV.1", "移动速度 +18%", "拾取范围 +20%"],
-      apply(p) { p.weapons = [{ id: "orbit", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.guardians = [{ id: "sentinel", level: 1, cooldown: 0, charges: 0 }]; p.speed *= 1.18; p.magnet *= 1.2; } },
-    { id: "bulwark", name: "黑曜壁垒", icon: "⬡", color: "#fda4af", style: "重装反击 · 生存成长",
-      desc: "牺牲少量速度换取高生命与护甲，稳步构筑不灭防线。", kit: ["最大生命 +35", "护甲 +12%", "移动速度 -7%"],
-      apply(p) { p.maxHp += 35; p.hp = p.maxHp; p.armor += .12; p.guardians.find(item => item.id === "shield").level = 2; p.speed *= .93; } },
-    { id: "scholar", name: "裂隙学者", icon: "✦", color: "#c084fc", style: "全向脉冲 · 稀有构筑",
-      desc: "从脉冲环起步，并拥有更高概率发现稀有与史诗强化。", kit: ["脉冲环 LV.1", "幸运 +22%", "拾取范围 +25%"],
-      apply(p) { p.weapons = [{ id: "nova", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.guardians = [{ id: "prism", level: 1, cooldown: 0, charges: 1 }]; p.luck += .22; p.magnet *= 1.25; } },
-    { id: "scavenger", name: "荒原拾荒者", icon: "◎", color: "#facc15", style: "随机武装 · 高频重掷",
-      desc: "每局从两件随机武器开始，拥有更多重掷但生命较低。", kit: ["随机武器 ×2", "额外重掷 ×1", "最大生命 -15"],
-      apply(p) { const ids = Object.keys(weaponMeta).sort(() => Math.random() - .5).slice(0, 2); p.weapons = ids.map(id => ({ id, level: 1, cooldown: 0 })); p.maxHp -= 15; p.hp = p.maxHp; p.bonusRerolls = 1; p.luck += .1; } }
+    { id: "ranger", name: "灰烬游侠", icon: "➤", color: "#fb923c", style: "精准弹道 · 远程猎杀", weaponChoices: ["ember", "twins", "nova"], weaponLevel: 2,
+      desc: "远程伤害更加稳定且暴击更频繁，但薄弱护甲不适合硬闯敌群。", kit: ["优势：伤害 +8%、精准 96%", "优势：暴击 +5%、初始武器 LV.2", "限制：护甲 -6%"],
+      apply(p) { p.damageMult *= 1.08; p.precision = .96; p.critChance += .05; p.armor -= .06; } },
+    { id: "gunner", name: "四向枪手", icon: "↔", color: "#22d3ee", style: "高速射击 · 弹幕压制", weaponChoices: ["twins", "ember", "nova"],
+      desc: "以更快射速封锁多个方向，代价是较低的生命上限。", kit: ["优势：攻击速度 +20%", "优势：贯穿 +1", "限制：最大生命 -18"],
+      apply(p) { p.fireRateMult *= .8; p.pierce++; p.maxHp -= 18; p.hp = p.maxHp; } },
+    { id: "dancer", name: "环刃舞者", icon: "◌", color: "#6ee7b7", style: "贴身环绕 · 高速走位", weaponChoices: ["orbit", "twins", "ember"],
+      desc: "靠速度和无人机穿行敌群，但直接武器伤害略低。", kit: ["优势：移动 +22%、拾取 +25%", "优势：守望无人机", "限制：武器伤害 -10%"],
+      apply(p) { p.guardians = [{ id: "sentinel", level: 1, cooldown: 0, charges: 0 }]; p.speed *= 1.22; p.magnet *= 1.25; p.damageMult *= .9; } },
+    { id: "bulwark", name: "黑曜壁垒", icon: "⬡", color: "#fda4af", style: "重装防御 · 稳定反击", weaponChoices: ["orbit", "ember", "nova"],
+      desc: "高生命与强护盾允许正面承伤，但笨重装甲限制走位。", kit: ["优势：最大生命 +40、护甲 +14%", "优势：炽晶护盾 LV.2", "限制：移动速度 -13%"],
+      apply(p) { p.maxHp += 40; p.hp = p.maxHp; p.armor += .14; p.guardians.find(item => item.id === "shield").level = 2; p.speed *= .87; } },
+    { id: "scholar", name: "裂隙学者", icon: "✦", color: "#c084fc", style: "稀有强化 · 经验成长", weaponChoices: ["nova", "ember", "orbit"],
+      desc: "更快升级并更容易获得高品质强化，但基础生命偏低。", kit: ["优势：经验 +22%、幸运 +24%", "优势：棱镜圣衣", "限制：最大生命 -15"],
+      apply(p) { p.guardians = [{ id: "prism", level: 1, cooldown: 0, charges: 1 }]; p.xpMult *= 1.22; p.luck += .24; p.maxHp -= 15; p.hp = p.maxHp; } },
+    { id: "scavenger", name: "荒原拾荒者", icon: "◎", color: "#facc15", style: "自由武装 · 高频重掷", weaponChoices: ["ember", "twins", "orbit", "nova"],
+      desc: "不限制武器路线并拥有更多重掷，但开局属性最为脆弱。", kit: ["优势：全部武器可选、额外重掷 ×2", "优势：幸运 +12%", "限制：生命 -20、伤害 -8%"],
+      apply(p) { p.maxHp -= 20; p.hp = p.maxHp; p.damageMult *= .92; p.bonusRerolls = 2; p.luck += .12; } },
+    { id: "berserker", name: "裂火狂战士", icon: "✣", color: "#ef4444", style: "极限伤害 · 近身爆发", weaponChoices: ["orbit", "ember", "twins"],
+      desc: "用生命与拾取范围换取夸张伤害，鼓励持续贴身进攻。", kit: ["优势：伤害 +32%、恢复 +0.6/秒", "优势：棘甲外骨骼", "限制：生命 -25、拾取 -20%"],
+      apply(p) { p.guardians = [{ id: "thorns", level: 1, cooldown: 0, charges: 0 }]; p.damageMult *= 1.32; p.regen += .6; p.maxHp -= 25; p.hp = p.maxHp; p.magnet *= .8; } },
+    { id: "artificer", name: "余烬机械师", icon: "⌾", color: "#38bdf8", style: "守护炮台 · 装备协同", weaponChoices: ["twins", "nova", "ember"],
+      desc: "强化守护装备并获得高射速，但沉重工具会拖慢移动。", kit: ["优势：守望无人机 LV.2", "优势：攻击速度 +10%、幸运 +10%", "限制：移动速度 -9%"],
+      apply(p) { p.guardians = [{ id: "sentinel", level: 2, cooldown: 0, charges: 0 }]; p.fireRateMult *= .9; p.luck += .1; p.speed *= .91; } }
   ];
 
   const routes = [
@@ -87,10 +96,10 @@
   ];
 
   const weaponMeta = {
-    ember: { name: "余烬连弩", icon: "➤", desc: "自动追踪最近敌人", tags: ["弹道", "追踪"] },
-    twins: { name: "双生侧炮", icon: "↔", desc: "沿角色两侧同时射击", tags: ["弹道", "多向"] },
-    orbit: { name: "星环刃", icon: "◌", desc: "环绕角色持续切割", tags: ["环绕", "近战"] },
-    nova: { name: "脉冲环", icon: "✦", desc: "向所有方向释放弹幕", tags: ["脉冲", "多向"] }
+    ember: { name: "余烬连弩", icon: "➤", desc: "锁定目标并持续修正弹道", mode: "优先最近目标 · 强追踪 · 稳定单体", tags: ["弹道", "追踪"] },
+    twins: { name: "双生侧炮", icon: "↔", desc: "两侧炮塔分别锁定不同敌人", mode: "双炮独立锁敌 · 多目标 · 清理侧翼", tags: ["弹道", "多向"] },
+    orbit: { name: "星环刃", icon: "◌", desc: "环绕角色持续切割", mode: "实体环绕 · 近距离 · 持续切割", tags: ["环绕", "近战"] },
+    nova: { name: "脉冲环", icon: "✦", desc: "一次锁定多个敌人释放追踪脉冲", mode: "多目标锁定 · 范围覆盖 · 爆发间隔", tags: ["脉冲", "多向"] }
   };
 
   const guardianMeta = {
@@ -122,11 +131,11 @@
   ];
 
   const enemyMeta = {
-    crawler: { name: "爬行影", color: "#8b5cf6" }, swift: { name: "掠影", color: "#38bdf8" },
-    tank: { name: "甲壳兽", color: "#b45309" }, shooter: { name: "蚀光炮手", color: "#a16207" },
-    charger: { name: "裂角冲锋者", color: "#9f1239" }, summoner: { name: "孵化祭司", color: "#7e22ce" },
-    minion: { name: "幼体", color: "#a78bfa" }, elite: { name: "精英影兽", color: "#e879f9" },
-    boss: { name: "裂隙领主", color: "#701a35" }
+    crawler: { name: "爬行影", color: "#5b4b73" }, swift: { name: "掠影", color: "#326b7d" },
+    tank: { name: "甲壳兽", color: "#7c4a1d" }, shooter: { name: "蚀光炮手", color: "#73601e" },
+    charger: { name: "裂角冲锋者", color: "#7b2638" }, summoner: { name: "孵化祭司", color: "#56256d" },
+    minion: { name: "幼体", color: "#6d5c82" }, elite: { name: "精英影兽", color: "#9f459e" },
+    boss: { name: "裂隙领主", color: "#59152b" }
   };
 
   const upgradeCatalog = [
@@ -139,6 +148,7 @@
     skill("regen", "复燃血脉", "♨", "每秒恢复 0.45 生命", p => p.regen += .45),
     skill("pierce", "贯穿余辉", "↠", "弹丸额外贯穿 1 个敌人", p => p.pierce++),
     skill("multishot", "分岔火舌", "⋔", "追踪武器额外发射 1 枚弹丸", p => p.multishot++),
+    skill("precision", "校准镜组", "⌖", "伤害波动收窄 4%，暴击率 +4%", p => { p.precision = Math.min(.98, p.precision + .04); p.critChance = Math.min(.45, p.critChance + .04); }),
     weaponUpgrade("ember"), weaponUpgrade("twins"), weaponUpgrade("orbit"), weaponUpgrade("nova"),
     guardianUpgrade("shield"), guardianUpgrade("sentinel"), guardianUpgrade("thorns"), guardianUpgrade("prism")
   ];
@@ -157,7 +167,7 @@
 
   function byId(id) { return document.getElementById(id); }
   function skill(id, title, icon, desc, apply) {
-    const tags = { damage: ["输出"], haste: ["攻速"], speed: ["机动"], health: ["生存"], armor: ["生存"], magnet: ["资源"], regen: ["恢复"], pierce: ["弹道"], multishot: ["弹道", "多重"] };
+    const tags = { damage: ["输出"], haste: ["攻速"], speed: ["机动"], health: ["生存"], armor: ["生存"], magnet: ["资源"], regen: ["恢复"], pierce: ["弹道"], multishot: ["弹道", "多重"], precision: ["精准", "暴击"] };
     return { id, title, icon, desc, kind: "skill", tags: tags[id] || [], apply };
   }
   function weaponUpgrade(id) {
@@ -196,8 +206,9 @@
       x: canvas.logicalWidth / 2, y: canvas.logicalHeight / 2, r: 17, facing: 0, speed: 225,
       hp: 105, maxHp: 105, xp: 0, xpNext: 16, level: 1, kills: 0, pendingPoints: 0,
       damageMult: 1, fireRateMult: 1, armor: 0, regen: 0, magnet: 105, pierce: 0, multishot: 0,
+      precision: BALANCE.CONFIG.player.basePrecision, critChance: BALANCE.CONFIG.player.baseCritChance,
       luck: 0, xpMult: 1, bonusRerolls: 0, chestsOpened: 0, invuln: 0, damageDone: 0, damageTaken: 0, skills: {}, origin: null,
-      weapons: [{ id: "ember", level: 1, cooldown: 0 }, { id: "twins", level: 1, cooldown: 0 }],
+      weapons: [],
       guardians: [{ id: "shield", level: 1, cooldown: 0, charges: 1 }], guardianRetaliation: 0
     };
     enemies = []; bullets = []; enemyBullets = []; gems = []; chests = []; particles = []; texts = [];
@@ -221,17 +232,43 @@
   function openOriginDraft() {
     resetRun(); state = "origin"; selectedOrigin = null;
     ui.start.classList.add("hidden"); ui.end.classList.add("hidden"); ui.origin.classList.remove("hidden"); ui.hud.classList.add("hidden");
-    const draft = [...origins].sort(() => Math.random() - .5).slice(0, 3);
-    ui.originChoices.innerHTML = "";
-    for (const origin of draft) {
+    renderOriginDraft();
+  }
+
+  function renderOriginDraft() {
+    selectedOrigin = null; ui.originEyebrow.textContent = "第一步 · 角色流派"; ui.originTitle.textContent = "选择余火原型";
+    ui.originCopy.textContent = "全部角色均可自主选择。每个原型都有鲜明优势与限制，并会改变适合发展的构筑。";
+    byId("cancelOriginButton").textContent = "返回模式选择";
+    ui.originChoices.replaceChildren();
+    for (const origin of origins) {
       const card = document.createElement("button"); card.className = "origin-card"; card.style.setProperty("--origin-color", origin.color);
-      card.innerHTML = `<span class="origin-icon">${origin.icon}</span><small>${origin.style}</small><h3>${origin.name}</h3><p>${origin.desc}</p><div class="origin-kit">${origin.kit.map(item => `<span>${item}</span>`).join("")}</div>`;
-      card.onclick = () => startGame(origin); ui.originChoices.appendChild(card);
+      card.innerHTML = `${originPortrait(origin)}<small>${origin.style}</small><h3>${origin.name}</h3><p>${origin.desc}</p><div class="origin-kit">${origin.kit.map(item => `<span class="${item.startsWith("限制") ? "limit" : "advantage"}">${item}</span>`).join("")}</div>`;
+      card.onclick = () => renderWeaponDraft(origin); ui.originChoices.appendChild(card);
     }
   }
 
-  function startGame(origin) {
-    selectedOrigin = origin; player.origin = origin.id; origin.apply(player); discover("origins", origin.id);
+  function renderWeaponDraft(origin) {
+    selectedOrigin = origin; ui.originEyebrow.textContent = "第二步 · 初始武器"; ui.originTitle.textContent = `${origin.name}选择武器`;
+    ui.originCopy.textContent = "武器与角色能力彼此独立。请选择本局的第一件实体武器，后续仍可在整备中发展其他路线。";
+    byId("cancelOriginButton").textContent = "返回角色选择"; ui.originChoices.replaceChildren();
+    for (const id of origin.weaponChoices) {
+      const meta = weaponMeta[id], card = document.createElement("button"); card.className = "origin-card weapon-choice-card"; card.style.setProperty("--origin-color", origin.color);
+      card.innerHTML = `${weaponVisual(id, "draft")}<small>${meta.tags.join(" · ")}</small><h3>${meta.name}</h3><p>${meta.mode}</p><div class="origin-kit"><span class="advantage">${meta.desc}</span><span>初始等级 LV.${origin.weaponLevel || 1}</span><span>适配 ${origin.name} 的 ${origin.style.split(" · ")[0]}路线</span></div>`;
+      card.onclick = () => startGame(origin, id); ui.originChoices.appendChild(card);
+    }
+  }
+
+  function originPortrait(origin) {
+    return `<span class="origin-portrait portrait-${origin.id}" aria-hidden="true"><i></i><b></b><em></em></span>`;
+  }
+
+  function weaponVisual(id, size = "") {
+    return `<i class="weapon-visual weapon-${id} ${size}"><b></b><em></em></i>`;
+  }
+
+  function startGame(origin, weaponId) {
+    selectedOrigin = origin; player.origin = origin.id; origin.apply(player);
+    player.weapons = [{ id: weaponId, level: origin.weaponLevel || 1, cooldown: 0 }]; discover("origins", origin.id);
     for (const weapon of player.weapons) discover("weapons", weapon.id);
     for (const guardian of player.guardians) discover("guardians", guardian.id);
     profile.runs++; saveProfile(); state = "playing"; lastTime = performance.now();
@@ -266,19 +303,8 @@
       if (edge === 2) { x = Math.random() * w; y = h + 45; }
       if (edge === 3) { x = -45; y = Math.random() * h; }
     }
-    const growth = 1 + (selectedMode === "rogue" ? stageIndex * .22 : totalElapsed / 300);
-    const specs = {
-      crawler: { r: 14, hp: 36, speed: 66, damage: 11, xp: 3 },
-      swift: { r: 11, hp: 26, speed: 104, damage: 9, xp: 4 },
-      tank: { r: 24, hp: 125, speed: 40, damage: 19, xp: 9 },
-      shooter: { r: 17, hp: 62, speed: 55, damage: 10, xp: 8, attackRate: 1.7 },
-      charger: { r: 20, hp: 92, speed: 48, damage: 24, xp: 10, attackRate: 3.1 },
-      summoner: { r: 21, hp: 112, speed: 38, damage: 12, xp: 14, attackRate: 4.2 },
-      minion: { r: 8, hp: 18, speed: 120, damage: 6, xp: 1 },
-      elite: { r: 30, hp: 440, speed: 54, damage: 24, xp: 36, elite: true, attackRate: 2.2 },
-      boss: { r: 55, hp: 3200, speed: 34, damage: 30, xp: 130, boss: true, attackRate: 1.8 }
-    };
-    const spec = specs[type], hp = spec.hp * growth * diff.hp * currentMutation.hp * (currentRoute?.hp || 1);
+    const growth = selectedMode === "rogue" ? BALANCE.stageGrowth(stageIndex) : 1 + totalElapsed * BALANCE.CONFIG.progression.endlessHpPerSecond;
+    const spec = BALANCE.CONFIG.enemies[type], hp = spec.hp * growth * diff.hp * currentMutation.hp * (currentRoute?.hp || 1);
     enemies.push({ x, y, type, ...spec, hp, maxHp: hp, speed: spec.speed * diff.speed * currentMutation.speed, damage: spec.damage * diff.damage * currentMutation.damage,
       hit: 0, phase: Math.random() * TAU, attackClock: rand(.5, spec.attackRate || 2), aiState: "move", stateClock: 0,
       orbitClock: 0, vx: 0, vy: 0 });
@@ -308,13 +334,12 @@
     return list;
   }
 
-  function nearestEnemy() {
-    let best = null, bestD = Infinity;
-    for (const e of enemies) {
-      const d = (e.x - player.x) ** 2 + (e.y - player.y) ** 2;
-      if (d < bestD) { best = e; bestD = d; }
-    }
-    return best;
+  function rankedEnemies(x = player.x, y = player.y) {
+    return enemies.filter(e => e.hp > 0).sort((a, b) => ((a.x - x) ** 2 + (a.y - y) ** 2) - ((b.x - x) ** 2 + (b.y - y) ** 2));
+  }
+
+  function nearestEnemy(x = player.x, y = player.y, excluded = null) {
+    return rankedEnemies(x, y).find(enemy => !excluded?.has(enemy)) || null;
   }
 
   function fireWeapons(dt) {
@@ -329,41 +354,53 @@
     if (orbit) updateOrbitDamage(orbit, dt);
   }
 
-  function addPlayerBullet(angle, damage, speed, r, color = "#fdba74", life = 1.45) {
-    addPlayerBulletFrom(player.x + Math.cos(angle) * 22, player.y + Math.sin(angle) * 22, angle, damage, speed, r, color, life);
+  function addPlayerBullet(angle, damage, speed, r, color = "#fdba74", life = 1.45, options = {}) {
+    addPlayerBulletFrom(player.x + Math.cos(angle) * 22, player.y + Math.sin(angle) * 22, angle, damage, speed, r, color, life, options);
   }
 
-  function addPlayerBulletFrom(x, y, angle, damage, speed, r, color, life = 1.45) {
+  function addPlayerBulletFrom(x, y, angle, damage, speed, r, color, life = 1.45, options = {}) {
+    const scaledDamage = damage * player.damageMult * (hasSynergy("arsenal") ? 1.2 : 1);
+    const roll = BALANCE.damageRoll(scaledDamage, player.precision, player.critChance);
     bullets.push({ x, y,
-      vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, damage: damage * player.damageMult * (hasSynergy("arsenal") ? 1.2 : 1),
-      life, pierce: player.pierce, hit: new Set(), color, team: "player" });
+      vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, speed, r, damage: roll.damage, baseDamage: scaledDamage, crit: roll.crit,
+      target: options.target || null, homing: options.homing || 0, life, pierce: player.pierce, hit: new Set(), color, team: "player" });
   }
 
   function fireEmber(w) {
-    const target = nearestEnemy(); if (!target) return;
-    const base = Math.atan2(target.y - player.y, target.x - player.x), count = 1 + player.multishot + Math.floor((w.level - 1) / 3);
-    for (let i = 0; i < count; i++) addPlayerBullet(base + (i - (count - 1) / 2) * .12, 16 + w.level * 5, 650, 5.5 + w.level * .35, "#2dd4bf");
-    w.cooldown = Math.max(.18, (.52 - w.level * .035) * player.fireRateMult * (hasSynergy("barrage") ? .8 : 1)); muzzle(base, "#2dd4bf");
+    const stats = BALANCE.weaponStats("ember", w.level, { fireRate: player.fireRateMult, multishot: player.multishot, barrage: hasSynergy("barrage"), critChance: player.critChance });
+    const targets = rankedEnemies(); if (!targets.length) return;
+    for (let i = 0; i < stats.projectiles; i++) {
+      const target = targets[i % targets.length], angle = Math.atan2(target.y - player.y, target.x - player.x);
+      addPlayerBullet(angle, stats.damage, stats.speed, stats.radius + w.level * .2, "#2dd4bf", stats.life, { target, homing: stats.homing });
+    }
+    const base = Math.atan2(targets[0].y - player.y, targets[0].x - player.x); w.cooldown = stats.cooldown; muzzle(base, "#2dd4bf");
   }
 
   function fireTwins(w) {
-    const directions = [player.facing + Math.PI / 2, player.facing - Math.PI / 2];
-    if (w.level >= 3) directions.push(player.facing + Math.PI);
-    if (w.level >= 5) directions.push(player.facing);
-    for (const angle of directions) addPlayerBullet(angle, 12 + w.level * 4.3, 540, 6, "#60a5fa", 1.25);
-    w.cooldown = Math.max(.3, (.92 - w.level * .055) * player.fireRateMult * (hasSynergy("barrage") ? .8 : 1));
-    directions.forEach(angle => muzzle(angle, "#60a5fa"));
+    const stats = BALANCE.weaponStats("twins", w.level, { fireRate: player.fireRateMult, barrage: hasSynergy("barrage"), critChance: player.critChance });
+    const targets = rankedEnemies(); if (!targets.length) return;
+    for (let i = 0; i < stats.projectiles; i++) {
+      const side = i % 2 ? -1 : 1, mountAngle = player.facing + side * Math.PI / 2;
+      const x = player.x + Math.cos(mountAngle) * 22, y = player.y + Math.sin(mountAngle) * 22, target = targets[i % targets.length];
+      const angle = Math.atan2(target.y - y, target.x - x);
+      addPlayerBulletFrom(x, y, angle, stats.damage, stats.speed, stats.radius, "#60a5fa", stats.life, { target, homing: stats.homing }); muzzle(angle, "#60a5fa");
+    }
+    w.cooldown = stats.cooldown;
   }
 
   function fireNova(w) {
-    const starfall = hasSynergy("starfall"), count = 7 + w.level * 2 + (starfall ? 4 : 0);
-    for (let i = 0; i < count; i++) addPlayerBullet(i / count * TAU + totalElapsed * .25, (10 + w.level * 4) * (starfall ? 1.25 : 1), 390, 5, "#c4b5fd", 1.8);
-    w.cooldown = Math.max(1.2, (3.25 - w.level * .2) * player.fireRateMult); shake = 3;
+    const starfall = hasSynergy("starfall"), stats = BALANCE.weaponStats("nova", w.level, { fireRate: player.fireRateMult, starfall, critChance: player.critChance });
+    const targets = rankedEnemies(); if (!targets.length) return;
+    for (let i = 0; i < stats.projectiles; i++) {
+      const target = targets[i % targets.length], angle = Math.atan2(target.y - player.y, target.x - player.x);
+      addPlayerBullet(angle, stats.damage * (starfall ? 1.25 : 1), stats.speed, stats.radius, "#c4b5fd", stats.life, { target, homing: stats.homing });
+    }
+    w.cooldown = stats.cooldown; shake = 3;
     burst(player.x, player.y, "#c4b5fd", 18, 140);
   }
 
   function updateOrbitDamage(w, dt) {
-    const bladeDance = hasSynergy("bladeDance"), count = 2 + Math.floor(w.level / 2), radius = 58 + w.level * 4 + (bladeDance ? 12 : 0);
+    const bladeDance = hasSynergy("bladeDance"), stats = BALANCE.weaponStats("orbit", w.level), count = stats.projectiles, radius = stats.radius + (bladeDance ? 12 : 0);
     for (const e of enemies) {
       e.orbitClock = Math.max(0, e.orbitClock - dt);
       if (e.orbitClock > 0) continue;
@@ -371,7 +408,8 @@
         const a = totalElapsed * (2.4 + w.level * .08) + i / count * TAU;
         const x = player.x + Math.cos(a) * radius, y = player.y + Math.sin(a) * radius;
         if (Math.hypot(e.x - x, e.y - y) < e.r + 11) {
-          damageEnemy(e, (9 + w.level * 4) * player.damageMult * (bladeDance ? 1.4 : 1), "#a7f3d0"); e.orbitClock = .23; break;
+          const roll = BALANCE.damageRoll(stats.damage * player.damageMult * (bladeDance ? 1.4 : 1), player.precision, player.critChance);
+          damageEnemy(e, roll.damage, "#a7f3d0", roll.crit); e.orbitClock = stats.cooldown; break;
         }
       }
     }
@@ -394,7 +432,7 @@
         const target = nearestEnemy();
         if (target) {
           const position = guardianPosition("sentinel"), angle = Math.atan2(target.y - position.y, target.x - position.x);
-          addPlayerBulletFrom(position.x, position.y, angle, 9 + guardian.level * 5, 510, 4.5, "#4ade80", 1.4);
+          addPlayerBulletFrom(position.x, position.y, angle, 9 + guardian.level * 5, 510, 4.5, "#4ade80", 1.4, { target, homing: BALANCE.CONFIG.guardian.sentinelHoming });
           guardian.cooldown = Math.max(.32, .95 - guardian.level * .08); burst(position.x, position.y, "#4ade80", 3, 55);
         }
       }
@@ -409,6 +447,19 @@
     const index = Math.max(0, player.guardians.findIndex(item => item.id === id));
     const angle = totalElapsed * 1.7 + index * Math.PI;
     return { x: player.x + Math.cos(angle) * 67, y: player.y + Math.sin(angle) * 67, angle };
+  }
+
+  function updatePlayerBullet(b, dt) {
+    if (b.homing > 0) {
+      if (!b.target || b.target.hp <= 0) b.target = nearestEnemy(b.x, b.y, b.hit);
+      if (b.target) {
+        const current = Math.atan2(b.vy, b.vx), desired = Math.atan2(b.target.y - b.y, b.target.x - b.x);
+        const delta = Math.atan2(Math.sin(desired - current), Math.cos(desired - current));
+        const angle = current + clamp(delta, -b.homing * dt, b.homing * dt), speed = b.speed || Math.hypot(b.vx, b.vy);
+        b.vx = Math.cos(angle) * speed; b.vy = Math.sin(angle) * speed;
+      }
+    }
+    b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
   }
 
   function update(dt) {
@@ -429,7 +480,7 @@
     if (spawnClock <= 0) spawnWave();
     handleStageEvents();
 
-    for (const b of bullets) { b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt; }
+    for (const b of bullets) updatePlayerBullet(b, dt);
     for (const b of enemyBullets) {
       b.x += b.vx * dt; b.y += b.vy * dt; b.life -= dt;
       if (Math.hypot(b.x - player.x, b.y - player.y) < b.r + player.r) { damagePlayer(b.damage); b.life = 0; burst(b.x, b.y, b.color, 6, 90); }
@@ -439,7 +490,7 @@
     for (const b of bullets) for (const e of enemies) {
       if (b.life <= 0 || b.hit.has(e)) continue;
       if (Math.hypot(b.x - e.x, b.y - e.y) < b.r + e.r) {
-        b.hit.add(e); damageEnemy(e, b.damage, b.color);
+        b.hit.add(e); damageEnemy(e, b.damage, b.color, b.crit);
         if (b.pierce > 0) b.pierce--; else b.life = 0;
       }
     }
@@ -465,7 +516,7 @@
       if (!stageEliteSpawned && (stageIndex > 0 || currentRoute?.forceElite) && stageElapsed > stage.duration * eliteThreshold) {
         stageEliteSpawned = true; spawnEnemy("elite"); showToast("精英威胁进入战场");
       }
-      if (stage.boss && !bossSpawned && stageElapsed > stage.duration - 20) {
+      if (stage.boss && !bossSpawned && stageElapsed > stage.duration - 24) {
         bossSpawned = true; spawnEnemy("boss"); showToast("裂隙领主降临");
       }
     } else {
@@ -565,9 +616,9 @@
     }
   }
 
-  function damageEnemy(e, damage, color) {
+  function damageEnemy(e, damage, color, crit = false) {
     e.hp -= damage; e.hit = .08; player.damageDone += damage;
-    floatText(e.x, e.y - e.r, Math.round(damage), color || "#fde68a"); burst(e.x, e.y, color || enemyMeta[e.type].color, 4, 95);
+    floatText(e.x, e.y - e.r, `${crit ? "暴击 " : ""}${Math.round(damage)}`, crit ? "#fef08a" : color || "#fde68a"); burst(e.x, e.y, color || enemyMeta[e.type].color, crit ? 8 : 4, crit ? 135 : 95);
   }
 
   function resolveDeaths() {
@@ -763,12 +814,13 @@
     const attrs = [
       ["生命", `${Math.ceil(player.hp)} / ${player.maxHp}`], ["移动", Math.round(player.speed)],
       ["伤害", `+${Math.round((player.damageMult - 1) * 100)}%`], ["攻速", `+${Math.round((1 / player.fireRateMult - 1) * 100)}%`],
+      ["精准", `${Math.round(player.precision * 100)}%`], ["暴击", `${Math.round(player.critChance * 100)}%`],
       ["护甲", `${Math.round(player.armor * 100)}%`], ["恢复", `${player.regen.toFixed(1)}/秒`],
       ["贯穿", `+${player.pierce}`], ["拾取", Math.round(player.magnet)],
       ["幸运", `${Math.round(player.luck * 100)}%`], ["局种", runSeed],
       ["路线", currentRoute?.name || "起始区域"], ["异变", currentMutation.name]
     ];
-    const weaponRows = player.weapons.map(w => { const meta = weaponMeta[w.id]; return `<div class="loadout-row"><i>${meta.icon}</i><span>${meta.name}<small>${meta.tags.join(" · ")}｜${meta.desc}</small></span><b>LV.${w.level}</b></div>`; }).join("");
+    const weaponRows = player.weapons.map(w => { const meta = weaponMeta[w.id]; return `<div class="loadout-row weapon-loadout-row">${weaponVisual(w.id, "panel")}<span>${meta.name}<small>${meta.mode}｜${meta.desc}</small></span><b>LV.${w.level}</b></div>`; }).join("");
     const guardianRows = player.guardians.map(item => { const meta = guardianMeta[item.id]; return `<div class="loadout-row"><i>${meta.icon}</i><span>${meta.name}<small>${meta.tags.join(" · ")}｜${meta.desc}</small></span><b>LV.${item.level}</b></div>`; }).join("");
     const skillRows = Object.entries(player.skills).filter(([,rank]) => rank > 0).map(([id, rank]) => {
       const up = upgradeCatalog.find(item => item.id === id); return `<span class="skill-tag">${up?.title || id} <b>×${rank}</b></span>`;
@@ -797,7 +849,7 @@
     ui.bossWrap.classList.toggle("hidden", !boss);
     if (boss) { ui.bossBar.style.width = `${Math.max(0, boss.hp / boss.maxHp * 100)}%`; ui.bossText.textContent = `${Math.max(0, Math.ceil(boss.hp))} / ${Math.ceil(boss.maxHp)}`; ui.bossName.textContent = enemyMeta[boss.type].name; }
     if (force || !ui.weaponStrip.innerHTML) {
-      const weapons = player.weapons.map(w => `<div class="weapon-pill"><i>${weaponMeta[w.id].icon}</i><span>${weaponMeta[w.id].name} <b>LV.${w.level}</b></span></div>`);
+      const weapons = player.weapons.map(w => `<div class="weapon-pill">${weaponVisual(w.id, "hud-weapon")}<span>${weaponMeta[w.id].name} <b>LV.${w.level}</b></span></div>`);
       const guardians = player.guardians.map(item => `<div class="weapon-pill guardian"><i>${guardianMeta[item.id].icon}</i><span>${guardianMeta[item.id].name} <b>LV.${item.level}</b></span></div>`);
       ui.weaponStrip.innerHTML = [...weapons, ...guardians].join("");
     }
@@ -838,6 +890,7 @@
   }
 
   function cancelOriginDraft() {
+    if (selectedOrigin) { renderOriginDraft(); return; }
     state = "menu"; ui.origin.classList.add("hidden"); ui.start.classList.remove("hidden"); renderMetaProgress();
   }
 
@@ -888,7 +941,7 @@
     const w = canvas.logicalWidth, h = canvas.logicalHeight;
     ctx.save(); ctx.translate(shake ? rand(-shake, shake) : 0, shake ? rand(-shake, shake) : 0);
     const gradient = ctx.createRadialGradient(w * .5, h * .45, 40, w * .5, h * .45, Math.max(w, h) * .76);
-    gradient.addColorStop(0, "#19243a"); gradient.addColorStop(1, "#080d18"); ctx.fillStyle = gradient; ctx.fillRect(-20, -20, w + 40, h + 40);
+    gradient.addColorStop(0, "#2a201b"); gradient.addColorStop(.48, "#171514"); gradient.addColorStop(1, "#090a0c"); ctx.fillStyle = gradient; ctx.fillRect(-20, -20, w + 40, h + 40);
     drawArena(w, h);
     for (const g of gems) drawGem(g);
     for (const chest of chests) drawChest(chest);
@@ -905,29 +958,67 @@
   }
 
   function drawArena(w, h) {
-    ctx.strokeStyle = "rgba(148,163,184,.05)"; ctx.lineWidth = 1; const grid = 48, ox = totalElapsed * 5 % grid, oy = totalElapsed * 3 % grid;
+    ctx.strokeStyle = "rgba(190,169,144,.045)"; ctx.lineWidth = 1; const grid = 48, ox = totalElapsed * 5 % grid, oy = totalElapsed * 3 % grid;
     ctx.beginPath(); for (let x = -grid + ox; x < w + grid; x += grid) { ctx.moveTo(x, 0); ctx.lineTo(x, h); } for (let y = -grid + oy; y < h + grid; y += grid) { ctx.moveTo(0, y); ctx.lineTo(w, y); } ctx.stroke();
-    ctx.save(); ctx.translate(w / 2, h / 2); ctx.strokeStyle = "rgba(251,146,60,.065)"; ctx.lineWidth = 2;
+    ctx.save(); ctx.translate(w / 2, h / 2); ctx.strokeStyle = "rgba(251,146,60,.075)"; ctx.lineWidth = 2;
     for (let r = 140; r < Math.max(w, h); r += 170) { ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.stroke(); } ctx.restore();
   }
 
   function drawPlayer() {
     if (player.invuln > 0 && Math.floor(player.invuln * 18) % 2) ctx.globalAlpha = .35;
     ctx.save(); ctx.translate(player.x, player.y); ctx.rotate(player.facing);
-    ctx.shadowBlur = 24; ctx.shadowColor = "#fb923c"; ctx.fillStyle = "#fb923c"; circle(0, 0, player.r + 3); ctx.shadowBlur = 0;
-    ctx.fillStyle = "#fff7ed"; circle(0, 0, player.r - 3); ctx.fillStyle = "#111827"; circle(5, -5, 2.5); circle(5, 5, 2.5);
+    const origin = origins.find(item => item.id === player.origin), color = origin?.color || "#fb923c";
+    ctx.shadowBlur = 24; ctx.shadowColor = color; ctx.fillStyle = color; circle(0, 0, player.r + 4); ctx.shadowBlur = 0;
+    ctx.fillStyle = "#fff7ed"; circle(0, 0, player.r - 3); drawCharacterIdentity(player.origin, color);
+    ctx.fillStyle = "#111827"; circle(6, -5, 2.4); circle(6, 5, 2.4);
     ctx.restore(); ctx.globalAlpha = 1;
+  }
+
+  function drawCharacterIdentity(id, color) {
+    ctx.save();
+    if (id === "ranger") {
+      ctx.strokeStyle = color; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(-2, 0, 14, Math.PI * .58, Math.PI * 1.42); ctx.stroke();
+      ctx.fillStyle = "#7c2d12"; ctx.beginPath(); ctx.moveTo(-17, 0); ctx.lineTo(-7, -11); ctx.lineTo(-7, 11); ctx.closePath(); ctx.fill();
+    } else if (id === "gunner") {
+      ctx.fillStyle = "#164e63"; ctx.fillRect(-15, -15, 18, 30); ctx.fillStyle = color; ctx.fillRect(2, -11, 8, 22);
+      ctx.strokeStyle = "#ecfeff"; ctx.lineWidth = 2; ctx.strokeRect(1, -12, 11, 24);
+    } else if (id === "dancer") {
+      ctx.fillStyle = color; for (const side of [-1, 1]) { ctx.beginPath(); ctx.moveTo(-12, side * 8); ctx.lineTo(-29, side * 18); ctx.lineTo(-17, side * 3); ctx.closePath(); ctx.fill(); }
+      ctx.strokeStyle = "#064e3b"; ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(0, 0, 12, -1.1, 1.1); ctx.stroke();
+    } else if (id === "bulwark") {
+      ctx.fillStyle = "#475569"; ctx.fillRect(-18, -17, 20, 34); ctx.fillStyle = color; ctx.fillRect(-13, -20, 8, 40);
+      ctx.fillStyle = "#0f172a"; ctx.fillRect(1, -12, 9, 24); ctx.fillStyle = "#fecdd3"; ctx.fillRect(5, -9, 3, 18);
+    } else if (id === "scholar") {
+      ctx.strokeStyle = color; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(-2, 0, 22, 10, 0, 0, TAU); ctx.stroke();
+      ctx.fillStyle = "#581c87"; ctx.beginPath(); ctx.moveTo(-16, -14); ctx.lineTo(-5, 0); ctx.lineTo(-16, 14); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = "#e9d5ff"; circle(-13, 0, 3);
+    } else if (id === "scavenger") {
+      ctx.fillStyle = "#713f12"; ctx.fillRect(-17, -14, 9, 28); ctx.strokeStyle = color; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(5, -7, 6, 0, TAU); ctx.arc(5, 7, 6, 0, TAU); ctx.stroke(); ctx.fillStyle = "#fef08a"; circle(5, -7, 2); circle(5, 7, 2);
+    } else if (id === "berserker") {
+      ctx.fillStyle = color; for (const side of [-1, 1]) { ctx.beginPath(); ctx.moveTo(0, side * 13); ctx.lineTo(13, side * 24); ctx.lineTo(10, side * 9); ctx.closePath(); ctx.fill(); }
+      ctx.fillStyle = "#7f1d1d"; ctx.fillRect(-15, -4, 24, 8);
+    } else if (id === "artificer") {
+      ctx.fillStyle = "#075985"; ctx.fillRect(-16, -15, 16, 30); ctx.fillStyle = color; ctx.fillRect(0, -12, 10, 24);
+      ctx.strokeStyle = "#bae6fd"; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(-7, -14); ctx.lineTo(-15, -27); ctx.stroke(); ctx.fillStyle = "#e0f2fe"; circle(-15, -27, 3);
+      ctx.fillStyle = "#0c4a6e"; circle(-8, 0, 5); ctx.fillStyle = "#7dd3fc"; circle(-8, 0, 2);
+    }
+    ctx.restore();
   }
 
   function drawMountedWeapons() {
     const ember = player.weapons.find(item => item.id === "ember");
-    if (ember) drawGun(player.x, player.y, player.facing, "#2dd4bf", 1 + Math.min(.28, ember.level * .035));
+    if (ember) {
+      const target = nearestEnemy(), angle = target ? Math.atan2(target.y - player.y, target.x - player.x) : player.facing;
+      drawGun(player.x, player.y, angle, "#2dd4bf", 1 + Math.min(.28, ember.level * .035));
+    }
     const twins = player.weapons.find(item => item.id === "twins");
     if (twins) {
-      const offset = 20, scale = .82 + Math.min(.24, twins.level * .03);
-      for (const side of [-1, 1]) {
-        const angle = player.facing + side * Math.PI / 2;
-        drawGun(player.x + Math.cos(angle) * offset, player.y + Math.sin(angle) * offset, angle, "#60a5fa", scale);
+      const offset = 20, scale = .82 + Math.min(.24, twins.level * .03), targets = rankedEnemies();
+      for (const [index, side] of [-1, 1].entries()) {
+        const mountAngle = player.facing + side * Math.PI / 2, x = player.x + Math.cos(mountAngle) * offset, y = player.y + Math.sin(mountAngle) * offset;
+        const target = targets[index % Math.max(1, targets.length)], angle = target ? Math.atan2(target.y - y, target.x - x) : mountAngle;
+        drawGun(x, y, angle, "#60a5fa", scale);
       }
     }
     const nova = player.weapons.find(item => item.id === "nova");
@@ -1062,6 +1153,18 @@
     ui.joystickKnob.style.transform = "translate(-50%, -50%)";
   }
 
+  function probeAutoAim() {
+    const weapon = player.weapons.find(item => item.id !== "orbit"); if (!weapon) return [];
+    const savedEnemies = enemies, savedBullets = bullets, savedCooldown = weapon.cooldown;
+    const target = { x: player.x + 260, y: player.y + 90, hp: 1000, r: 14 };
+    enemies = [target]; bullets = []; weapon.cooldown = 0; fireWeapons(0);
+    const result = bullets.map(bullet => {
+      const shotAngle = Math.atan2(bullet.vy, bullet.vx), targetAngle = Math.atan2(target.y - bullet.y, target.x - bullet.x);
+      return { locked: bullet.target === target, homing: bullet.homing, angleError: Math.abs(Math.atan2(Math.sin(shotAngle - targetAngle), Math.cos(shotAngle - targetAngle))), damage: bullet.damage, baseDamage: bullet.baseDamage };
+    });
+    enemies = savedEnemies; bullets = savedBullets; weapon.cooldown = savedCooldown; return result;
+  }
+
   ui.joystick.onpointerdown = event => {
     touchInput.active = true; touchInput.pointerId = event.pointerId;
     if (ui.joystick.setPointerCapture) ui.joystick.setPointerCapture(event.pointerId);
@@ -1103,6 +1206,6 @@
   byId("hardButton").onclick = () => selectDifficulty("hard"); byId("nightmareButton").onclick = () => selectDifficulty("nightmare");
   ui.reroll.onclick = () => { if (rerolls > 0 && upgradePoints > 0) { rerolls--; rollUpgradeChoices(); } };
 
-  if (FAST_TEST) window.__EMBER_TEST_API__ = { openEliteChest, unlockAchievement };
+  if (FAST_TEST) window.__EMBER_TEST_API__ = { openEliteChest, unlockAchievement, probeAutoAim, balanceSnapshot: BALANCE.balanceSnapshot };
   resizeCanvas(); resetRun(); renderMetaProgress(); draw();
 })();

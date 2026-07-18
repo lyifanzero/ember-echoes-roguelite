@@ -65,9 +65,9 @@
 
         <div id="originScreen" class="overlay hidden">
           <div class="panel origin-panel">
-            <p class="eyebrow">本局随机选秀</p>
-            <h2>选择余火原型</h2>
-            <p class="draft-copy">每次远征只会出现 3 个原型。它们会改变初始武器、属性与可发展的流派。</p>
+            <p id="originEyebrow" class="eyebrow">第一步 · 角色流派</p>
+            <h2 id="originTitle">选择余火原型</h2>
+            <p id="originCopy" class="draft-copy">全部角色均可自主选择。每个原型都有鲜明优势与限制，并会改变适合发展的构筑。</p>
             <div id="originChoices" class="origin-grid"></div>
             <button id="cancelOriginButton" class="text-button">返回模式选择</button>
           </div>
@@ -146,6 +146,7 @@
       </section>
       <footer><span>闯关模式：每关结算并消费技能点</span><span>提示：按 Tab 随时查看属性、武器和技能</span></footer>
     </main>
+    <script src="balance.js"></script>
     <script src="game.js"></script>
   </body>
 </html>

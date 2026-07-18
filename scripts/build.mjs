@@ -11,7 +11,7 @@ await mkdir(client, { recursive: true });
 await mkdir(server, { recursive: true });
 await mkdir(path.join(dist, ".openai"), { recursive: true });
 
-for (const file of ["index.html", "styles.css", "game.js"]) {
+for (const file of ["index.html", "styles.css", "balance.js", "game.js"]) {
   await cp(path.join(root, file), path.join(client, file));
 }
 
