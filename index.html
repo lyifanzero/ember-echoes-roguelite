@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111827" />
+    <title>余火回响</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="game-shell">
+      <header class="brand-row">
+        <div><p class="eyebrow">ORIGINAL SURVIVOR ROGUELITE</p><h1>余火回响</h1></div>
+        <div class="controls-hint"><kbd>WASD</kbd> 移动 <span>·</span> 自动攻击 <span>·</span> <kbd>Tab</kbd> 构筑 <span>·</span> <kbd>P</kbd> 暂停</div>
+      </header>
+
+      <section id="gameFrame" class="game-frame" aria-label="游戏区域">
+        <canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+        <div id="hud" class="hud hidden">
+          <div class="hud-top">
+            <div class="stat-chip"><span>生命</span><strong id="hpText">100 / 100</strong></div>
+            <div class="stat-chip timer"><span id="stageText">第 1 关</span><strong id="timerText">00:00</strong></div>
+            <div class="stat-chip"><span>击败 / 技能点</span><strong><i id="killText">0</i> / <em id="pointText">0</em></strong></div>
+          </div>
+          <div id="weaponStrip" class="weapon-strip"></div>
+          <div id="enemyReadout" class="enemy-readout"></div>
+          <div id="mutationBadge" class="mutation-badge"><span>本关异变</span><b id="mutationText">余烬丰饶</b></div>
+          <div class="bars">
+            <div class="bar health"><i id="hpBar"></i></div>
+            <div class="xp-row"><b id="levelText">LV. 1</b><div class="bar xp"><i id="xpBar"></i></div></div>
+          </div>
+          <div id="bossBarWrap" class="boss-bar-wrap hidden">
+            <div class="boss-title"><span id="bossName">裂隙领主</span><b id="bossHpText"></b></div>
+            <div class="bar boss"><i id="bossHpBar"></i></div>
+          </div>
+        </div>
+
+        <div id="startScreen" class="overlay start-screen">
+          <div class="panel hero-panel mode-panel">
+            <div class="ember-icon" aria-hidden="true">✦</div>
+            <p class="eyebrow">选择作战协议</p>
+            <h2>守住最后一团余火</h2>
+            <div class="mode-grid">
+              <button id="rogueModeButton" class="mode-card selected">
+                <b>闯关模式</b><span>10 个关卡 · 双首领节点 · 局间构筑</span><small>推荐</small>
+              </button>
+              <button id="endlessModeButton" class="mode-card">
+                <b>无尽模式</b><span>持续变强 · 定时补给 · 挑战纪录</span><small>经典</small>
+              </button>
+            </div>
+            <div id="difficultyGroup" class="difficulty-group">
+              <span>难度</span>
+              <button id="easyButton">休闲</button><button id="normalButton" class="selected">标准</button>
+              <button id="hardButton">残酷</button><button id="nightmareButton">噩梦</button>
+            </div>
+            <p id="modeDescription" class="mode-description">完成 10 个逐渐升级的关卡。精英掉落宝箱，每关结束进行路线与构筑决策。</p>
+            <div id="metaProgress" class="meta-progress"></div>
+            <button id="startButton" class="primary-button">进入灰烬荒原</button>
+            <button id="codexButton" class="text-button">查看研究档案</button>
+            <button id="achievementButton" class="text-button inline-text-button">查看成就</button>
+          </div>
+        </div>
+
+        <div id="originScreen" class="overlay hidden">
+          <div class="panel origin-panel">
+            <p class="eyebrow">本局随机选秀</p>
+            <h2>选择余火原型</h2>
+            <p class="draft-copy">每次远征只会出现 3 个原型。它们会改变初始武器、属性与可发展的流派。</p>
+            <div id="originChoices" class="origin-grid"></div>
+            <button id="cancelOriginButton" class="text-button">返回模式选择</button>
+          </div>
+        </div>
+
+        <div id="upgradeScreen" class="overlay hidden">
+          <div class="panel upgrade-panel wide-panel">
+            <div class="round-heading">
+              <div><p id="upgradeEyebrow" class="eyebrow">关卡完成</p><h2 id="upgradeTitle">整备余火</h2></div>
+              <div id="roundStats" class="round-stats"></div>
+            </div>
+            <section id="routeSection" class="route-section">
+              <div class="section-heading"><div><b>选择下一条路线</b><span>风险、奖励与下关规则都会改变</span></div><small id="routeStatus">尚未选择</small></div>
+              <div id="routeChoices" class="route-grid"></div>
+            </section>
+            <div class="build-layout">
+              <div id="upgradeLoadout" class="loadout-panel"></div>
+              <div class="choice-column">
+                <div class="choice-heading"><div><b>技能加点</b><span id="pointsRemaining">剩余 1 点</span></div><button id="rerollButton" class="ghost-button">重掷</button></div>
+                <div id="upgradeChoices" class="upgrade-grid"></div>
+                <button id="continueButton" class="primary-button hidden">进入下一关</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="chestScreen" class="overlay hidden">
+          <div class="panel chest-panel">
+            <div class="chest-mark">▣</div>
+            <p class="eyebrow">ELITE CACHE</p>
+            <h2>精英宝箱</h2>
+            <p class="draft-copy">选择一项高价值战利品。本次选择会直接改变这局远征的构筑。</p>
+            <div id="chestChoices" class="chest-grid"></div>
+          </div>
+        </div>
+
+        <div id="detailsScreen" class="overlay hidden">
+          <div class="panel details-panel">
+            <div class="round-heading"><div><p class="eyebrow">CURRENT BUILD</p><h2>当前构筑</h2></div><button id="closeDetailsButton" class="ghost-button">返回战斗</button></div>
+            <div id="detailsLoadout" class="loadout-panel full"></div>
+          </div>
+        </div>
+
+        <div id="codexScreen" class="overlay hidden">
+          <div class="panel codex-panel">
+            <div class="round-heading"><div><p class="eyebrow">RESEARCH ARCHIVE</p><h2>余火研究档案</h2></div><button id="closeCodexButton" class="ghost-button">关闭档案</button></div>
+            <div id="codexContent" class="codex-content"></div>
+          </div>
+        </div>
+
+        <div id="achievementScreen" class="overlay hidden">
+          <div class="panel codex-panel">
+            <div class="round-heading"><div><p class="eyebrow">CHALLENGE RECORDS</p><h2>余火成就</h2></div><button id="closeAchievementButton" class="ghost-button">关闭成就</button></div>
+            <div id="achievementSummary" class="achievement-summary"></div>
+            <div id="achievementContent" class="achievement-grid"></div>
+          </div>
+        </div>
+
+        <div id="pauseScreen" class="overlay hidden">
+          <div class="panel compact-panel"><p class="eyebrow">PAUSED</p><h2>余火暂歇</h2><p>按 P 或点击按钮继续</p><button id="resumeButton" class="primary-button">继续战斗</button></div>
+        </div>
+
+        <div id="endScreen" class="overlay hidden">
+          <div class="panel end-panel">
+            <p id="endEyebrow" class="eyebrow">余火熄灭</p><h2 id="endTitle">影潮吞没了你</h2>
+            <div id="endStats" class="end-stats"></div><div id="endLoadout" class="loadout-panel full"></div>
+            <button id="restartButton" class="primary-button">返回模式选择</button>
+          </div>
+        </div>
+
+        <div id="toast" class="toast hidden"></div>
+        <div id="touchControls" class="touch-controls hidden" aria-label="移动端操作">
+          <div id="joystick" class="joystick" aria-label="虚拟移动摇杆"><i id="joystickKnob"></i></div>
+          <div class="touch-actions"><button id="touchBuildButton" aria-label="查看构筑">构筑</button><button id="touchPauseButton" aria-label="暂停游戏">暂停</button></div>
+        </div>
+      </section>
+      <footer><span>闯关模式：每关结算并消费技能点</span><span>提示：按 Tab 随时查看属性、武器和技能</span></footer>
+    </main>
+    <script src="game.js"></script>
+  </body>
+</html>

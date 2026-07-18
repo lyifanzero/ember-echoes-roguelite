@@ -1,0 +1,9 @@
+{
+  "name": "ember-echoes-game",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --check game.js && node tests/smoke-test.js"
+  }
+}
