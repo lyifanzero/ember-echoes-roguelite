@@ -57,13 +57,13 @@
       apply(p) { p.weapons.find(w => w.id === "twins").level = 2; p.fireRateMult *= .88; } },
     { id: "dancer", name: "环刃舞者", icon: "◌", color: "#6ee7b7", style: "贴身环绕 · 高速走位",
       desc: "以移动速度换取贴身切割优势，适合围绕敌群穿梭。", kit: ["星环刃 LV.1", "移动速度 +18%", "拾取范围 +20%"],
-      apply(p) { p.weapons = [{ id: "orbit", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.speed *= 1.18; p.magnet *= 1.2; } },
+      apply(p) { p.weapons = [{ id: "orbit", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.guardians = [{ id: "sentinel", level: 1, cooldown: 0, charges: 0 }]; p.speed *= 1.18; p.magnet *= 1.2; } },
     { id: "bulwark", name: "黑曜壁垒", icon: "⬡", color: "#fda4af", style: "重装反击 · 生存成长",
       desc: "牺牲少量速度换取高生命与护甲，稳步构筑不灭防线。", kit: ["最大生命 +35", "护甲 +12%", "移动速度 -7%"],
-      apply(p) { p.maxHp += 35; p.hp = p.maxHp; p.armor += .12; p.speed *= .93; } },
+      apply(p) { p.maxHp += 35; p.hp = p.maxHp; p.armor += .12; p.guardians.find(item => item.id === "shield").level = 2; p.speed *= .93; } },
     { id: "scholar", name: "裂隙学者", icon: "✦", color: "#c084fc", style: "全向脉冲 · 稀有构筑",
       desc: "从脉冲环起步，并拥有更高概率发现稀有与史诗强化。", kit: ["脉冲环 LV.1", "幸运 +22%", "拾取范围 +25%"],
-      apply(p) { p.weapons = [{ id: "nova", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.luck += .22; p.magnet *= 1.25; } },
+      apply(p) { p.weapons = [{ id: "nova", level: 1, cooldown: 0 }, { id: "ember", level: 1, cooldown: 0 }]; p.guardians = [{ id: "prism", level: 1, cooldown: 0, charges: 1 }]; p.luck += .22; p.magnet *= 1.25; } },
     { id: "scavenger", name: "荒原拾荒者", icon: "◎", color: "#facc15", style: "随机武装 · 高频重掷",
       desc: "每局从两件随机武器开始，拥有更多重掷但生命较低。", kit: ["随机武器 ×2", "额外重掷 ×1", "最大生命 -15"],
       apply(p) { const ids = Object.keys(weaponMeta).sort(() => Math.random() - .5).slice(0, 2); p.weapons = ids.map(id => ({ id, level: 1, cooldown: 0 })); p.maxHp -= 15; p.hp = p.maxHp; p.bonusRerolls = 1; p.luck += .1; } }
@@ -93,6 +93,13 @@
     nova: { name: "脉冲环", icon: "✦", desc: "向所有方向释放弹幕", tags: ["脉冲", "多向"] }
   };
 
+  const guardianMeta = {
+    shield: { name: "炽晶护盾", icon: "◒", desc: "实体盾片环绕角色，自动拦截敌方弹丸", tags: ["护甲", "拦截"] },
+    sentinel: { name: "守望无人机", icon: "⌾", desc: "独立悬浮炮台，从侧翼自动攻击敌人", tags: ["守护", "自动炮台"] },
+    thorns: { name: "棘甲外骨骼", icon: "✣", desc: "提供接触减伤，受击后释放反击尖刺", tags: ["护甲", "反击"] },
+    prism: { name: "棱镜圣衣", icon: "⬢", desc: "周期生成可吸收一次伤害的能量屏障", tags: ["屏障", "恢复"] }
+  };
+
   const synergyCatalog = [
     { id: "barrage", name: "交叉火网", hint: "余烬连弩 LV.2 + 双生侧炮 LV.2", desc: "两种枪械攻击速度额外 +20%", check: p => weaponLevel(p, "ember") >= 2 && weaponLevel(p, "twins") >= 2 },
     { id: "bladeDance", name: "永动刃舞", hint: "星环刃 + 追风足甲 ×2", desc: "环刃伤害 +40%，环绕半径扩大", check: p => weaponLevel(p, "orbit") >= 1 && skillRank(p, "speed") >= 2 },
@@ -116,10 +123,10 @@
 
   const enemyMeta = {
     crawler: { name: "爬行影", color: "#8b5cf6" }, swift: { name: "掠影", color: "#38bdf8" },
-    tank: { name: "甲壳兽", color: "#f97316" }, shooter: { name: "蚀光炮手", color: "#facc15" },
-    charger: { name: "裂角冲锋者", color: "#fb7185" }, summoner: { name: "孵化祭司", color: "#c084fc" },
+    tank: { name: "甲壳兽", color: "#b45309" }, shooter: { name: "蚀光炮手", color: "#a16207" },
+    charger: { name: "裂角冲锋者", color: "#9f1239" }, summoner: { name: "孵化祭司", color: "#7e22ce" },
     minion: { name: "幼体", color: "#a78bfa" }, elite: { name: "精英影兽", color: "#e879f9" },
-    boss: { name: "裂隙领主", color: "#f43f5e" }
+    boss: { name: "裂隙领主", color: "#701a35" }
   };
 
   const upgradeCatalog = [
@@ -132,7 +139,8 @@
     skill("regen", "复燃血脉", "♨", "每秒恢复 0.45 生命", p => p.regen += .45),
     skill("pierce", "贯穿余辉", "↠", "弹丸额外贯穿 1 个敌人", p => p.pierce++),
     skill("multishot", "分岔火舌", "⋔", "追踪武器额外发射 1 枚弹丸", p => p.multishot++),
-    weaponUpgrade("ember"), weaponUpgrade("twins"), weaponUpgrade("orbit"), weaponUpgrade("nova")
+    weaponUpgrade("ember"), weaponUpgrade("twins"), weaponUpgrade("orbit"), weaponUpgrade("nova"),
+    guardianUpgrade("shield"), guardianUpgrade("sentinel"), guardianUpgrade("thorns"), guardianUpgrade("prism")
   ];
 
   let selectedMode = "rogue";
@@ -158,13 +166,20 @@
       apply(p) { const weapon = p.weapons.find(item => item.id === id); weapon ? weapon.level++ : p.weapons.push({ id, level: 1, cooldown: 0 }); } };
   }
 
+  function guardianUpgrade(id) {
+    const meta = guardianMeta[id];
+    return { id: `guardian_${id}`, title: meta.name, icon: meta.icon, kind: "guardian", tags: meta.tags, desc: meta.desc,
+      apply(p) { const item = p.guardians.find(guardian => guardian.id === id); item ? item.level++ : p.guardians.push({ id, level: 1, cooldown: 0, charges: 0 }); } };
+  }
+
   function weaponLevel(p, id) { return p.weapons.find(w => w.id === id)?.level || 0; }
+  function guardianLevel(p, id) { return p.guardians.find(item => item.id === id)?.level || 0; }
   function skillRank(p, id) { return p.skills[id] || 0; }
   function activeSynergies() { return player ? synergyCatalog.filter(item => item.check(player)) : []; }
   function hasSynergy(id) { return activeSynergies().some(item => item.id === id); }
 
   function loadProfile() {
-    const fallback = { runs: 0, wins: 0, bestStage: 0, origins: [], weapons: ["ember", "twins"], synergies: [], achievements: [], chestsOpened: 0 };
+    const fallback = { runs: 0, wins: 0, bestStage: 0, origins: [], weapons: ["ember", "twins"], guardians: ["shield"], synergies: [], achievements: [], chestsOpened: 0 };
     try { return { ...fallback, ...JSON.parse(localStorage.getItem("emberEchoProfile") || "{}") }; } catch { return fallback; }
   }
 
@@ -182,7 +197,8 @@
       hp: 105, maxHp: 105, xp: 0, xpNext: 16, level: 1, kills: 0, pendingPoints: 0,
       damageMult: 1, fireRateMult: 1, armor: 0, regen: 0, magnet: 105, pierce: 0, multishot: 0,
       luck: 0, xpMult: 1, bonusRerolls: 0, chestsOpened: 0, invuln: 0, damageDone: 0, damageTaken: 0, skills: {}, origin: null,
-      weapons: [{ id: "ember", level: 1, cooldown: 0 }, { id: "twins", level: 1, cooldown: 0 }]
+      weapons: [{ id: "ember", level: 1, cooldown: 0 }, { id: "twins", level: 1, cooldown: 0 }],
+      guardians: [{ id: "shield", level: 1, cooldown: 0, charges: 1 }], guardianRetaliation: 0
     };
     enemies = []; bullets = []; enemyBullets = []; gems = []; chests = []; particles = []; texts = [];
     stageIndex = 0; totalElapsed = 0; endlessCheckpoint = 0; shake = flash = toastTimer = 0;
@@ -217,6 +233,7 @@
   function startGame(origin) {
     selectedOrigin = origin; player.origin = origin.id; origin.apply(player); discover("origins", origin.id);
     for (const weapon of player.weapons) discover("weapons", weapon.id);
+    for (const guardian of player.guardians) discover("guardians", guardian.id);
     profile.runs++; saveProfile(); state = "playing"; lastTime = performance.now();
     ui.origin.classList.add("hidden"); ui.upgrade.classList.add("hidden");
     ui.hud.classList.remove("hidden"); ui.touchControls.classList.remove("hidden");
@@ -313,32 +330,36 @@
   }
 
   function addPlayerBullet(angle, damage, speed, r, color = "#fdba74", life = 1.45) {
-    bullets.push({ x: player.x + Math.cos(angle) * 22, y: player.y + Math.sin(angle) * 22,
+    addPlayerBulletFrom(player.x + Math.cos(angle) * 22, player.y + Math.sin(angle) * 22, angle, damage, speed, r, color, life);
+  }
+
+  function addPlayerBulletFrom(x, y, angle, damage, speed, r, color, life = 1.45) {
+    bullets.push({ x, y,
       vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, damage: damage * player.damageMult * (hasSynergy("arsenal") ? 1.2 : 1),
-      life, pierce: player.pierce, hit: new Set(), color });
+      life, pierce: player.pierce, hit: new Set(), color, team: "player" });
   }
 
   function fireEmber(w) {
     const target = nearestEnemy(); if (!target) return;
     const base = Math.atan2(target.y - player.y, target.x - player.x), count = 1 + player.multishot + Math.floor((w.level - 1) / 3);
-    for (let i = 0; i < count; i++) addPlayerBullet(base + (i - (count - 1) / 2) * .12, 16 + w.level * 5, 650, 5.5 + w.level * .35);
-    w.cooldown = Math.max(.18, (.52 - w.level * .035) * player.fireRateMult * (hasSynergy("barrage") ? .8 : 1)); muzzle(base, "#fdba74");
+    for (let i = 0; i < count; i++) addPlayerBullet(base + (i - (count - 1) / 2) * .12, 16 + w.level * 5, 650, 5.5 + w.level * .35, "#2dd4bf");
+    w.cooldown = Math.max(.18, (.52 - w.level * .035) * player.fireRateMult * (hasSynergy("barrage") ? .8 : 1)); muzzle(base, "#2dd4bf");
   }
 
   function fireTwins(w) {
     const directions = [player.facing + Math.PI / 2, player.facing - Math.PI / 2];
     if (w.level >= 3) directions.push(player.facing + Math.PI);
     if (w.level >= 5) directions.push(player.facing);
-    for (const angle of directions) addPlayerBullet(angle, 12 + w.level * 4.3, 540, 6, "#67e8f9", 1.25);
+    for (const angle of directions) addPlayerBullet(angle, 12 + w.level * 4.3, 540, 6, "#60a5fa", 1.25);
     w.cooldown = Math.max(.3, (.92 - w.level * .055) * player.fireRateMult * (hasSynergy("barrage") ? .8 : 1));
-    directions.forEach(angle => muzzle(angle, "#67e8f9"));
+    directions.forEach(angle => muzzle(angle, "#60a5fa"));
   }
 
   function fireNova(w) {
     const starfall = hasSynergy("starfall"), count = 7 + w.level * 2 + (starfall ? 4 : 0);
-    for (let i = 0; i < count; i++) addPlayerBullet(i / count * TAU + totalElapsed * .25, (10 + w.level * 4) * (starfall ? 1.25 : 1), 390, 5, "#c084fc", 1.8);
+    for (let i = 0; i < count; i++) addPlayerBullet(i / count * TAU + totalElapsed * .25, (10 + w.level * 4) * (starfall ? 1.25 : 1), 390, 5, "#c4b5fd", 1.8);
     w.cooldown = Math.max(1.2, (3.25 - w.level * .2) * player.fireRateMult); shake = 3;
-    burst(player.x, player.y, "#c084fc", 18, 140);
+    burst(player.x, player.y, "#c4b5fd", 18, 140);
   }
 
   function updateOrbitDamage(w, dt) {
@@ -356,6 +377,40 @@
     }
   }
 
+  function updateGuardians(dt) {
+    player.guardianRetaliation = Math.max(0, player.guardianRetaliation - dt);
+    for (const guardian of player.guardians) {
+      guardian.cooldown = Math.max(0, guardian.cooldown - dt);
+      if (guardian.id === "shield") {
+        const maxCharges = 1 + Math.floor((guardian.level - 1) / 2);
+        if (guardian.charges < maxCharges && guardian.cooldown <= 0) { guardian.charges++; guardian.cooldown = Math.max(2.2, 5 - guardian.level * .35); }
+        if (guardian.charges > 0) {
+          const radius = 68 + guardian.level * 5;
+          const incoming = enemyBullets.find(b => b.life > 0 && Math.hypot(b.x - player.x, b.y - player.y) < radius);
+          if (incoming) { incoming.life = 0; guardian.charges--; if (guardian.cooldown <= 0) guardian.cooldown = Math.max(2.2, 5 - guardian.level * .35); burst(incoming.x, incoming.y, "#6ee7b7", 9, 120); floatText(player.x, player.y - 42, "护盾拦截", "#a7f3d0"); }
+        }
+      }
+      if (guardian.id === "sentinel" && guardian.cooldown <= 0) {
+        const target = nearestEnemy();
+        if (target) {
+          const position = guardianPosition("sentinel"), angle = Math.atan2(target.y - position.y, target.x - position.x);
+          addPlayerBulletFrom(position.x, position.y, angle, 9 + guardian.level * 5, 510, 4.5, "#4ade80", 1.4);
+          guardian.cooldown = Math.max(.32, .95 - guardian.level * .08); burst(position.x, position.y, "#4ade80", 3, 55);
+        }
+      }
+      if (guardian.id === "prism") {
+        const maxCharges = guardian.level >= 4 ? 2 : 1;
+        if (guardian.charges < maxCharges && guardian.cooldown <= 0) { guardian.charges++; guardian.cooldown = Math.max(4.5, 9 - guardian.level * .65); showToast("棱镜屏障已充能"); }
+      }
+    }
+  }
+
+  function guardianPosition(id) {
+    const index = Math.max(0, player.guardians.findIndex(item => item.id === id));
+    const angle = totalElapsed * 1.7 + index * Math.PI;
+    return { x: player.x + Math.cos(angle) * 67, y: player.y + Math.sin(angle) * 67, angle };
+  }
+
   function update(dt) {
     totalElapsed += dt; stageElapsed += dt; player.invuln = Math.max(0, player.invuln - dt);
     player.hp = Math.min(player.maxHp, player.hp + (player.regen + (hasSynergy("fortress") ? .4 : 0)) * dt);
@@ -369,7 +424,7 @@
       if (Math.random() < dt * 16) particles.push(particle(player.x, player.y + 12, -mx * 12, -my * 12, "#fb923c", .3, 4));
     }
 
-    fireWeapons(dt);
+    fireWeapons(dt); updateGuardians(dt);
     spawnClock -= dt;
     if (spawnClock <= 0) spawnWave();
     handleStageEvents();
@@ -481,8 +536,9 @@
   }
 
   function fireEnemyShot(e, angle, speed, r, damage, color) {
+    color = e.boss ? "#ff006e" : e.elite ? "#ff1744" : "#ff304f";
     enemyBullets.push({ x: e.x + Math.cos(angle) * e.r, y: e.y + Math.sin(angle) * e.r,
-      vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, damage, color, life: 4.5 });
+      vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r, damage, color, life: 4.5, team: "enemy" });
     burst(e.x, e.y, color, 4, 55);
   }
 
@@ -492,10 +548,21 @@
 
   function damagePlayer(raw) {
     if (player.invuln > 0) return;
-    const effectiveArmor = Math.min(.72, player.armor + (hasSynergy("fortress") ? .1 : 0));
+    const prism = player.guardians.find(item => item.id === "prism");
+    if (prism?.charges > 0) {
+      prism.charges--; prism.cooldown = Math.max(4.5, 9 - prism.level * .65); player.invuln = .25;
+      burst(player.x, player.y, "#a5b4fc", 18, 150); floatText(player.x, player.y - 34, "屏障吸收", "#c7d2fe"); return;
+    }
+    const thornsLevel = guardianLevel(player, "thorns");
+    const effectiveArmor = Math.min(.72, player.armor + thornsLevel * .04 + (hasSynergy("fortress") ? .1 : 0));
     const damage = Math.max(1, raw * (1 - effectiveArmor));
     player.hp -= damage; player.damageTaken += damage; player.invuln = .58; shake = 9; flash = .13;
     floatText(player.x, player.y - 28, `-${Math.round(damage)}`, "#fb7185");
+    if (thornsLevel && player.guardianRetaliation <= 0) {
+      const count = 6 + thornsLevel * 2;
+      for (let i = 0; i < count; i++) addPlayerBullet(i / count * TAU, 7 + thornsLevel * 4, 420, 5, "#fbbf24", 1.1);
+      player.guardianRetaliation = Math.max(.65, 1.7 - thornsLevel * .16); burst(player.x, player.y, "#fbbf24", 14, 130);
+    }
   }
 
   function damageEnemy(e, damage, color) {
@@ -541,9 +608,12 @@
     if (profile.chestsOpened >= 5) unlockAchievement("open_5_chests");
     ui.chest.classList.remove("hidden"); ui.chestChoices.innerHTML = "";
     const weaponId = Object.keys(weaponMeta)[Math.floor(Math.random() * Object.keys(weaponMeta).length)];
+    const guardianPool = player.guardians.length >= 2 ? player.guardians.map(item => item.id) : Object.keys(guardianMeta);
+    const guardianId = guardianPool[Math.floor(Math.random() * guardianPool.length)];
     const rewards = [
       { id: "xp", icon: "✦", type: "经验爆发", title: "浓缩余烬", desc: "立即获得相当于当前升级需求 220% 的经验。", apply() { player.xp += player.xpNext * 2.2; checkLevelProgress(); } },
       { id: "weapon", icon: weaponMeta[weaponId].icon, type: "传奇武器", title: weaponMeta[weaponId].name, desc: "解锁该武器或直接提升 3 级。", apply() { let weapon = player.weapons.find(w => w.id === weaponId); if (!weapon) { weapon = { id: weaponId, level: 0, cooldown: 0 }; player.weapons.push(weapon); } weapon.level += 3; discover("weapons", weaponId); } },
+      { id: "guardian", icon: guardianMeta[guardianId].icon, type: "史诗守护装备", title: guardianMeta[guardianId].name, desc: "穿戴该装备或直接提升 2 级。", apply() { let item = player.guardians.find(guardian => guardian.id === guardianId); if (!item) { item = { id: guardianId, level: 0, cooldown: 0, charges: 1 }; player.guardians.push(item); } item.level += 2; discover("guardians", guardianId); } },
       { id: "xpboost", icon: "↟", type: "永久增益", title: "求知渴望", desc: "本局后续所有经验获取永久 +30%。", apply() { player.xpMult *= 1.3; } },
       { id: "points", icon: "◆", type: "构筑资源", title: "双重启示", desc: "立即获得 2 个待分配技能点。", apply() { player.pendingPoints += 2; } },
       { id: "vital", icon: "♥", type: "生存奇物", title: "巨兽心脏", desc: "最大生命 +30，并完全恢复生命。", apply() { player.maxHp += 30; player.hp = player.maxHp; } },
@@ -627,17 +697,20 @@
   function rollUpgradeChoices() {
     ui.pointsRemaining.textContent = `剩余 ${upgradePoints} 点`;
     ui.choices.innerHTML = "";
-    let pool = [...upgradeCatalog].sort(() => Math.random() - .5).slice(0, 3);
+    const available = upgradeCatalog.filter(item => item.kind !== "guardian" || player.guardians.some(guardian => `guardian_${guardian.id}` === item.id) || player.guardians.length < 2);
+    let pool = [...available].sort(() => Math.random() - .5).slice(0, 3);
     if (currentRoute?.weaponBias) {
       const weaponOptions = upgradeCatalog.filter(item => item.kind === "weapon").sort(() => Math.random() - .5).slice(0, 2);
-      const passive = upgradeCatalog.filter(item => item.kind === "skill").sort(() => Math.random() - .5)[0];
+      const passive = available.filter(item => item.kind !== "weapon").sort(() => Math.random() - .5)[0];
       pool = [...weaponOptions, passive];
     }
     for (const up of pool) {
       const currentWeapon = up.kind === "weapon" ? player.weapons.find(w => `weapon_${w.id}` === up.id) : null;
-      const rank = up.kind === "weapon" ? (currentWeapon?.level || 0) : (player.skills[up.id] || 0), rarity = rollRarity();
+      const currentGuardian = up.kind === "guardian" ? player.guardians.find(item => `guardian_${item.id}` === up.id) : null;
+      const rank = up.kind === "weapon" ? (currentWeapon?.level || 0) : up.kind === "guardian" ? (currentGuardian?.level || 0) : (player.skills[up.id] || 0), rarity = rollRarity();
       const button = document.createElement("button"); button.className = `upgrade-card rarity-${rarity.id}`;
-      button.innerHTML = `<span class="rarity-label">${rarity.label} · +${rarity.power} 级</span><span class="icon">${up.icon}</span><h3>${up.title}</h3><p>${up.desc}</p><div class="upgrade-tags">${(up.tags || []).map(tag => `<i>${tag}</i>`).join("")}</div><small>${rank ? `当前等级 ${rank} → ${rank + rarity.power}` : up.kind === "weapon" ? "解锁新武器" : "学习技能"}</small>`;
+      const kindLabel = up.kind === "weapon" ? "实体武器" : up.kind === "guardian" ? "守护装备" : "被动技能";
+      button.innerHTML = `<span class="rarity-label">${rarity.label} · +${rarity.power} 级</span><span class="equipment-kind">${kindLabel}</span><span class="icon">${up.icon}</span><h3>${up.title}</h3><p>${up.desc}</p><div class="upgrade-tags">${(up.tags || []).map(tag => `<i>${tag}</i>`).join("")}</div><small>${rank ? `当前等级 ${rank} → ${rank + rarity.power}` : up.kind === "weapon" ? "装备新武器" : up.kind === "guardian" ? "穿戴守护装备" : "学习被动技能"}</small>`;
       button.onclick = () => chooseUpgrade(up, rarity.power);
       ui.choices.appendChild(button);
     }
@@ -654,7 +727,8 @@
   function chooseUpgrade(up, power) {
     for (let i = 0; i < power; i++) up.apply(player);
     if (up.kind === "skill") player.skills[up.id] = (player.skills[up.id] || 0) + power;
-    else discover("weapons", up.id.replace("weapon_", ""));
+    else if (up.kind === "weapon") discover("weapons", up.id.replace("weapon_", ""));
+    else discover("guardians", up.id.replace("guardian_", ""));
     recordSynergies(); upgradePoints--; renderLoadout(ui.upgradeLoadout); updateHud(true);
     if (upgradePoints > 0) rollUpgradeChoices();
     else {
@@ -695,13 +769,15 @@
       ["路线", currentRoute?.name || "起始区域"], ["异变", currentMutation.name]
     ];
     const weaponRows = player.weapons.map(w => { const meta = weaponMeta[w.id]; return `<div class="loadout-row"><i>${meta.icon}</i><span>${meta.name}<small>${meta.tags.join(" · ")}｜${meta.desc}</small></span><b>LV.${w.level}</b></div>`; }).join("");
+    const guardianRows = player.guardians.map(item => { const meta = guardianMeta[item.id]; return `<div class="loadout-row"><i>${meta.icon}</i><span>${meta.name}<small>${meta.tags.join(" · ")}｜${meta.desc}</small></span><b>LV.${item.level}</b></div>`; }).join("");
     const skillRows = Object.entries(player.skills).filter(([,rank]) => rank > 0).map(([id, rank]) => {
       const up = upgradeCatalog.find(item => item.id === id); return `<span class="skill-tag">${up?.title || id} <b>×${rank}</b></span>`;
     }).join("") || `<span class="empty-build">尚未学习被动技能</span>`;
     const synergyRows = synergyCatalog.map(item => { const active = item.check(player); return `<div class="synergy-row ${active ? "active" : ""}"><b>${active ? "✦ " : "◇ "}${item.name}</b><span>${active ? item.desc : item.hint}</span></div>`; }).join("");
     const origin = origins.find(item => item.id === player.origin);
     container.innerHTML = `<section class="loadout-section"><h3>角色属性 · ${origin?.name || "未选择原型"}</h3><div class="attribute-grid">${attrs.map(([a,b]) => `<div class="attribute-item"><span>${a}</span><b>${b}</b></div>`).join("")}</div></section>
-      <section class="loadout-section"><h3>武器库 · ${player.weapons.length}/6</h3><div class="loadout-list">${weaponRows}</div></section>
+      <section class="loadout-section"><h3>实体武器 · ${player.weapons.length}/4</h3><div class="loadout-list">${weaponRows}</div></section>
+      <section class="loadout-section"><h3>守护装备 · ${player.guardians.length}/2</h3><div class="loadout-list">${guardianRows}</div></section>
       <section class="loadout-section"><h3>技能与强化</h3><div class="skill-tags">${skillRows}</div></section>
       <section class="loadout-section"><h3>流派共鸣 · ${activeSynergies().length}/${synergyCatalog.length}</h3><div class="loadout-list">${synergyRows}</div></section>`;
   }
@@ -720,7 +796,11 @@
     const boss = enemies.find(e => e.boss);
     ui.bossWrap.classList.toggle("hidden", !boss);
     if (boss) { ui.bossBar.style.width = `${Math.max(0, boss.hp / boss.maxHp * 100)}%`; ui.bossText.textContent = `${Math.max(0, Math.ceil(boss.hp))} / ${Math.ceil(boss.maxHp)}`; ui.bossName.textContent = enemyMeta[boss.type].name; }
-    if (force || !ui.weaponStrip.innerHTML) ui.weaponStrip.innerHTML = player.weapons.map(w => `<div class="weapon-pill"><i>${weaponMeta[w.id].icon}</i><span>${weaponMeta[w.id].name} <b>LV.${w.level}</b></span></div>`).join("");
+    if (force || !ui.weaponStrip.innerHTML) {
+      const weapons = player.weapons.map(w => `<div class="weapon-pill"><i>${weaponMeta[w.id].icon}</i><span>${weaponMeta[w.id].name} <b>LV.${w.level}</b></span></div>`);
+      const guardians = player.guardians.map(item => `<div class="weapon-pill guardian"><i>${guardianMeta[item.id].icon}</i><span>${guardianMeta[item.id].name} <b>LV.${item.level}</b></span></div>`);
+      ui.weaponStrip.innerHTML = [...weapons, ...guardians].join("");
+    }
     const counts = {};
     for (const e of enemies) counts[e.type] = (counts[e.type] || 0) + 1;
     ui.enemyReadout.innerHTML = Object.entries(counts).filter(([type]) => type !== "minion").slice(0, 4).map(([type,count]) => `<div class="enemy-row" style="--enemy-color:${enemyMeta[type].color}"><i></i><span>${enemyMeta[type].name}</span><b>×${count}</b></div>`).join("");
@@ -742,7 +822,7 @@
     state = "ended"; ui.upgrade.classList.add("hidden"); ui.end.classList.remove("hidden"); ui.touchControls.classList.add("hidden"); resetTouchVector();
     ui.endEyebrow.textContent = won ? "远征完成" : "余火熄灭";
     ui.endTitle.textContent = won ? "你击穿了十重裂隙" : "影潮吞没了你";
-    ui.endStats.innerHTML = `<div><strong>${formatTime(totalElapsed)}</strong>战斗时间</div><div><strong>${player.kills}</strong>击败</div><div><strong>${Math.round(player.damageDone)}</strong>总伤害</div><div><strong>${player.level}</strong>等级</div><div><strong>${player.weapons.length}</strong>武器</div>`;
+    ui.endStats.innerHTML = `<div><strong>${formatTime(totalElapsed)}</strong>战斗时间</div><div><strong>${player.kills}</strong>击败</div><div><strong>${Math.round(player.damageDone)}</strong>总伤害</div><div><strong>${player.level}</strong>等级</div><div><strong>${player.weapons.length}+${player.guardians.length}</strong>武器 / 守护</div>`;
     profile.bestStage = Math.max(profile.bestStage, stageIndex + 1);
     if (won) {
       profile.wins++; unlockAchievement(`win_${player.origin}`);
@@ -779,9 +859,11 @@
     ui.codex.classList.remove("hidden");
     const originItems = origins.map(item => codexItem(item.name, item.style, profile.origins.includes(item.id))).join("");
     const weaponItems = Object.entries(weaponMeta).map(([id, item]) => codexItem(item.name, `${item.tags.join(" · ")}｜${item.desc}`, profile.weapons.includes(id))).join("");
+    const guardianItems = Object.entries(guardianMeta).map(([id, item]) => codexItem(item.name, `${item.tags.join(" · ")}｜${item.desc}`, profile.guardians.includes(id))).join("");
     const synergyItems = synergyCatalog.map(item => codexItem(item.name, `${item.hint}｜${item.desc}`, profile.synergies.includes(item.id), true)).join("");
     ui.codexContent.innerHTML = `<section class="codex-section"><h3>余火原型 · ${profile.origins.length}/${origins.length}</h3><div class="codex-grid">${originItems}</div></section>
-      <section class="codex-section"><h3>武器研究 · ${profile.weapons.length}/${Object.keys(weaponMeta).length}</h3><div class="codex-grid">${weaponItems}</div></section>
+      <section class="codex-section"><h3>实体武器研究 · ${profile.weapons.length}/${Object.keys(weaponMeta).length}</h3><div class="codex-grid">${weaponItems}</div></section>
+      <section class="codex-section"><h3>守护装备研究 · ${profile.guardians.length}/${Object.keys(guardianMeta).length}</h3><div class="codex-grid">${guardianItems}</div></section>
       <section class="codex-section"><h3>流派共鸣 · ${profile.synergies.length}/${synergyCatalog.length}</h3><div class="codex-grid">${synergyItems}</div></section>`;
   }
 
@@ -813,7 +895,7 @@
     for (const b of bullets) drawBullet(b);
     for (const b of enemyBullets) drawEnemyBullet(b);
     for (const e of enemies) drawEnemy(e);
-    if (player) { drawOrbitWeapons(); drawPlayer(); }
+    if (player) { drawMountedWeapons(); drawPlayer(); drawGuardians(); drawOrbitWeapons(); }
     for (const p of particles) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.color; circle(p.x, p.y, p.r * p.life / p.max); }
     ctx.globalAlpha = 1;
     for (const t of texts) { ctx.globalAlpha = Math.max(0, t.life / .65); ctx.fillStyle = t.color; ctx.font = "900 13px system-ui"; ctx.textAlign = "center"; ctx.fillText(t.text, t.x, t.y); }
@@ -834,9 +916,66 @@
     ctx.save(); ctx.translate(player.x, player.y); ctx.rotate(player.facing);
     ctx.shadowBlur = 24; ctx.shadowColor = "#fb923c"; ctx.fillStyle = "#fb923c"; circle(0, 0, player.r + 3); ctx.shadowBlur = 0;
     ctx.fillStyle = "#fff7ed"; circle(0, 0, player.r - 3); ctx.fillStyle = "#111827"; circle(5, -5, 2.5); circle(5, 5, 2.5);
-    ctx.fillStyle = "#7c2d12"; ctx.fillRect(9, -4, 17, 8);
-    if (player.weapons.some(w => w.id === "twins")) { ctx.fillStyle = "#67e8f9"; ctx.fillRect(-4, -27, 12, 7); ctx.fillRect(-4, 20, 12, 7); }
     ctx.restore(); ctx.globalAlpha = 1;
+  }
+
+  function drawMountedWeapons() {
+    const ember = player.weapons.find(item => item.id === "ember");
+    if (ember) drawGun(player.x, player.y, player.facing, "#2dd4bf", 1 + Math.min(.28, ember.level * .035));
+    const twins = player.weapons.find(item => item.id === "twins");
+    if (twins) {
+      const offset = 20, scale = .82 + Math.min(.24, twins.level * .03);
+      for (const side of [-1, 1]) {
+        const angle = player.facing + side * Math.PI / 2;
+        drawGun(player.x + Math.cos(angle) * offset, player.y + Math.sin(angle) * offset, angle, "#60a5fa", scale);
+      }
+    }
+    const nova = player.weapons.find(item => item.id === "nova");
+    if (nova) {
+      ctx.save(); ctx.translate(player.x, player.y); ctx.rotate(-totalElapsed * (1.4 + nova.level * .06));
+      ctx.strokeStyle = "#c4b5fd"; ctx.lineWidth = 3; ctx.shadowBlur = 15; ctx.shadowColor = "#8b5cf6";
+      ctx.beginPath(); ctx.arc(0, 0, player.r + 10 + Math.sin(totalElapsed * 4) * 2, 0, TAU); ctx.stroke();
+      for (let i = 0; i < 4; i++) { ctx.rotate(Math.PI / 2); ctx.fillStyle = "#ede9fe"; ctx.fillRect(player.r + 6, -3, 9, 6); }
+      ctx.restore();
+    }
+  }
+
+  function drawGun(x, y, angle, color, scale = 1) {
+    ctx.save(); ctx.translate(x, y); ctx.rotate(angle); ctx.scale(scale, scale);
+    ctx.shadowBlur = 12; ctx.shadowColor = color; ctx.fillStyle = "#172033"; ctx.fillRect(4, -7, 22, 14);
+    ctx.fillStyle = color; ctx.fillRect(11, -4, 25, 8); ctx.fillStyle = "#f8fafc"; ctx.fillRect(30, -3, 7, 6);
+    ctx.fillStyle = "#334155"; ctx.fillRect(4, 7, 9, 7); ctx.shadowBlur = 0; ctx.restore();
+  }
+
+  function drawGuardians() {
+    for (const guardian of player.guardians) {
+      if (guardian.id === "shield") {
+        const maxCharges = 1 + Math.floor((guardian.level - 1) / 2);
+        for (let i = 0; i < maxCharges; i++) {
+          const angle = totalElapsed * .75 + i / maxCharges * TAU;
+          ctx.save(); ctx.translate(player.x + Math.cos(angle) * 43, player.y + Math.sin(angle) * 43); ctx.rotate(angle + Math.PI / 2);
+          ctx.globalAlpha = i < guardian.charges ? 1 : .2; ctx.shadowBlur = 14; ctx.shadowColor = "#f59e0b";
+          ctx.fillStyle = "#fde68a"; ctx.beginPath(); ctx.moveTo(-10, -6); ctx.lineTo(0, -11); ctx.lineTo(10, -6); ctx.lineTo(8, 8); ctx.lineTo(0, 13); ctx.lineTo(-8, 8); ctx.closePath(); ctx.fill();
+          ctx.strokeStyle = "#92400e"; ctx.lineWidth = 2; ctx.stroke(); ctx.restore();
+        }
+      } else if (guardian.id === "sentinel") {
+        const pos = guardianPosition("sentinel"), target = nearestEnemy(pos.x, pos.y);
+        const aim = target ? Math.atan2(target.y - pos.y, target.x - pos.x) : pos.angle;
+        ctx.save(); ctx.translate(pos.x, pos.y); ctx.rotate(aim); ctx.shadowBlur = 18; ctx.shadowColor = "#34d399";
+        ctx.fillStyle = "#064e3b"; ctx.fillRect(0, -4, 19, 8); ctx.fillStyle = "#a7f3d0"; circle(0, 0, 11);
+        ctx.fillStyle = "#052e2b"; circle(3, 0, 5); ctx.fillStyle = "#ecfdf5"; circle(5, 0, 2); ctx.restore();
+      } else if (guardian.id === "thorns") {
+        ctx.save(); ctx.translate(player.x, player.y); ctx.rotate(totalElapsed * .35); ctx.fillStyle = "#fbbf24"; ctx.shadowBlur = 10; ctx.shadowColor = "#f59e0b";
+        const count = 6 + Math.min(4, guardian.level);
+        for (let i = 0; i < count; i++) { ctx.rotate(TAU / count); ctx.beginPath(); ctx.moveTo(player.r - 2, -5); ctx.lineTo(player.r + 16, 0); ctx.lineTo(player.r - 2, 5); ctx.closePath(); ctx.fill(); }
+        ctx.restore();
+      } else if (guardian.id === "prism") {
+        ctx.save(); ctx.translate(player.x, player.y); ctx.rotate(totalElapsed * .28); ctx.globalAlpha = guardian.charges > 0 ? .8 : .18;
+        ctx.strokeStyle = "#c4b5fd"; ctx.lineWidth = 4; ctx.shadowBlur = 20; ctx.shadowColor = "#818cf8";
+        ctx.beginPath(); for (let i = 0; i < 6; i++) { const a = i / 6 * TAU, x = Math.cos(a) * 48, y = Math.sin(a) * 48; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.closePath(); ctx.stroke(); ctx.restore();
+      }
+    }
+    ctx.globalAlpha = 1;
   }
 
   function drawOrbitWeapons() {
@@ -874,8 +1013,18 @@
 
   function roundedBody(r) { ctx.beginPath(); ctx.roundRect(-r, -r * .78, r * 2, r * 1.56, 8); ctx.fill(); ctx.strokeStyle = "rgba(255,255,255,.25)"; ctx.lineWidth = 3; ctx.stroke(); }
   function polygon(points, radius, rotation) { ctx.beginPath(); for (let i = 0; i < points; i++) { const a = i / points * TAU + rotation, rr = i % 2 && points > 6 ? radius * .82 : radius; const x = Math.cos(a) * rr, y = Math.sin(a) * rr; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.closePath(); ctx.fill(); }
-  function drawBullet(b) { ctx.shadowBlur = 14; ctx.shadowColor = b.color; ctx.fillStyle = b.color; circle(b.x, b.y, b.r); ctx.shadowBlur = 0; }
-  function drawEnemyBullet(b) { ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(totalElapsed * 5); ctx.shadowBlur = 13; ctx.shadowColor = b.color; ctx.fillStyle = b.color; polygon(4, b.r, Math.PI / 4); ctx.shadowBlur = 0; ctx.restore(); }
+  function drawBullet(b) {
+    const angle = Math.atan2(b.vy, b.vx), length = Math.max(10, b.r * 2.7);
+    ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(angle); ctx.shadowBlur = 16; ctx.shadowColor = b.color;
+    ctx.strokeStyle = b.color; ctx.lineWidth = Math.max(3, b.r * 1.25); ctx.lineCap = "round";
+    ctx.beginPath(); ctx.moveTo(-length, 0); ctx.lineTo(length * .35, 0); ctx.stroke();
+    ctx.fillStyle = "#ffffff"; circle(length * .35, 0, Math.max(2.5, b.r * .58)); ctx.restore();
+  }
+  function drawEnemyBullet(b) {
+    ctx.save(); ctx.translate(b.x, b.y); ctx.rotate(totalElapsed * 5); ctx.shadowBlur = 17; ctx.shadowColor = "#ff1744";
+    ctx.fillStyle = "#16070b"; polygon(4, b.r + 3, Math.PI / 4); ctx.strokeStyle = "#ff3158"; ctx.lineWidth = 3; ctx.stroke();
+    ctx.fillStyle = "#fff1f2"; polygon(4, Math.max(2, b.r * .32), Math.PI / 4); ctx.shadowBlur = 0; ctx.restore();
+  }
   function drawGem(g) { ctx.save(); ctx.translate(g.x, g.y + Math.sin(g.phase) * 2); ctx.rotate(g.phase * .25); ctx.shadowBlur = 12; ctx.shadowColor = "#22d3ee"; ctx.fillStyle = "#67e8f9"; polygon(4, g.r, Math.PI / 4); ctx.restore(); }
   function drawChest(chest) {
     ctx.save(); ctx.translate(chest.x, chest.y + Math.sin(totalElapsed * 3 + chest.phase) * 3); ctx.shadowBlur = 24; ctx.shadowColor = "#fbbf24";
