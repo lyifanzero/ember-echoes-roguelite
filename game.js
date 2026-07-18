@@ -28,7 +28,7 @@
     routeSection: byId("routeSection"), routeChoices: byId("routeChoices"), routeStatus: byId("routeStatus"),
     chest: byId("chestScreen"), chestChoices: byId("chestChoices"), achievement: byId("achievementScreen"),
     achievementContent: byId("achievementContent"), achievementSummary: byId("achievementSummary"),
-    touchControls: byId("touchControls"), joystick: byId("joystick"), joystickKnob: byId("joystickKnob")
+    touchControls: byId("touchControls"), joystick: byId("joystick"), joystickKnob: byId("joystickKnob"), touchHint: byId("touchMoveHint")
   };
 
   const difficulties = {
@@ -163,7 +163,7 @@
   let upgradePoints = 0, upgradeReason = "stage", rerolls = 1;
   let currentMutation = mutations[0], currentRoute = null, nextRoute = null, selectedOrigin = null;
   let runSeed = "", profile = loadProfile();
-  const touchInput = { x: 0, y: 0, active: false, pointerId: null };
+  const touchInput = { x: 0, y: 0, active: false, pointerId: null, originX: 0, originY: 0, max: 58 };
 
   function byId(id) { return document.getElementById(id); }
   function skill(id, title, icon, desc, apply) {
@@ -274,6 +274,7 @@
     profile.runs++; saveProfile(); state = "playing"; lastTime = performance.now();
     ui.origin.classList.add("hidden"); ui.upgrade.classList.add("hidden");
     ui.hud.classList.remove("hidden"); ui.touchControls.classList.remove("hidden");
+    ui.touchHint.classList.remove("hidden");
     updateHud(true);
     showToast(`${origin.name} · ${selectedMode === "rogue" ? `第 1 关 ${stages[0].name}` : "无尽战场"}`);
     requestAnimationFrame(loop);
@@ -859,14 +860,14 @@
   }
 
   function openDetails() {
-    if (state === "playing") { state = "details"; renderLoadout(ui.detailsLoadout); ui.details.classList.remove("hidden"); }
+    if (state === "playing") { resetTouchVector(); state = "details"; renderLoadout(ui.detailsLoadout); ui.details.classList.remove("hidden"); }
     else if (state === "details") closeDetails();
   }
 
   function closeDetails() { if (state !== "details") return; ui.details.classList.add("hidden"); state = "playing"; lastTime = performance.now(); requestAnimationFrame(loop); }
 
   function togglePause() {
-    if (state === "playing") { state = "paused"; ui.pause.classList.remove("hidden"); }
+    if (state === "playing") { resetTouchVector(); state = "paused"; ui.pause.classList.remove("hidden"); }
     else if (state === "paused") { state = "playing"; ui.pause.classList.add("hidden"); lastTime = performance.now(); requestAnimationFrame(loop); }
   }
 
@@ -1139,10 +1140,19 @@
     update(dt); draw(); if (state === "playing") requestAnimationFrame(loop);
   }
 
+  function beginTouchMove(event) {
+    if (state !== "playing" || event.pointerType !== "touch" || touchInput.active) return;
+    event.preventDefault?.(); const rect = frame.getBoundingClientRect(), radius = Math.min(59, Math.max(48, Math.min(rect.width, rect.height) * .1));
+    touchInput.active = true; touchInput.pointerId = event.pointerId; touchInput.originX = event.clientX; touchInput.originY = event.clientY; touchInput.max = radius;
+    ui.joystick.style.left = `${clamp(event.clientX - rect.left, radius, rect.width - radius)}px`;
+    ui.joystick.style.top = `${clamp(event.clientY - rect.top, radius, rect.height - radius)}px`;
+    ui.joystick.classList.add("active"); ui.touchHint.classList.add("hidden");
+    if (canvas.setPointerCapture) canvas.setPointerCapture(event.pointerId); updateTouchVector(event);
+  }
+
   function updateTouchVector(event) {
-    const rect = ui.joystick.getBoundingClientRect(), centerX = rect.left + rect.width / 2, centerY = rect.top + rect.height / 2;
-    const dx = event.clientX - centerX, dy = event.clientY - centerY, max = rect.width * .32, length = Math.hypot(dx, dy) || 1;
-    const scale = Math.min(1, max / length), px = dx * scale, py = dy * scale;
+    const dx = event.clientX - touchInput.originX, dy = event.clientY - touchInput.originY, max = touchInput.max, length = Math.hypot(dx, dy) || 1;
+    const scale = Math.min(1, max / length), px = length < 4 ? 0 : dx * scale, py = length < 4 ? 0 : dy * scale;
     touchInput.x = clamp(px / max, -1, 1); touchInput.y = clamp(py / max, -1, 1);
     ui.joystickKnob.style.transform = `translate(calc(-50% + ${px}px), calc(-50% + ${py}px))`;
   }
@@ -1150,7 +1160,7 @@
   function resetTouchVector(event) {
     if (event && touchInput.pointerId !== null && event.pointerId !== touchInput.pointerId) return;
     touchInput.x = 0; touchInput.y = 0; touchInput.active = false; touchInput.pointerId = null;
-    ui.joystickKnob.style.transform = "translate(-50%, -50%)";
+    ui.joystickKnob.style.transform = "translate(-50%, -50%)"; ui.joystick.classList.remove("active");
   }
 
   function probeAutoAim() {
@@ -1165,13 +1175,9 @@
     enemies = savedEnemies; bullets = savedBullets; weapon.cooldown = savedCooldown; return result;
   }
 
-  ui.joystick.onpointerdown = event => {
-    touchInput.active = true; touchInput.pointerId = event.pointerId;
-    if (ui.joystick.setPointerCapture) ui.joystick.setPointerCapture(event.pointerId);
-    updateTouchVector(event);
-  };
-  ui.joystick.onpointermove = event => { if (touchInput.active && event.pointerId === touchInput.pointerId) updateTouchVector(event); };
-  ui.joystick.onpointerup = resetTouchVector; ui.joystick.onpointercancel = resetTouchVector;
+  canvas.onpointerdown = beginTouchMove;
+  canvas.onpointermove = event => { if (touchInput.active && event.pointerId === touchInput.pointerId) { event.preventDefault?.(); updateTouchVector(event); } };
+  canvas.onpointerup = resetTouchVector; canvas.onpointercancel = resetTouchVector; canvas.onlostpointercapture = resetTouchVector;
 
   function selectMode(mode) {
     selectedMode = mode; ui.rogueMode.classList.toggle("selected", mode === "rogue"); ui.endlessMode.classList.toggle("selected", mode === "endless");

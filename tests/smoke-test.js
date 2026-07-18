@@ -28,7 +28,7 @@ function fakeElement(id = "") {
     onclick: null,
     appendChild(child) { this.children.push(child); return child; },
     replaceChildren(...children) { this.children = children; this.innerHTML = ""; },
-    getBoundingClientRect() { return { width: 1280, height: 720 }; }
+    getBoundingClientRect() { return { left: 0, top: 0, width: 1280, height: 720 }; }
   };
 }
 
@@ -110,6 +110,15 @@ getElement("originChoices").children[0].onclick();
 assert.ok(storage.has("emberEchoProfile"), "选择原型后应保存跨局研究进度");
 assert.equal(getElement("hud").classList.contains("hidden"), false, "开始后应显示 HUD");
 assert.equal(getElement("touchControls").classList.contains("hidden"), false, "战斗开始后应启用移动端触控层");
+const canvas = getElement("gameCanvas"), joystick = getElement("joystick"), knob = getElement("joystickKnob");
+assert.equal(typeof canvas.onpointerdown, "function", "整个战场应绑定移动端触控事件");
+canvas.onpointerdown({ pointerType: "touch", pointerId: 7, clientX: 640, clientY: 360, preventDefault: noOp });
+assert.equal(joystick.classList.contains("active"), true, "触摸战场任意位置应显示动态摇杆");
+assert.equal(joystick.style.left, "640px", "动态摇杆中心应跟随首次触摸位置");
+canvas.onpointermove({ pointerType: "touch", pointerId: 7, clientX: 700, clientY: 360, preventDefault: noOp });
+assert.match(knob.style.transform, /calc\(-50% \+ 59px\)/, "拖动手指应推动摇杆并限制最大半径");
+canvas.onpointerup({ pointerType: "touch", pointerId: 7 });
+assert.equal(joystick.classList.contains("active"), false, "松手后动态摇杆应消失");
 const aimProbe = window.__EMBER_TEST_API__.probeAutoAim();
 assert.ok(aimProbe.length > 0, "远程武器应能生成锁敌弹丸");
 assert.ok(aimProbe.every(shot => shot.locked && shot.homing > 0), "所有远程弹丸都应绑定目标并持续追踪");
