@@ -60,6 +60,12 @@
               <section><small>差异化吸引</small><b>多宠物居民</b><span>角色形象、职业差异与收集目标</span></section>
               <section><small>长期回报</small><b>轻家园展示</b><span>不强迫经营，不阻塞下一次战斗</span></section>
             </div>
+            <div class="combat-contract">
+              <header><small>COMBAT-FIRST CONTRACT</small><b>完全忽略家园，肉鸽本身也必须值得反复游玩</b></header>
+              <section><small>完整乐趣</small><b>十关内完成构筑、变强、Boss 检验与成绩结算</b><span>战斗循环不依赖摆家具或居民互动才能成立。</span></section>
+              <section><small>快速重开</small><b>结算页直接“再来一局”，家园始终可以跳过</b><span>货物可一键入库，不能强迫玩家回房间逐件处理。</span></section>
+              <section><small>战斗解锁</small><b>角色、武器和难度以通关、成就与蓝图自动登记</b><span>家具制作不是进入新关卡或获得核心战斗内容的前置条件。</span></section>
+            </div>
           </article>
 
           <article class="chapter" data-chapter="world" data-title="世界与玩家身份">
@@ -97,6 +103,26 @@
               <button data-decision="extract6">撤离 B<small>推荐节点</small></button>
               <section><i>阶段 7–10</i><b>深入危险区</b><span>稀有图纸 · Boss</span></section>
               <button data-decision="extract10">最终撤离<small>完整收益</small></button>
+            </div>
+            <div class="route-design">
+              <header><small>ROUTE FORMAT · 待确认</small><b>随机关卡地图的三种实现方式</b><span>先比较玩法收益与单人开发成本</span></header>
+              <div class="route-options">
+                <section class="recommended"><i>方案 A · 原型推荐</i><b>固定十关 × 每关三选一区域</b><p>关末整备时扫描三个区域，明确显示敌人、规则和奖励倾向；选择后直接进入战斗竞技场。</p><dl><div><dt>路线策略</dt><dd>中</dd></div><div><dt>制作成本</dt><dd>低</dd></div><div><dt>玩法碰撞</dt><dd>低</dd></div></dl></section>
+                <section><i>方案 B · 后续升级</i><b>杀戮尖塔式可视化星图</b><p>用分层连线规划精英、补给和高价值区域，但会引入地图生成校验、更多节点类型与阅读成本。</p><dl><div><dt>路线策略</dt><dd>高</dd></div><div><dt>制作成本</dt><dd>中高</dd></div><div><dt>玩法碰撞</dt><dd>中</dd></div></dl></section>
+                <section><i>方案 C · 暂不采用</i><b>降落后自由选择房间探索</b><p>空间感最强，但会增加寻路、转场、互动、镜头和多套场景资产，容易与竞技场肉鸽发生设计碰撞。</p><dl><div><dt>路线策略</dt><dd>高</dd></div><div><dt>制作成本</dt><dd>高</dd></div><div><dt>玩法碰撞</dt><dd>高</dd></div></dl></section>
+              </div>
+              <div class="route-recommendation">
+                <section><small>首版表现</small><b>飞船扫描三个降落坐标</b><span>保留可视化地图的世界观感受，但玩家不控制角色在房间之间走动。</span></section>
+                <section><small>随机性来源</small><b>竞技场 × 敌人生态 × 战斗规则 × 奖励倾向</b><span>用少量可复用模块组合出不同关卡，不要求每个区域制作一套独立美术。</span></section>
+                <section><small>升级接口</small><b>区域节点从第一版就使用统一数据</b><span>后续只需增加节点连线、路径可见范围和特殊节点，即可升级成星图路线。</span></section>
+              </div>
+              <div class="route-tags">
+                <span>竞技场：开阔 / 障碍 / 危险区</span><span>敌人：群袭 / 远程 / 重装 / 精英</span><span>规则：限时 / 护送 / 坚守 / 首领</span><span>倾向：构筑 / 零件 / 蓝图 / 遗物</span>
+              </div>
+              <div class="extraction-policy">
+                <b>撤离只开放在第 3、6、10 关</b>
+                <span>如果所有节点都能撤离，最优策略会变成反复刷低风险前段，既消除“继续深入”的紧张感，也让家园物资产出失控。第 3 关提供低品质保底，第 6 关形成主要风险决策，第 10 关完成 Boss 与最高品质结算；原型阶段不加入随时紧急撤离。</span>
+              </div>
             </div>
             <div class="rule-cards">
               <section><b>安全货舱</b><p data-editable id="secureCargo">少量格子中的物资即使战败也能保留。</p></section>
@@ -191,8 +217,9 @@
               <section data-choice="homeForm"><div><small>决策 01</small><h3>家园的主体形式</h3><p>决定世界观、界面结构和长期扩建方式。</p></div><div class="choice-buttons"><button data-value="移民飞船">移民飞船<em>推荐</em></button><button data-value="私人小宇宙">私人小宇宙</button><button data-value="地下堡垒">地下堡垒</button></div></section>
               <section data-choice="lossRule"><div><small>决策 02</small><h3>撤离失败的损失</h3><p>决定风险压力和玩家挫败程度。</p></div><div class="choice-buttons"><button data-value="仅保留安全货舱">仅保留安全货舱<em>推荐</em></button><button data-value="随机损失一半">随机损失一半</button><button data-value="保留全部物资">保留全部物资</button></div></section>
               <section data-choice="tone"><div><small>决策 03</small><h3>整体情绪基调</h3><p>决定角色、美术、音乐和叙事表达。</p></div><div class="choice-buttons"><button data-value="温暖家园与危险宇宙">温暖家园与危险宇宙<em>推荐</em></button><button data-value="轻松搞怪冒险">轻松搞怪冒险</button><button data-value="严肃末日求生">严肃末日求生</button></div></section>
+              <section data-choice="routeForm"><div><small>决策 04</small><h3>首版随机关卡结构</h3><p>决定路线策略深度、关末节奏与内容生产成本。</p></div><div class="choice-buttons"><button data-value="十关三选一区域">十关三选一区域<em>推荐</em></button><button data-value="可视化星图路线">可视化星图路线</button><button data-value="自由房间探索">自由房间探索</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>设计三个撤离节点的风险递增：继续深入时，玩家究竟在赌什么、又会失去什么。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>确认首版是否采用“固定十关、每关三选一区域、第 3/6/10 关撤离”，再细化三张区域卡应展示哪些信息。</b></div>
           </article>
         </div>
 
