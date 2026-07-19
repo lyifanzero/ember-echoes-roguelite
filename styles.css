@@ -251,6 +251,22 @@ footer { align-items: center; padding: 12px 4px 0; }
 .weapon-nova { --weapon-color: #c4b5fd; border-radius: 50%; }
 .weapon-nova::before { inset: 6px 17px; border: 3px solid #c4b5fd; border-radius: 50%; box-shadow: 0 0 9px #8b5cf6; }
 .weapon-nova::after { top: 15px; left: 26px; width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: -16px 0 #c4b5fd, 16px 0 #c4b5fd, 0 -12px #c4b5fd, 0 12px #c4b5fd; }
+.weapon-rail { --weapon-color: #fbbf24; }
+.weapon-rail b { top: 13px; left: 6px; width: 46px; height: 9px; background: #78350f; border: 2px solid #fbbf24; transform: skew(-12deg); }
+.weapon-rail em { top: 8px; left: 16px; width: 12px; height: 20px; border: 2px solid #fde68a; background: #292524; }
+.weapon-scatter { --weapon-color: #fb7185; }
+.weapon-scatter b { top: 11px; left: 9px; width: 34px; height: 13px; background: #881337; clip-path: polygon(0 25%,100% 0,100% 100%,0 75%); box-shadow: 8px 0 #fecdd3; }
+.weapon-scatter em { top: 23px; left: 18px; width: 10px; height: 8px; background: #475569; transform: skew(-16deg); }
+.weapon-flame { --weapon-color: #fb923c; }
+.weapon-flame b { top: 12px; left: 8px; width: 37px; height: 12px; border: 2px solid #fb923c; background: #431407; }
+.weapon-flame em { top: 8px; right: 5px; width: 12px; height: 20px; background: #fdba74; clip-path: polygon(0 50%,65% 0,100% 50%,65% 100%); }
+.weapon-tesla { --weapon-color: #67e8f9; }
+.weapon-tesla::before { top: 7px; left: 18px; width: 20px; height: 20px; border: 3px solid #67e8f9; transform: rotate(45deg); box-shadow: 0 0 9px #22d3ee; }
+.weapon-tesla b { top: 15px; left: 4px; width: 50px; height: 4px; background: #cffafe; }
+.weapon-turret { --weapon-color: #f59e0b; }
+.weapon-turret::before { top: 7px; left: 18px; width: 22px; height: 18px; border: 2px solid #f59e0b; background: #292524; }
+.weapon-turret b { top: 11px; left: 34px; width: 19px; height: 7px; background: #fbbf24; }
+.weapon-turret em { top: 24px; left: 14px; width: 31px; height: 7px; border-top: 3px solid #f59e0b; transform: skew(-28deg); }
 .weapon-choice-card .weapon-visual.draft { width: 92px; height: 58px; margin-bottom: 24px; transform: scale(1.15); transform-origin: left center; }
 .weapon-choice-card { min-height: 300px; }
 .weapon-pill .weapon-visual { width: 35px; height: 24px; border-radius: 6px; transform: scale(.78); margin: -4px; }
@@ -376,3 +392,24 @@ footer { align-items: center; padding: 12px 4px 0; }
   .weapon-strip { left: 10px; top: 62px; }
   .joystick { width: 104px; height: 104px; }
 }
+
+/* Industrial ember visual pass: hard surfaces, stamped labels and restrained light. */
+.game-frame { border-radius: 5px; border-color: #5b4637; box-shadow: 0 18px 48px rgba(0,0,0,.46); }
+.overlay { background: rgba(8,7,6,.78); backdrop-filter: blur(3px); }
+.panel { position: relative; border-radius: 4px; border-color: #66503e; background: #181614; box-shadow: 12px 14px 0 rgba(0,0,0,.25), inset 0 0 0 1px rgba(255,255,255,.025); }
+.panel::before { content: "// EMBER WORKS"; position: absolute; top: 9px; left: 12px; color: #765f4c; font-size: 7px; font-weight: 900; letter-spacing: .2em; pointer-events: none; }
+.eyebrow { color: #d97706; letter-spacing: .2em; }
+.ember-icon { border-radius: 3px; background: #c2410c; box-shadow: 7px 7px 0 #28150d; }
+.primary-button { border-radius: 3px; border: 1px solid #fed7aa; background: #ea580c; box-shadow: 5px 5px 0 #3d1c0d; color: #fff7ed; text-transform: uppercase; letter-spacing: .05em; }
+.primary-button:hover { transform: translate(2px,2px); box-shadow: 3px 3px 0 #3d1c0d; }
+.mode-card, .origin-card, .upgrade-card, .route-card, .chest-card, .achievement-card, .codex-item, .loadout-section, .choice-column, .route-section { border-radius: 3px; background: #151719; box-shadow: none; }
+.mode-card:hover, .origin-card:hover, .upgrade-card:hover, .route-card:hover, .chest-card:hover { transform: translateY(-1px); box-shadow: inset 4px 0 var(--orange); }
+.mode-card.selected, .route-card.selected { background: #241b15; box-shadow: inset 4px 0 #fb923c; }
+.origin-card::after { width: 5px; height: 100%; right: 0; bottom: 0; border-radius: 0; filter: none; opacity: .7; }
+.origin-portrait, .weapon-visual, .loadout-row > .weapon-visual { border-radius: 3px; box-shadow: none; }
+.stat-chip, .weapon-pill, .enemy-row, .mutation-badge, .attribute-item, .loadout-row > i, .skill-tag, .round-stats div, .meta-progress span, .achievement-summary div { border-radius: 2px; background-color: rgba(15,15,15,.82); }
+.bar, .bar i { border-radius: 1px; }
+.difficulty-group button, .ghost-button { border-radius: 2px; }
+.chest-mark { border-radius: 3px; background: #713f12; box-shadow: 6px 6px 0 #211307; }
+.rarity-label, .equipment-kind, .upgrade-tags i { border-radius: 1px !important; }
+.touch-actions button, .touch-actions button:last-child { border-radius: 4px; }

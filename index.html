@@ -11,7 +11,7 @@
     <main class="game-shell">
       <header class="brand-row">
         <div><p class="eyebrow">ORIGINAL SURVIVOR ROGUELITE</p><h1>余火回响</h1></div>
-        <div class="controls-hint"><kbd>WASD</kbd> 移动 <span>·</span> 自动攻击 <span>·</span> <kbd>Tab</kbd> 构筑 <span>·</span> <kbd>P</kbd> 暂停</div>
+        <div class="controls-hint"><kbd>WASD</kbd> 移动 <span>·</span> 自动攻击 <span>·</span> <kbd>Tab</kbd> 构筑 <span>·</span> <kbd>P</kbd> 暂停 <span>·</span> <kbd>M</kbd> 声音</div>
       </header>
 
       <section id="gameFrame" class="game-frame" aria-label="游戏区域">
@@ -60,6 +60,7 @@
             <button id="startButton" class="primary-button">进入灰烬荒原</button>
             <button id="codexButton" class="text-button">查看研究档案</button>
             <button id="achievementButton" class="text-button inline-text-button">查看成就</button>
+            <button id="audioButton" class="text-button inline-text-button" aria-pressed="false">声音：开启</button>
           </div>
         </div>
 
@@ -97,9 +98,9 @@
         <div id="chestScreen" class="overlay hidden">
           <div class="panel chest-panel">
             <div class="chest-mark">▣</div>
-            <p class="eyebrow">ELITE CACHE</p>
-            <h2>精英宝箱</h2>
-            <p class="draft-copy">选择一项高价值战利品。本次选择会直接改变这局远征的构筑。</p>
+            <p id="chestEyebrow" class="eyebrow">ELITE CACHE</p>
+            <h2 id="chestTitle">精英宝箱</h2>
+            <p id="chestCopy" class="draft-copy">选择一项高价值战利品。本次选择会直接改变这局远征的构筑。</p>
             <div id="chestChoices" class="chest-grid"></div>
           </div>
         </div>
@@ -142,7 +143,7 @@
         <div id="touchControls" class="touch-controls hidden" aria-label="移动端操作">
           <div id="joystick" class="joystick" aria-label="虚拟移动摇杆"><i id="joystickKnob"></i></div>
           <span id="touchMoveHint" class="touch-move-hint">触摸战场任意位置并拖动</span>
-          <div class="touch-actions"><button id="touchBuildButton" aria-label="查看构筑">构筑</button><button id="touchPauseButton" aria-label="暂停游戏">暂停</button></div>
+          <div class="touch-actions"><button id="touchAudioButton" aria-label="切换声音">声音</button><button id="touchBuildButton" aria-label="查看构筑">构筑</button><button id="touchPauseButton" aria-label="暂停游戏">暂停</button></div>
         </div>
       </section>
       <footer><span>闯关模式：每关结算并消费技能点</span><span>提示：按 Tab 随时查看属性、武器和技能</span></footer>

@@ -26,9 +26,10 @@
     originTitle: byId("originTitle"), originCopy: byId("originCopy"), codex: byId("codexScreen"),
     codexContent: byId("codexContent"), metaProgress: byId("metaProgress"), mutationText: byId("mutationText"),
     routeSection: byId("routeSection"), routeChoices: byId("routeChoices"), routeStatus: byId("routeStatus"),
-    chest: byId("chestScreen"), chestChoices: byId("chestChoices"), achievement: byId("achievementScreen"),
+    chest: byId("chestScreen"), chestChoices: byId("chestChoices"), chestEyebrow: byId("chestEyebrow"), chestTitle: byId("chestTitle"), chestCopy: byId("chestCopy"), achievement: byId("achievementScreen"),
     achievementContent: byId("achievementContent"), achievementSummary: byId("achievementSummary"),
-    touchControls: byId("touchControls"), joystick: byId("joystick"), joystickKnob: byId("joystickKnob"), touchHint: byId("touchMoveHint")
+    touchControls: byId("touchControls"), joystick: byId("joystick"), joystickKnob: byId("joystickKnob"), touchHint: byId("touchMoveHint"),
+    audioButton: byId("audioButton"), touchAudioButton: byId("touchAudioButton")
   };
 
   const difficulties = {
@@ -52,28 +53,28 @@
   ];
 
   const origins = [
-    { id: "ranger", name: "灰烬游侠", icon: "➤", color: "#fb923c", style: "精准弹道 · 远程猎杀", weaponChoices: ["ember", "twins", "nova"], weaponLevel: 2,
+    { id: "ranger", name: "灰烬游侠", icon: "➤", color: "#fb923c", style: "精准弹道 · 远程猎杀", weaponChoices: ["ember", "rail", "tesla"], weaponLevel: 2,
       desc: "远程伤害更加稳定且暴击更频繁，但薄弱护甲不适合硬闯敌群。", kit: ["优势：伤害 +8%、精准 96%", "优势：暴击 +5%、初始武器 LV.2", "限制：护甲 -6%"],
       apply(p) { p.damageMult *= 1.08; p.precision = .96; p.critChance += .05; p.armor -= .06; } },
-    { id: "gunner", name: "四向枪手", icon: "↔", color: "#22d3ee", style: "高速射击 · 弹幕压制", weaponChoices: ["twins", "ember", "nova"],
+    { id: "gunner", name: "四向枪手", icon: "↔", color: "#22d3ee", style: "高速射击 · 弹幕压制", weaponChoices: ["twins", "scatter", "flame"],
       desc: "以更快射速封锁多个方向，代价是较低的生命上限。", kit: ["优势：攻击速度 +20%", "优势：贯穿 +1", "限制：最大生命 -18"],
       apply(p) { p.fireRateMult *= .8; p.pierce++; p.maxHp -= 18; p.hp = p.maxHp; } },
-    { id: "dancer", name: "环刃舞者", icon: "◌", color: "#6ee7b7", style: "贴身环绕 · 高速走位", weaponChoices: ["orbit", "twins", "ember"],
+    { id: "dancer", name: "环刃舞者", icon: "◌", color: "#6ee7b7", style: "贴身环绕 · 高速走位", weaponChoices: ["orbit", "scatter", "flame"],
       desc: "靠速度和无人机穿行敌群，但直接武器伤害略低。", kit: ["优势：移动 +22%、拾取 +25%", "优势：守望无人机", "限制：武器伤害 -10%"],
       apply(p) { p.guardians = [{ id: "sentinel", level: 1, cooldown: 0, charges: 0 }]; p.speed *= 1.22; p.magnet *= 1.25; p.damageMult *= .9; } },
-    { id: "bulwark", name: "黑曜壁垒", icon: "⬡", color: "#fda4af", style: "重装防御 · 稳定反击", weaponChoices: ["orbit", "ember", "nova"],
+    { id: "bulwark", name: "黑曜壁垒", icon: "⬡", color: "#fda4af", style: "重装防御 · 稳定反击", weaponChoices: ["orbit", "turret", "scatter"],
       desc: "高生命与强护盾允许正面承伤，但笨重装甲限制走位。", kit: ["优势：最大生命 +40、护甲 +14%", "优势：炽晶护盾 LV.2", "限制：移动速度 -13%"],
       apply(p) { p.maxHp += 40; p.hp = p.maxHp; p.armor += .14; p.guardians.find(item => item.id === "shield").level = 2; p.speed *= .87; } },
-    { id: "scholar", name: "裂隙学者", icon: "✦", color: "#c084fc", style: "稀有强化 · 经验成长", weaponChoices: ["nova", "ember", "orbit"],
+    { id: "scholar", name: "裂隙学者", icon: "✦", color: "#c084fc", style: "稀有强化 · 经验成长", weaponChoices: ["nova", "tesla", "rail"],
       desc: "更快升级并更容易获得高品质强化，但基础生命偏低。", kit: ["优势：经验 +22%、幸运 +24%", "优势：棱镜圣衣", "限制：最大生命 -15"],
       apply(p) { p.guardians = [{ id: "prism", level: 1, cooldown: 0, charges: 1 }]; p.xpMult *= 1.22; p.luck += .24; p.maxHp -= 15; p.hp = p.maxHp; } },
-    { id: "scavenger", name: "荒原拾荒者", icon: "◎", color: "#facc15", style: "自由武装 · 高频重掷", weaponChoices: ["ember", "twins", "orbit", "nova"],
+    { id: "scavenger", name: "荒原拾荒者", icon: "◎", color: "#facc15", style: "自由武装 · 高频重掷", weaponChoices: ["ember", "twins", "orbit", "nova", "rail", "scatter", "flame", "tesla", "turret"],
       desc: "不限制武器路线并拥有更多重掷，但开局属性最为脆弱。", kit: ["优势：全部武器可选、额外重掷 ×2", "优势：幸运 +12%", "限制：生命 -20、伤害 -8%"],
       apply(p) { p.maxHp -= 20; p.hp = p.maxHp; p.damageMult *= .92; p.bonusRerolls = 2; p.luck += .12; } },
-    { id: "berserker", name: "裂火狂战士", icon: "✣", color: "#ef4444", style: "极限伤害 · 近身爆发", weaponChoices: ["orbit", "ember", "twins"],
+    { id: "berserker", name: "裂火狂战士", icon: "✣", color: "#ef4444", style: "极限伤害 · 近身爆发", weaponChoices: ["orbit", "scatter", "flame"],
       desc: "用生命与拾取范围换取夸张伤害，鼓励持续贴身进攻。", kit: ["优势：伤害 +32%、恢复 +0.6/秒", "优势：棘甲外骨骼", "限制：生命 -25、拾取 -20%"],
       apply(p) { p.guardians = [{ id: "thorns", level: 1, cooldown: 0, charges: 0 }]; p.damageMult *= 1.32; p.regen += .6; p.maxHp -= 25; p.hp = p.maxHp; p.magnet *= .8; } },
-    { id: "artificer", name: "余烬机械师", icon: "⌾", color: "#38bdf8", style: "守护炮台 · 装备协同", weaponChoices: ["twins", "nova", "ember"],
+    { id: "artificer", name: "余烬机械师", icon: "⌾", color: "#38bdf8", style: "守护炮台 · 装备协同", weaponChoices: ["turret", "tesla", "twins"],
       desc: "强化守护装备并获得高射速，但沉重工具会拖慢移动。", kit: ["优势：守望无人机 LV.2", "优势：攻击速度 +10%、幸运 +10%", "限制：移动速度 -9%"],
       apply(p) { p.guardians = [{ id: "sentinel", level: 2, cooldown: 0, charges: 0 }]; p.fireRateMult *= .9; p.luck += .1; p.speed *= .91; } }
   ];
@@ -91,7 +92,7 @@
     { id: "swarm", name: "孵化狂潮", desc: "敌人更多但更脆弱", spawn: 1.42, hp: .78, speed: 1, damage: 1, xp: 1 },
     { id: "armor", name: "黑曜硬化", desc: "敌人坚韧、缓慢且奖励更高", spawn: .88, hp: 1.38, speed: .87, damage: 1, xp: 1.28 },
     { id: "frenzy", name: "血月躁动", desc: "敌人速度与伤害提升", spawn: 1.08, hp: 1, speed: 1.22, damage: 1.18, xp: 1.22 },
-    { id: "volatile", name: "不稳定核心", desc: "敌人死亡时释放危险碎片", spawn: 1, hp: 1, speed: 1, damage: 1, xp: 1.3, volatile: true },
+    { id: "volatile", name: "不稳定核心", desc: "少数敌人死亡后释放两枚预警碎片", spawn: .96, hp: 1, speed: 1, damage: 1, xp: 1.25, volatile: true },
     { id: "abundance", name: "余烬丰饶", desc: "经验产出大幅提升", spawn: 1.08, hp: 1.08, speed: 1, damage: 1, xp: 1.48 }
   ];
 
@@ -99,7 +100,12 @@
     ember: { name: "余烬连弩", icon: "➤", desc: "锁定目标并持续修正弹道", mode: "优先最近目标 · 强追踪 · 稳定单体", tags: ["弹道", "追踪"] },
     twins: { name: "双生侧炮", icon: "↔", desc: "两侧炮塔分别锁定不同敌人", mode: "双炮独立锁敌 · 多目标 · 清理侧翼", tags: ["弹道", "多向"] },
     orbit: { name: "星环刃", icon: "◌", desc: "环绕角色持续切割", mode: "实体环绕 · 近距离 · 持续切割", tags: ["环绕", "近战"] },
-    nova: { name: "脉冲环", icon: "✦", desc: "一次锁定多个敌人释放追踪脉冲", mode: "多目标锁定 · 范围覆盖 · 爆发间隔", tags: ["脉冲", "多向"] }
+    nova: { name: "脉冲环", icon: "✦", desc: "一次锁定多个敌人释放追踪脉冲", mode: "多目标锁定 · 范围覆盖 · 爆发间隔", tags: ["脉冲", "多向"] },
+    rail: { name: "裂隙轨道枪", icon: "↦", desc: "缓慢充能后贯穿整列敌人", mode: "超远程 · 高单发 · 天生贯穿", tags: ["重炮", "贯穿"] },
+    scatter: { name: "铸渣霰弹器", icon: "⋙", desc: "近距离向锁定目标喷出密集弹丸", mode: "近距离 · 多弹丸 · 爆发", tags: ["霰弹", "近战"] },
+    flame: { name: "熔炉喷射器", icon: "♨", desc: "持续追踪近敌的短程熔火流", mode: "短射程 · 高频率 · 持续压制", tags: ["火焰", "持续"] },
+    tesla: { name: "电弧线圈", icon: "ϟ", desc: "瞬间跃迁到多个邻近目标", mode: "即时命中 · 连锁 · 群体", tags: ["电弧", "连锁"] },
+    turret: { name: "铸火炮塔", icon: "⌂", desc: "在脚下部署不会跟随角色的自动炮塔", mode: "固定部署 · 区域控制 · 自动锁敌", tags: ["部署", "炮塔"] }
   };
 
   const guardianMeta = {
@@ -114,6 +120,9 @@
     { id: "bladeDance", name: "永动刃舞", hint: "星环刃 + 追风足甲 ×2", desc: "环刃伤害 +40%，环绕半径扩大", check: p => weaponLevel(p, "orbit") >= 1 && skillRank(p, "speed") >= 2 },
     { id: "fortress", name: "不灭堡垒", hint: "余烬之心 ×2 + 黑曜护壳 ×2", desc: "额外获得 10% 减伤与每秒 0.4 恢复", check: p => skillRank(p, "health") >= 2 && skillRank(p, "armor") >= 2 },
     { id: "starfall", name: "群星坠落", hint: "脉冲环 LV.2 + 贯穿余辉 ×2", desc: "脉冲弹幕 +4，伤害 +25%", check: p => weaponLevel(p, "nova") >= 2 && skillRank(p, "pierce") >= 2 },
+    { id: "workshop", name: "自动工坊", hint: "铸火炮塔 LV.2 + 守望无人机 LV.2", desc: "炮塔寿命 +40%，射速 +20%", check: p => weaponLevel(p, "turret") >= 2 && guardianLevel(p, "sentinel") >= 2 },
+    { id: "riftStorm", name: "裂隙风暴", hint: "电弧线圈 LV.2 + 脉冲环 LV.2", desc: "电弧额外连锁 1 个目标", check: p => weaponLevel(p, "tesla") >= 2 && weaponLevel(p, "nova") >= 2 },
+    { id: "furnace", name: "近战熔炉", hint: "熔炉喷射器 LV.2 + 黑曜护壳 ×2", desc: "熔火伤害 +30%，每次击杀有微量恢复", check: p => weaponLevel(p, "flame") >= 2 && skillRank(p, "armor") >= 2 },
     { id: "arsenal", name: "行走军火库", hint: "同时持有 4 种武器", desc: "所有武器伤害 +20%", check: p => p.weapons.length >= 4 }
   ];
 
@@ -121,11 +130,11 @@
     ...origins.map(origin => ({ id: `win_${origin.id}`, name: `${origin.name}的凯旋`, desc: `使用${origin.name}完成十关远征。`, category: "原型通关" })),
     { id: "clear_no_hit", name: "毫发无伤", desc: "不受到任何伤害完成一关。", category: "关卡挑战" },
     { id: "clear_single_weapon", name: "孤胆武装", desc: "只携带一件武器完成任意关卡。", category: "构筑挑战" },
-    { id: "clear_four_weapons", name: "火力展览", desc: "携带全部四类武器完成一关。", category: "构筑挑战" },
+    { id: "clear_four_weapons", name: "火力展览", desc: "同时携带至少四类武器完成一关。", category: "构筑挑战" },
     { id: "clear_low_hp", name: "余火一线", desc: "以不超过 20% 的生命完成一关。", category: "极限挑战" },
     { id: "clear_armor40", name: "不可撼动", desc: "以至少 40% 护甲完成一关。", category: "数值挑战" },
     { id: "stage_damage_5000", name: "过量火力", desc: "单关造成至少 5000 点伤害。", category: "数值挑战" },
-    { id: "open_5_chests", name: "精英收藏家", desc: "累计开启 5 个精英宝箱。", category: "探索挑战" },
+    { id: "open_5_chests", name: "荒原收藏家", desc: "累计开启 5 个任意宝箱。", category: "探索挑战" },
     { id: "win_hard", name: "残酷远征", desc: "在残酷难度完成十关。", category: "难度通关" },
     { id: "win_nightmare", name: "噩梦终结者", desc: "在噩梦难度完成十关。", category: "难度通关" }
   ];
@@ -149,14 +158,15 @@
     skill("pierce", "贯穿余辉", "↠", "弹丸额外贯穿 1 个敌人", p => p.pierce++),
     skill("multishot", "分岔火舌", "⋔", "追踪武器额外发射 1 枚弹丸", p => p.multishot++),
     skill("precision", "校准镜组", "⌖", "伤害波动收窄 4%，暴击率 +4%", p => { p.precision = Math.min(.98, p.precision + .04); p.critChance = Math.min(.45, p.critChance + .04); }),
-    weaponUpgrade("ember"), weaponUpgrade("twins"), weaponUpgrade("orbit"), weaponUpgrade("nova"),
+    weaponUpgrade("ember"), weaponUpgrade("twins"), weaponUpgrade("orbit"), weaponUpgrade("nova"), weaponUpgrade("rail"),
+    weaponUpgrade("scatter"), weaponUpgrade("flame"), weaponUpgrade("tesla"), weaponUpgrade("turret"),
     guardianUpgrade("shield"), guardianUpgrade("sentinel"), guardianUpgrade("thorns"), guardianUpgrade("prism")
   ];
 
   let selectedMode = "rogue";
   let selectedDifficulty = "normal";
   let state = "menu";
-  let player, enemies, bullets, enemyBullets, gems, chests, particles, texts;
+  let player, enemies, bullets, enemyBullets, gems, heals, chests, turrets, arcs, particles, texts;
   let stageIndex = 0, stageElapsed = 0, totalElapsed = 0, spawnClock = 0, lastTime = 0;
   let stageKillsStart = 0, stageDamageStart = 0, stageDamageTakenStart = 0, stageEliteSpawned = false, bossSpawned = false;
   let shake = 0, flash = 0, toastTimer = 0, hudClock = 0, endlessCheckpoint = 0;
@@ -164,8 +174,51 @@
   let currentMutation = mutations[0], currentRoute = null, nextRoute = null, selectedOrigin = null;
   let runSeed = "", profile = loadProfile();
   const touchInput = { x: 0, y: 0, active: false, pointerId: null, originX: 0, originY: 0, max: 58 };
+  const audio = { context: null, master: null, music: null, sfx: null, muted: localStorage.getItem("emberEchoMuted") === "1", musicClock: 0, shotClock: 0, hitClock: 0, step: 0 };
 
   function byId(id) { return document.getElementById(id); }
+  function ensureAudio() {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext || audio.context) { if (audio.context?.state === "suspended") audio.context.resume?.(); return; }
+    audio.context = new AudioContext(); audio.master = audio.context.createGain(); audio.music = audio.context.createGain(); audio.sfx = audio.context.createGain();
+    audio.master.gain.value = audio.muted ? 0 : .72; audio.music.gain.value = .16; audio.sfx.gain.value = .42;
+    audio.music.connect(audio.master); audio.sfx.connect(audio.master); audio.master.connect(audio.context.destination);
+  }
+  function tone(frequency, duration = .08, type = "square", volume = .08, slide = 1, bus = "sfx") {
+    if (audio.muted) return; ensureAudio(); if (!audio.context) return;
+    const now = audio.context.currentTime, oscillator = audio.context.createOscillator(), gain = audio.context.createGain();
+    oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, now); oscillator.frequency.exponentialRampToValueAtTime(Math.max(35, frequency * slide), now + duration);
+    gain.gain.setValueAtTime(.0001, now); gain.gain.exponentialRampToValueAtTime(volume, now + .012); gain.gain.exponentialRampToValueAtTime(.0001, now + duration);
+    oscillator.connect(gain); gain.connect(audio[bus]); oscillator.start(now); oscillator.stop(now + duration + .02);
+  }
+  function sound(name) {
+    if (name === "shot" && audio.shotClock > 0) return; if (name === "hit" && audio.hitClock > 0) return;
+    if (name === "shot") { audio.shotClock = .045; tone(190, .045, "square", .035, 1.8); }
+    if (name === "heavy") { tone(92, .14, "sawtooth", .09, 2.4); tone(410, .08, "square", .035, .55); }
+    if (name === "hit") { audio.hitClock = .035; tone(120, .035, "triangle", .025, .65); }
+    if (name === "hurt") { tone(130, .22, "sawtooth", .11, .42); }
+    if (name === "pickup") { tone(620, .06, "sine", .04, 1.35); }
+    if (name === "heal") { tone(430, .16, "sine", .08, 1.7); tone(660, .2, "sine", .05, 1.35); }
+    if (name === "chest") { tone(260, .18, "triangle", .09, 1.5); tone(520, .34, "sine", .07, 1.5); }
+    if (name === "level") { tone(330, .18, "triangle", .07, 1.5); tone(660, .3, "sine", .06, 1.25); }
+    if (name === "boss") { tone(72, .65, "sawtooth", .12, .6); }
+  }
+  function updateAudio(dt) {
+    audio.shotClock = Math.max(0, audio.shotClock - dt); audio.hitClock = Math.max(0, audio.hitClock - dt); audio.musicClock -= dt;
+    if (audio.muted || !audio.context || audio.musicClock > 0 || state !== "playing") return;
+    const notes = [55, 65.41, 73.42, 82.41], tension = enemies.some(e => e.boss) ? 2 : stageIndex > 5 ? 1 : 0;
+    const root = notes[(audio.step + tension) % notes.length]; tone(root, .75, "triangle", .035, 1, "music");
+    if (audio.step % 4 === 2) tone(root * (tension ? 2.25 : 1.5), .42, "sine", .018, .98, "music");
+    audio.step++; audio.musicClock = enemies.some(e => e.boss) ? .48 : .72;
+  }
+  function toggleAudio() {
+    audio.muted = !audio.muted; localStorage.setItem("emberEchoMuted", audio.muted ? "1" : "0"); ensureAudio();
+    if (audio.master) audio.master.gain.value = audio.muted ? 0 : .72; renderAudioState(); if (!audio.muted) sound("level");
+  }
+  function renderAudioState() {
+    ui.audioButton.textContent = `声音：${audio.muted ? "关闭" : "开启"}`; ui.audioButton.setAttribute?.("aria-pressed", String(audio.muted));
+    ui.touchAudioButton.textContent = audio.muted ? "静音" : "声音";
+  }
   function skill(id, title, icon, desc, apply) {
     const tags = { damage: ["输出"], haste: ["攻速"], speed: ["机动"], health: ["生存"], armor: ["生存"], magnet: ["资源"], regen: ["恢复"], pierce: ["弹道"], multishot: ["弹道", "多重"], precision: ["精准", "暴击"] };
     return { id, title, icon, desc, kind: "skill", tags: tags[id] || [], apply };
@@ -211,7 +264,7 @@
       weapons: [],
       guardians: [{ id: "shield", level: 1, cooldown: 0, charges: 1 }], guardianRetaliation: 0
     };
-    enemies = []; bullets = []; enemyBullets = []; gems = []; chests = []; particles = []; texts = [];
+    enemies = []; bullets = []; enemyBullets = []; gems = []; heals = []; chests = []; turrets = []; arcs = []; particles = []; texts = [];
     stageIndex = 0; totalElapsed = 0; endlessCheckpoint = 0; shake = flash = toastTimer = 0;
     currentRoute = null; nextRoute = null; currentMutation = mutations[Math.floor(Math.random() * mutations.length)];
     runSeed = Math.random().toString(36).slice(2, 8).toUpperCase();
@@ -221,7 +274,7 @@
 
   function startStage(first = false) {
     stageElapsed = 0; spawnClock = .35; stageKillsStart = player?.kills || 0; stageDamageStart = player?.damageDone || 0; stageDamageTakenStart = player?.damageTaken || 0;
-    stageEliteSpawned = false; bossSpawned = false; enemies = []; bullets = []; enemyBullets = []; gems = []; chests = [];
+    stageEliteSpawned = false; bossSpawned = false; enemies = []; bullets = []; enemyBullets = []; gems = []; heals = []; chests = []; turrets = []; arcs = [];
     if (!first) {
       currentMutation = rollMutation();
       const healing = .22 + (currentRoute?.healing || 0);
@@ -230,6 +283,7 @@
   }
 
   function openOriginDraft() {
+    ensureAudio();
     resetRun(); state = "origin"; selectedOrigin = null;
     ui.start.classList.add("hidden"); ui.end.classList.add("hidden"); ui.origin.classList.remove("hidden"); ui.hud.classList.add("hidden");
     renderOriginDraft();
@@ -315,15 +369,15 @@
     const diff = difficulties[selectedDifficulty];
     const stage = stages[Math.min(stageIndex, stages.length - 1)];
     const unlocked = selectedMode === "rogue" ? stage.unlocks : endlessUnlocks();
-    const intensity = selectedMode === "rogue" ? 1 + stageIndex * .32 : 1 + totalElapsed / 80;
-    const count = Math.min(8, 1 + Math.floor(intensity * diff.spawn * currentMutation.spawn));
+    const intensity = selectedMode === "rogue" ? 1 + stageIndex * BALANCE.CONFIG.combat.stageIntensity : 1 + totalElapsed / 105;
+    const count = Math.min(BALANCE.CONFIG.combat.waveMax, 1 + Math.floor(intensity * diff.spawn * currentMutation.spawn));
     for (let i = 0; i < count; i++) {
       const roll = Math.random();
       let pool = unlocked;
       if (roll < .48) pool = unlocked.filter(t => t === "crawler" || t === "swift");
       spawnEnemy(pool[Math.floor(Math.random() * pool.length)] || "crawler");
     }
-    spawnClock = Math.max(.27, (1.05 - intensity * .07) / (diff.spawn * Math.sqrt(currentMutation.spawn)));
+    spawnClock = Math.max(BALANCE.CONFIG.combat.waveMinInterval, (1.14 - intensity * .065) / (diff.spawn * Math.sqrt(currentMutation.spawn)));
   }
 
   function endlessUnlocks() {
@@ -350,6 +404,11 @@
       if (weapon.id === "ember") fireEmber(weapon);
       if (weapon.id === "twins") fireTwins(weapon);
       if (weapon.id === "nova") fireNova(weapon);
+      if (weapon.id === "rail") fireRail(weapon);
+      if (weapon.id === "scatter") fireScatter(weapon);
+      if (weapon.id === "flame") fireFlame(weapon);
+      if (weapon.id === "tesla") fireTesla(weapon);
+      if (weapon.id === "turret") deployTurret(weapon);
     }
     const orbit = player.weapons.find(w => w.id === "orbit");
     if (orbit) updateOrbitDamage(orbit, dt);
@@ -364,7 +423,7 @@
     const roll = BALANCE.damageRoll(scaledDamage, player.precision, player.critChance);
     bullets.push({ x, y,
       vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, speed, r, damage: roll.damage, baseDamage: scaledDamage, crit: roll.crit,
-      target: options.target || null, homing: options.homing || 0, life, pierce: player.pierce, hit: new Set(), color, team: "player" });
+      target: options.target || null, homing: options.homing || 0, life, pierce: player.pierce + (options.pierce || 0), hit: new Set(), color, team: "player", weaponId: options.weaponId || null });
   }
 
   function fireEmber(w) {
@@ -375,6 +434,7 @@
       addPlayerBullet(angle, stats.damage, stats.speed, stats.radius + w.level * .2, "#2dd4bf", stats.life, { target, homing: stats.homing });
     }
     const base = Math.atan2(targets[0].y - player.y, targets[0].x - player.x); w.cooldown = stats.cooldown; muzzle(base, "#2dd4bf");
+    sound("shot");
   }
 
   function fireTwins(w) {
@@ -387,6 +447,7 @@
       addPlayerBulletFrom(x, y, angle, stats.damage, stats.speed, stats.radius, "#60a5fa", stats.life, { target, homing: stats.homing }); muzzle(angle, "#60a5fa");
     }
     w.cooldown = stats.cooldown;
+    sound("shot");
   }
 
   function fireNova(w) {
@@ -398,6 +459,67 @@
     }
     w.cooldown = stats.cooldown; shake = 3;
     burst(player.x, player.y, "#c4b5fd", 18, 140);
+    sound("heavy");
+  }
+
+  function fireRail(w) {
+    const stats = BALANCE.weaponStats("rail", w.level, { fireRate: player.fireRateMult, critChance: player.critChance }), target = nearestEnemy(); if (!target) return;
+    const angle = Math.atan2(target.y - player.y, target.x - player.x);
+    addPlayerBullet(angle, stats.damage, stats.speed, stats.radius, "#fbbf24", stats.life, { target, homing: stats.homing, pierce: 2 + Math.floor(w.level / 2), weaponId: "rail" });
+    w.cooldown = stats.cooldown; muzzle(angle, "#fbbf24"); shake = 4; sound("heavy");
+  }
+
+  function fireScatter(w) {
+    const stats = BALANCE.weaponStats("scatter", w.level, { fireRate: player.fireRateMult, critChance: player.critChance }), targets = rankedEnemies(); if (!targets.length) return;
+    for (let i = 0; i < stats.projectiles; i++) {
+      const target = targets[Math.min(i % 3, targets.length - 1)], angle = Math.atan2(target.y - player.y, target.x - player.x);
+      addPlayerBullet(angle, stats.damage, stats.speed, stats.radius, "#fb7185", stats.life, { target, homing: stats.homing, weaponId: "scatter" });
+    }
+    w.cooldown = stats.cooldown; muzzle(Math.atan2(targets[0].y - player.y, targets[0].x - player.x), "#fb7185"); sound("heavy");
+  }
+
+  function fireFlame(w) {
+    const stats = BALANCE.weaponStats("flame", w.level, { fireRate: player.fireRateMult, critChance: player.critChance }), targets = rankedEnemies(); if (!targets.length) return;
+    for (let i = 0; i < stats.projectiles; i++) {
+      const target = targets[i % targets.length], angle = Math.atan2(target.y - player.y, target.x - player.x);
+      addPlayerBullet(angle, stats.damage * (hasSynergy("furnace") ? 1.3 : 1), stats.speed, stats.radius, "#fb923c", stats.life, { target, homing: stats.homing, weaponId: "flame" });
+    }
+    w.cooldown = stats.cooldown; sound("shot");
+  }
+
+  function fireTesla(w) {
+    const stats = BALANCE.weaponStats("tesla", w.level, { fireRate: player.fireRateMult }), targets = rankedEnemies(); if (!targets.length) return;
+    const selected = [targets[0]], chainCount = stats.projectiles + (hasSynergy("riftStorm") ? 1 : 0);
+    while (selected.length < chainCount) {
+      const last = selected[selected.length - 1], next = targets.find(e => !selected.includes(e) && Math.hypot(e.x - last.x, e.y - last.y) <= stats.chainRange); if (!next) break; selected.push(next);
+    }
+    let from = { x: player.x, y: player.y };
+    for (const target of selected) {
+      const roll = BALANCE.damageRoll(stats.damage * player.damageMult * (hasSynergy("arsenal") ? 1.2 : 1), player.precision, player.critChance);
+      arcs.push({ x1: from.x, y1: from.y, x2: target.x, y2: target.y, life: .13, max: .13 }); damageEnemy(target, roll.damage, "#67e8f9", roll.crit); from = target;
+    }
+    w.cooldown = stats.cooldown; sound("heavy");
+  }
+
+  function deployTurret(w) {
+    const stats = BALANCE.weaponStats("turret", w.level, { fireRate: player.fireRateMult }), maxActive = 1 + Math.floor(w.level / 4);
+    if (turrets.length >= maxActive) turrets.sort((a, b) => a.life - b.life).shift();
+    turrets.push({ x: player.x, y: player.y, level: w.level, life: stats.lifetime * (hasSynergy("workshop") ? 1.4 : 1), cooldown: .1, angle: player.facing, range: stats.range });
+    w.cooldown = stats.deployCooldown; burst(player.x, player.y, "#f59e0b", 16, 110); floatText(player.x, player.y - 30, "炮塔部署", "#fde68a"); sound("heavy");
+  }
+
+  function updateTurrets(dt) {
+    for (const turret of turrets) {
+      turret.life -= dt; turret.cooldown -= dt; const target = nearestEnemy(turret.x, turret.y);
+      if (!target || Math.hypot(target.x - turret.x, target.y - turret.y) > turret.range) continue;
+      turret.angle = Math.atan2(target.y - turret.y, target.x - turret.x);
+      if (turret.cooldown <= 0) {
+        const stats = BALANCE.weaponStats("turret", turret.level, { fireRate: player.fireRateMult });
+        addPlayerBulletFrom(turret.x + Math.cos(turret.angle) * 20, turret.y + Math.sin(turret.angle) * 20, turret.angle, stats.damage, stats.speed, 5.2, "#f59e0b", 1.7, { target, homing: stats.homing, weaponId: "turret" });
+        turret.cooldown = stats.cooldown * (hasSynergy("workshop") ? .8 : 1); sound("shot");
+      }
+    }
+    turrets = turrets.filter(turret => turret.life > 0);
   }
 
   function updateOrbitDamage(w, dt) {
@@ -476,7 +598,7 @@
       if (Math.random() < dt * 16) particles.push(particle(player.x, player.y + 12, -mx * 12, -my * 12, "#fb923c", .3, 4));
     }
 
-    fireWeapons(dt); updateGuardians(dt);
+    fireWeapons(dt); updateTurrets(dt); updateGuardians(dt); updateAudio(dt);
     spawnClock -= dt;
     if (spawnClock <= 0) spawnWave();
     handleStageEvents();
@@ -497,6 +619,7 @@
     }
     resolveDeaths();
     collectGems(dt);
+    collectHeals(dt);
     collectChests();
     updateEffects(dt);
     checkLevelProgress();
@@ -518,7 +641,7 @@
         stageEliteSpawned = true; spawnEnemy("elite"); showToast("精英威胁进入战场");
       }
       if (stage.boss && !bossSpawned && stageElapsed > stage.duration - 24) {
-        bossSpawned = true; spawnEnemy("boss"); showToast("裂隙领主降临");
+        bossSpawned = true; spawnEnemy("boss"); showToast("裂隙领主降临"); sound("boss");
       }
     } else {
       if (!bossSpawned && totalElapsed > 180 && Math.floor(totalElapsed) % 90 === 0) {
@@ -568,7 +691,7 @@
 
   function updateSummoner(e, angle, dist, dt) {
     if (dist < 260) moveEnemy(e, angle + Math.PI, e.speed, dt); else if (dist > 390) moveEnemy(e, angle, e.speed, dt);
-    if (e.attackClock <= 0 && enemies.filter(x => x.type === "minion").length < 16) {
+    if (e.attackClock <= 0 && enemies.filter(x => x.type === "minion").length < 10) {
       for (let i = 0; i < 2; i++) spawnEnemy("minion", e.x + rand(-24, 24), e.y + rand(-24, 24));
       e.attackClock = e.attackRate; burst(e.x, e.y, enemyMeta.summoner.color, 12, 100);
     }
@@ -576,13 +699,13 @@
 
   function updateElite(e, angle, dt) {
     moveEnemy(e, angle + Math.sin(e.phase) * .25, e.speed, dt);
-    if (e.attackClock <= 0) { radialEnemyShots(e, 7, 160, e.damage * .55, "#e879f9"); e.attackClock = e.attackRate; }
+    if (e.attackClock <= 0) { radialEnemyShots(e, 5, 145, e.damage * .48, "#e879f9"); e.attackClock = e.attackRate * 1.15; }
   }
 
   function updateBoss(e, angle, dist, dt) {
     if (dist > 235) moveEnemy(e, angle, e.speed, dt); else moveEnemy(e, angle + Math.PI / 2, e.speed * .55, dt);
     if (e.attackClock <= 0) {
-      radialEnemyShots(e, 12, 150 + Math.sin(e.phase) * 22, e.damage * .48, "#fb7185");
+      radialEnemyShots(e, 10, 140 + Math.sin(e.phase) * 18, e.damage * .44, "#fb7185");
       fireEnemyShot(e, angle, 275, 10, e.damage * .7, "#fecdd3"); e.attackClock = e.attackRate; shake = 4;
     }
   }
@@ -609,6 +732,7 @@
     const effectiveArmor = Math.min(.72, player.armor + thornsLevel * .04 + (hasSynergy("fortress") ? .1 : 0));
     const damage = Math.max(1, raw * (1 - effectiveArmor));
     player.hp -= damage; player.damageTaken += damage; player.invuln = .58; shake = 9; flash = .13;
+    sound("hurt");
     floatText(player.x, player.y - 28, `-${Math.round(damage)}`, "#fb7185");
     if (thornsLevel && player.guardianRetaliation <= 0) {
       const count = 6 + thornsLevel * 2;
@@ -620,6 +744,7 @@
   function damageEnemy(e, damage, color, crit = false) {
     e.hp -= damage; e.hit = .08; player.damageDone += damage;
     floatText(e.x, e.y - e.r, `${crit ? "暴击 " : ""}${Math.round(damage)}`, crit ? "#fef08a" : color || "#fde68a"); burst(e.x, e.y, color || enemyMeta[e.type].color, crit ? 8 : 4, crit ? 135 : 95);
+    sound("hit");
   }
 
   function resolveDeaths() {
@@ -629,8 +754,15 @@
       const count = e.boss ? 18 : e.elite ? 9 : e.r > 20 ? 3 : 1;
       const reward = e.xp * difficulties[selectedDifficulty].reward * currentMutation.xp * (currentRoute?.xp || 1) * player.xpMult;
       for (let g = 0; g < count; g++) gems.push({ x: e.x + rand(-14, 14), y: e.y + rand(-14, 14), value: reward / count, r: e.elite || e.boss ? 7 : 5, phase: Math.random() * TAU });
-      if (e.elite) chests.push({ x: e.x, y: e.y, r: 15, phase: 0 });
-      if (currentMutation.volatile && !e.boss && e.type !== "minion") radialEnemyShots(e, 4, 125, e.damage * .38, "#f0abfc");
+      if (e.elite) chests.push({ x: e.x, y: e.y, r: 15, phase: 0, tier: "elite" });
+      const ordinary = !e.elite && !e.boss && e.type !== "minion";
+      const missingHealth = 1 - player.hp / player.maxHp;
+      const healChance = BALANCE.CONFIG.drops.healBase + player.luck * BALANCE.CONFIG.drops.healLuck + (missingHealth > .55 ? .035 : 0);
+      if (ordinary && Math.random() < healChance) heals.push({ x: e.x, y: e.y, r: 10, phase: Math.random() * TAU, value: player.maxHp * rand(.08, .12) });
+      const chestChance = Math.min(BALANCE.CONFIG.drops.maxLuckyChest, BALANCE.CONFIG.drops.chestBase + player.luck * BALANCE.CONFIG.drops.chestLuck);
+      if (ordinary && Math.random() < chestChance) chests.push({ x: e.x, y: e.y, r: 13, phase: 0, tier: "lucky" });
+      if (currentMutation.volatile && ordinary && Math.random() < .2) radialEnemyShots(e, 2, 105, e.damage * .3, "#ff304f");
+      if (hasSynergy("furnace") && ordinary && Math.random() < .12) player.hp = Math.min(player.maxHp, player.hp + .7);
       burst(e.x, e.y, enemyMeta[e.type].color, e.boss ? 60 : e.elite ? 25 : 11, e.boss ? 330 : 180);
       shake = e.boss ? 15 : e.elite ? 7 : 2;
     }
@@ -641,7 +773,19 @@
       const g = gems[i]; g.phase += dt * 4;
       const dist = Math.hypot(player.x - g.x, player.y - g.y);
       if (dist < player.magnet) { const a = Math.atan2(player.y - g.y, player.x - g.x), speed = 190 + (player.magnet - dist) * 5; g.x += Math.cos(a) * speed * dt; g.y += Math.sin(a) * speed * dt; }
-      if (dist < player.r + 10) { player.xp += g.value; gems.splice(i, 1); burst(g.x, g.y, "#22d3ee", 4, 65); }
+      if (dist < player.r + 10) { player.xp += g.value; gems.splice(i, 1); burst(g.x, g.y, "#22d3ee", 4, 65); sound("pickup"); }
+    }
+  }
+
+  function collectHeals(dt) {
+    for (let i = heals.length - 1; i >= 0; i--) {
+      const item = heals[i]; item.phase += dt * 3;
+      const dist = Math.hypot(player.x - item.x, player.y - item.y);
+      if (dist < player.magnet * .75) { const angle = Math.atan2(player.y - item.y, player.x - item.x), speed = 150 + (player.magnet - dist) * 3; item.x += Math.cos(angle) * speed * dt; item.y += Math.sin(angle) * speed * dt; }
+      if (dist < player.r + item.r + 4) {
+        const before = player.hp; player.hp = Math.min(player.maxHp, player.hp + item.value); heals.splice(i, 1);
+        const amount = Math.max(0, Math.round(player.hp - before)); floatText(player.x, player.y - 34, `+${amount}`, "#86efac"); burst(item.x, item.y, "#4ade80", 12, 105); sound("heal");
+      }
     }
   }
 
@@ -650,16 +794,22 @@
     for (let i = chests.length - 1; i >= 0; i--) {
       const chest = chests[i]; chest.phase += .04;
       if (Math.hypot(player.x - chest.x, player.y - chest.y) < player.r + chest.r + 5) {
-        chests.splice(i, 1); openEliteChest(); break;
+        chests.splice(i, 1); openChest(chest.tier || "elite"); break;
       }
     }
   }
 
-  function openEliteChest() {
+  function openEliteChest() { openChest("elite"); }
+
+  function openChest(tier = "elite") {
     state = "chest"; player.chestsOpened++; profile.chestsOpened++; saveProfile();
     if (profile.chestsOpened >= 5) unlockAchievement("open_5_chests");
-    ui.chest.classList.remove("hidden"); ui.chestChoices.innerHTML = "";
-    const weaponId = Object.keys(weaponMeta)[Math.floor(Math.random() * Object.keys(weaponMeta).length)];
+    ui.chest.classList.remove("hidden"); ui.chestChoices.replaceChildren();
+    ui.chestEyebrow.textContent = tier === "elite" ? "ELITE CACHE" : "LUCKY FIELD CACHE";
+    ui.chestTitle.textContent = tier === "elite" ? "精英宝箱" : "幸运补给箱";
+    ui.chestCopy.textContent = tier === "elite" ? "选择一项高价值战利品。本次选择会直接改变这局远征的构筑。" : "幸运让普通敌人留下了补给。选择一项即时增益。";
+    const weaponPool = player.weapons.length >= BALANCE.CONFIG.combat.maxWeapons ? player.weapons.map(item => item.id) : Object.keys(weaponMeta);
+    const weaponId = weaponPool[Math.floor(Math.random() * weaponPool.length)];
     const guardianPool = player.guardians.length >= 2 ? player.guardians.map(item => item.id) : Object.keys(guardianMeta);
     const guardianId = guardianPool[Math.floor(Math.random() * guardianPool.length)];
     const rewards = [
@@ -671,11 +821,18 @@
       { id: "vital", icon: "♥", type: "生存奇物", title: "巨兽心脏", desc: "最大生命 +30，并完全恢复生命。", apply() { player.maxHp += 30; player.hp = player.maxHp; } },
       { id: "fortune", icon: "◎", type: "稀有奇物", title: "黄金罗盘", desc: "幸运 +20%，每次整备额外重掷 1 次。", apply() { player.luck += .2; player.bonusRerolls++; } }
     ];
-    const choices = [...rewards].sort(() => Math.random() - .5).slice(0, 3);
+    const luckyRewards = [
+      { id: "fieldxp", icon: "✦", type: "经验补给", title: "余烬样本", desc: "立即获得当前升级需求 70% 的经验。", apply() { player.xp += player.xpNext * .7; checkLevelProgress(); } },
+      { id: "fieldheal", icon: "✚", type: "医疗补给", title: "复燃药剂", desc: "恢复 35% 最大生命。", apply() { player.hp = Math.min(player.maxHp, player.hp + player.maxHp * .35); } },
+      { id: "fieldweapon", icon: weaponMeta[weaponId].icon, type: "武器零件", title: weaponMeta[weaponId].name, desc: "解锁或提升该武器 1 级。", apply() { let weapon = player.weapons.find(w => w.id === weaponId); if (!weapon) { weapon = { id: weaponId, level: 0, cooldown: 0 }; player.weapons.push(weapon); } weapon.level++; discover("weapons", weaponId); } },
+      { id: "fieldpoint", icon: "◆", type: "构筑资源", title: "战术手册", desc: "获得 1 个待分配技能点。", apply() { player.pendingPoints++; } },
+      { id: "fieldluck", icon: "◎", type: "稀有补给", title: "幸运齿轮", desc: "本局幸运永久 +5%。", apply() { player.luck += .05; } }
+    ];
+    const choices = [...(tier === "elite" ? rewards : luckyRewards)].sort(() => Math.random() - .5).slice(0, tier === "elite" ? 3 : 2);
     for (const reward of choices) {
       const card = document.createElement("button"); card.className = "chest-card";
       card.innerHTML = `<i>${reward.icon}</i><small>${reward.type}</small><h3>${reward.title}</h3><p>${reward.desc}</p>`;
-      card.onclick = () => { reward.apply(); recordSynergies(); ui.chest.classList.add("hidden"); state = "playing"; updateHud(true); lastTime = performance.now(); requestAnimationFrame(loop); };
+      card.onclick = () => { reward.apply(); recordSynergies(); ui.chest.classList.add("hidden"); state = "playing"; updateHud(true); lastTime = performance.now(); sound("chest"); requestAnimationFrame(loop); };
       ui.chestChoices.appendChild(card);
     }
   }
@@ -684,6 +841,7 @@
     while (player.xp >= player.xpNext) {
       player.xp -= player.xpNext; player.level++; player.pendingPoints++; player.xpNext = Math.floor(player.xpNext * 1.25 + 5);
       showToast(`等级 ${player.level} · 获得 1 技能点（关卡结算时分配）`);
+      sound("level");
     }
   }
 
@@ -749,10 +907,14 @@
   function rollUpgradeChoices() {
     ui.pointsRemaining.textContent = `剩余 ${upgradePoints} 点`;
     ui.choices.innerHTML = "";
-    const available = upgradeCatalog.filter(item => item.kind !== "guardian" || player.guardians.some(guardian => `guardian_${guardian.id}` === item.id) || player.guardians.length < 2);
+    const available = upgradeCatalog.filter(item => {
+      if (item.kind === "guardian") return player.guardians.some(guardian => `guardian_${guardian.id}` === item.id) || player.guardians.length < 2;
+      if (item.kind === "weapon") return player.weapons.some(weapon => `weapon_${weapon.id}` === item.id) || player.weapons.length < BALANCE.CONFIG.combat.maxWeapons;
+      return true;
+    });
     let pool = [...available].sort(() => Math.random() - .5).slice(0, 3);
     if (currentRoute?.weaponBias) {
-      const weaponOptions = upgradeCatalog.filter(item => item.kind === "weapon").sort(() => Math.random() - .5).slice(0, 2);
+      const weaponOptions = available.filter(item => item.kind === "weapon").sort(() => Math.random() - .5).slice(0, 2);
       const passive = available.filter(item => item.kind !== "weapon").sort(() => Math.random() - .5)[0];
       pool = [...weaponOptions, passive];
     }
@@ -829,7 +991,7 @@
     const synergyRows = synergyCatalog.map(item => { const active = item.check(player); return `<div class="synergy-row ${active ? "active" : ""}"><b>${active ? "✦ " : "◇ "}${item.name}</b><span>${active ? item.desc : item.hint}</span></div>`; }).join("");
     const origin = origins.find(item => item.id === player.origin);
     container.innerHTML = `<section class="loadout-section"><h3>角色属性 · ${origin?.name || "未选择原型"}</h3><div class="attribute-grid">${attrs.map(([a,b]) => `<div class="attribute-item"><span>${a}</span><b>${b}</b></div>`).join("")}</div></section>
-      <section class="loadout-section"><h3>实体武器 · ${player.weapons.length}/4</h3><div class="loadout-list">${weaponRows}</div></section>
+      <section class="loadout-section"><h3>实体武器 · ${player.weapons.length}/${BALANCE.CONFIG.combat.maxWeapons}</h3><div class="loadout-list">${weaponRows}</div></section>
       <section class="loadout-section"><h3>守护装备 · ${player.guardians.length}/2</h3><div class="loadout-list">${guardianRows}</div></section>
       <section class="loadout-section"><h3>技能与强化</h3><div class="skill-tags">${skillRows}</div></section>
       <section class="loadout-section"><h3>流派共鸣 · ${activeSynergies().length}/${synergyCatalog.length}</h3><div class="loadout-list">${synergyRows}</div></section>`;
@@ -932,6 +1094,7 @@
     bullets = bullets.filter(b => b.life > 0 && inBounds(b, 60));
     enemyBullets = enemyBullets.filter(b => b.life > 0 && inBounds(b, 80));
     particles = particles.filter(p => p.life > 0); texts = texts.filter(t => t.life > 0);
+    for (const arc of arcs) arc.life -= dt; arcs = arcs.filter(arc => arc.life > 0);
     shake *= .86; flash = Math.max(0, flash - dt); toastTimer -= dt;
     if (toastTimer <= 0) ui.toast.classList.add("hidden");
   }
@@ -945,10 +1108,13 @@
     gradient.addColorStop(0, "#2a201b"); gradient.addColorStop(.48, "#171514"); gradient.addColorStop(1, "#090a0c"); ctx.fillStyle = gradient; ctx.fillRect(-20, -20, w + 40, h + 40);
     drawArena(w, h);
     for (const g of gems) drawGem(g);
+    for (const item of heals) drawHeal(item);
     for (const chest of chests) drawChest(chest);
+    for (const turret of turrets) drawTurret(turret);
     for (const b of bullets) drawBullet(b);
     for (const b of enemyBullets) drawEnemyBullet(b);
     for (const e of enemies) drawEnemy(e);
+    for (const arc of arcs) drawArc(arc);
     if (player) { drawMountedWeapons(); drawPlayer(); drawGuardians(); drawOrbitWeapons(); }
     for (const p of particles) { ctx.globalAlpha = Math.max(0, p.life / p.max); ctx.fillStyle = p.color; circle(p.x, p.y, p.r * p.life / p.max); }
     ctx.globalAlpha = 1;
@@ -1029,6 +1195,15 @@
       ctx.beginPath(); ctx.arc(0, 0, player.r + 10 + Math.sin(totalElapsed * 4) * 2, 0, TAU); ctx.stroke();
       for (let i = 0; i < 4; i++) { ctx.rotate(Math.PI / 2); ctx.fillStyle = "#ede9fe"; ctx.fillRect(player.r + 6, -3, 9, 6); }
       ctx.restore();
+    }
+    for (const [id, color, scale] of [["rail", "#fbbf24", 1.18], ["scatter", "#fb7185", 1.05], ["flame", "#fb923c", .9], ["tesla", "#67e8f9", .86]]) {
+      const weapon = player.weapons.find(item => item.id === id); if (!weapon) continue;
+      const target = nearestEnemy(), angle = target ? Math.atan2(target.y - player.y, target.x - player.x) : player.facing;
+      drawGun(player.x - Math.cos(angle) * 4, player.y - Math.sin(angle) * 4, angle, color, scale + Math.min(.16, weapon.level * .02));
+    }
+    if (player.weapons.some(item => item.id === "turret")) {
+      ctx.save(); ctx.translate(player.x - Math.cos(player.facing) * 15, player.y - Math.sin(player.facing) * 15); ctx.rotate(player.facing);
+      ctx.fillStyle = "#713f12"; ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.fillRect(-10, -13, 18, 26); ctx.strokeRect(-10, -13, 18, 26); ctx.restore();
     }
   }
 
@@ -1119,9 +1294,28 @@
   }
   function drawGem(g) { ctx.save(); ctx.translate(g.x, g.y + Math.sin(g.phase) * 2); ctx.rotate(g.phase * .25); ctx.shadowBlur = 12; ctx.shadowColor = "#22d3ee"; ctx.fillStyle = "#67e8f9"; polygon(4, g.r, Math.PI / 4); ctx.restore(); }
   function drawChest(chest) {
-    ctx.save(); ctx.translate(chest.x, chest.y + Math.sin(totalElapsed * 3 + chest.phase) * 3); ctx.shadowBlur = 24; ctx.shadowColor = "#fbbf24";
-    ctx.fillStyle = "#92400e"; ctx.beginPath(); ctx.roundRect(-17, -12, 34, 26, 6); ctx.fill();
-    ctx.fillStyle = "#fbbf24"; ctx.fillRect(-17, -3, 34, 5); ctx.fillRect(-3, -12, 6, 26); ctx.fillStyle = "#fef3c7"; circle(0, 0, 3); ctx.restore();
+    const lucky = chest.tier === "lucky", color = lucky ? "#4ade80" : "#fbbf24";
+    ctx.save(); ctx.translate(chest.x, chest.y + Math.sin(totalElapsed * 3 + chest.phase) * 3); ctx.shadowBlur = 24; ctx.shadowColor = color;
+    ctx.fillStyle = lucky ? "#14532d" : "#92400e"; ctx.beginPath(); ctx.roundRect(-17, -12, 34, 26, 4); ctx.fill();
+    ctx.fillStyle = color; ctx.fillRect(-17, -3, 34, 5); ctx.fillRect(-3, -12, 6, 26); ctx.fillStyle = "#f8fafc"; circle(0, 0, 3); ctx.restore();
+  }
+
+  function drawHeal(item) {
+    ctx.save(); ctx.translate(item.x, item.y + Math.sin(item.phase) * 3); ctx.shadowBlur = 18; ctx.shadowColor = "#22c55e";
+    ctx.fillStyle = "#dcfce7"; ctx.fillRect(-4, -12, 8, 24); ctx.fillRect(-12, -4, 24, 8); ctx.strokeStyle = "#166534"; ctx.lineWidth = 2; ctx.strokeRect(-4, -12, 8, 24); ctx.strokeRect(-12, -4, 24, 8); ctx.restore();
+  }
+
+  function drawTurret(turret) {
+    ctx.save(); ctx.translate(turret.x, turret.y);
+    ctx.strokeStyle = "rgba(245,158,11,.18)"; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(0, 0, Math.min(58, turret.range * .18) + Math.sin(totalElapsed * 3) * 3, 0, TAU); ctx.stroke();
+    ctx.rotate(turret.angle); ctx.fillStyle = "#292524"; ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(-8, 8); ctx.lineTo(-18, 22); ctx.moveTo(0, 8); ctx.lineTo(0, 24); ctx.moveTo(8, 8); ctx.lineTo(18, 22); ctx.stroke();
+    ctx.fillRect(-13, -10, 26, 20); ctx.strokeRect(-13, -10, 26, 20); ctx.fillStyle = "#fbbf24"; ctx.fillRect(5, -5, 28, 10); ctx.fillStyle = "#fef3c7"; ctx.fillRect(29, -3, 7, 6); ctx.restore();
+  }
+
+  function drawArc(arc) {
+    ctx.save(); ctx.globalAlpha = Math.max(0, arc.life / arc.max); ctx.strokeStyle = "#a5f3fc"; ctx.lineWidth = 3; ctx.shadowBlur = 12; ctx.shadowColor = "#22d3ee";
+    ctx.beginPath(); ctx.moveTo(arc.x1, arc.y1); const mx = (arc.x1 + arc.x2) / 2 + Math.sin(arc.life * 90) * 8, my = (arc.y1 + arc.y2) / 2 + Math.cos(arc.life * 70) * 8; ctx.lineTo(mx, my); ctx.lineTo(arc.x2, arc.y2); ctx.stroke(); ctx.restore();
   }
 
   function muzzle(angle, color) { burst(player.x + Math.cos(angle) * 22, player.y + Math.sin(angle) * 22, color, 4, 75); }
@@ -1197,6 +1391,7 @@
     keys.add(key);
     if (key === "p" && !event.repeat) togglePause();
     if (key === "tab" && !event.repeat && (state === "playing" || state === "details")) openDetails();
+    if (key === "m" && !event.repeat) toggleAudio();
   });
   window.addEventListener("keyup", event => keys.delete(event.key.toLowerCase()));
   window.addEventListener("resize", () => { resizeCanvas(); draw(); });
@@ -1207,11 +1402,19 @@
   byId("achievementButton").onclick = openAchievements; byId("closeAchievementButton").onclick = () => ui.achievement.classList.add("hidden");
   byId("touchBuildButton").onclick = () => { if (state === "playing" || state === "details") openDetails(); };
   byId("touchPauseButton").onclick = () => { if (state === "playing" || state === "paused") togglePause(); };
+  ui.audioButton.onclick = toggleAudio; ui.touchAudioButton.onclick = toggleAudio;
   byId("restartButton").onclick = backToMenu; ui.rogueMode.onclick = () => selectMode("rogue"); ui.endlessMode.onclick = () => selectMode("endless");
   byId("easyButton").onclick = () => selectDifficulty("easy"); byId("normalButton").onclick = () => selectDifficulty("normal");
   byId("hardButton").onclick = () => selectDifficulty("hard"); byId("nightmareButton").onclick = () => selectDifficulty("nightmare");
   ui.reroll.onclick = () => { if (rerolls > 0 && upgradePoints > 0) { rerolls--; rollUpgradeChoices(); } };
 
-  if (FAST_TEST) window.__EMBER_TEST_API__ = { openEliteChest, unlockAchievement, probeAutoAim, balanceSnapshot: BALANCE.balanceSnapshot };
-  resizeCanvas(); resetRun(); renderMetaProgress(); draw();
+  function probeTurret() {
+    const saved = turrets, weapon = { id: "turret", level: 2, cooldown: 0 }; turrets = []; deployTurret(weapon);
+    const start = turrets[0] ? { x: turrets[0].x, y: turrets[0].y } : null; player.x += 50; updateTurrets(.1);
+    const result = turrets[0] ? { ...start, afterX: turrets[0].x, afterY: turrets[0].y, deployed: true } : { deployed: false };
+    player.x -= 50; turrets = saved; return result;
+  }
+
+  if (FAST_TEST) window.__EMBER_TEST_API__ = { openEliteChest, openLuckyChest: () => openChest("lucky"), unlockAchievement, probeAutoAim, probeTurret, balanceSnapshot: BALANCE.balanceSnapshot };
+  resizeCanvas(); resetRun(); renderMetaProgress(); renderAudioState(); draw();
 })();

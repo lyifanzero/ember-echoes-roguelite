@@ -92,6 +92,10 @@ assert.match(getElement("achievementContent").innerHTML, /毫发无伤/, "成就
 getElement("closeAchievementButton").onclick();
 assert.equal(typeof getElement("rogueModeButton").onclick, "function", "闯关模式应可选择");
 assert.equal(typeof getElement("endlessModeButton").onclick, "function", "无尽模式应可选择");
+assert.equal(typeof getElement("audioButton").onclick, "function", "菜单应提供声音开关");
+getElement("audioButton").onclick();
+assert.match(getElement("audioButton").textContent, /关闭/, "声音开关应反馈当前静音状态");
+getElement("audioButton").onclick();
 getElement("endlessModeButton").onclick();
 assert.match(getElement("modeDescription").textContent, /45 秒/, "无尽模式应展示补给规则");
 getElement("rogueModeButton").onclick();
@@ -124,6 +128,10 @@ assert.ok(aimProbe.length > 0, "远程武器应能生成锁敌弹丸");
 assert.ok(aimProbe.every(shot => shot.locked && shot.homing > 0), "所有远程弹丸都应绑定目标并持续追踪");
 assert.ok(aimProbe.every(shot => shot.angleError < .001), "武器初始射击方向不应加入随机偏差");
 assert.ok(aimProbe.some(shot => Math.abs(shot.damage - shot.baseDamage) > .001), "随机性应体现在实际伤害数值上");
+const turretProbe = window.__EMBER_TEST_API__.probeTurret();
+assert.equal(turretProbe.deployed, true, "铸火炮塔应能部署在战场中");
+assert.equal(turretProbe.x, turretProbe.afterX, "角色移动后炮塔的世界坐标不应跟随变化");
+assert.equal(turretProbe.y, turretProbe.afterY, "固定炮塔不应环绕角色移动");
 
 let now = performance.now();
 for (let index = 0; index < 120; index++) {
@@ -144,6 +152,11 @@ assert.equal(getElement("chestScreen").classList.contains("hidden"), false, "拾
 assert.equal(getElement("chestChoices").children.length, 3, "精英宝箱应提供三项高价值奖励");
 getElement("chestChoices").children[0].onclick();
 assert.equal(getElement("chestScreen").classList.contains("hidden"), true, "选择奖励后应返回战斗");
+
+window.__EMBER_TEST_API__.openLuckyChest();
+assert.match(getElement("chestTitle").textContent, /幸运补给箱/, "普通敌人幸运掉落应使用独立宝箱面板");
+assert.equal(getElement("chestChoices").children.length, 2, "幸运补给箱应提供两项较小奖励");
+getElement("chestChoices").children[0].onclick();
 
 listeners.keydown[0]({ key: "p", repeat: false, preventDefault: noOp });
 assert.equal(getElement("pauseScreen").classList.contains("hidden"), false, "P 键应暂停游戏");

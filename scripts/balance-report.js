@@ -2,7 +2,10 @@
 
 const balance = require("../balance.js");
 const levels = [1, 3, 5];
-const names = { ember: "余烬连弩", twins: "双生侧炮", nova: "脉冲环", orbit: "星环刃" };
+const names = {
+  ember: "余烬连弩", twins: "双生侧炮", nova: "脉冲环", orbit: "星环刃", rail: "裂隙轨道枪",
+  scatter: "铸渣霰弹器", flame: "熔炉喷射器", tesla: "电弧线圈", turret: "铸火炮塔"
+};
 
 console.log("\n武器理论输出（基础角色，含基础暴击期望）");
 console.table(Object.keys(names).flatMap(id => levels.map(level => {

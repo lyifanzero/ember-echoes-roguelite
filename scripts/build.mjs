@@ -19,4 +19,4 @@ const hosting = JSON.parse(await readFile(path.join(root, ".openai", "hosting.js
 await writeFile(path.join(dist, ".openai", "hosting.json"), `${JSON.stringify(hosting, null, 2)}\n`);
 await writeFile(path.join(server, "index.js"), `export default {\n  async fetch(request, env) {\n    return env.ASSETS.fetch(request);\n  }\n};\n`);
 
-console.log("Built mobile-ready game for Sites hosting.");
+console.log("Built mobile-ready static game for GitHub Pages and Sites-compatible hosting.");
