@@ -75,6 +75,27 @@
               <div class="world-axis"><i></i><b>情绪反差</b><i></i></div>
               <section class="world-card wild-world"><span>危险侧</span><h3 data-editable id="worldWild">废弃星球与失控殖民地</h3><p data-editable id="worldWildCopy">失控机械、异星生物和竞争拾荒者盘踞其中，稀有物资也只存在于这里。</p></section>
             </div>
+            <div class="combat-avatar-options">
+              <header><small>COMBAT AVATAR · 建议方向</small><b>局内到底由谁在战斗？</b><span>这项选择先于装备、美术与关卡细化</span></header>
+              <section class="recommended"><i>方案 A · 推荐</i><b>宠物本人穿舱外作业服</b><span>宠物轮廓、动作和外置装备在局内直接可见；飞船负责家园、扫描、投送和撤离。最符合当前八角色设计，工作量也最可控。</span><em>玩法保持：地表竞技场肉鸽</em></section>
+              <section><i>方案 B</i><b>宠物驾驶小型战斗飞船</b><span>武器挂载与宇宙主题最直观，但宠物会退化为头像和驾驶员词条，场景、移动和敌人也必须重做成飞船射击。</span><em>风险：核心玩法与角色表现一起改型</em></section>
+              <section><i>方案 C</i><b>宠物驾驶步行机甲或探测车</b><span>仍能露出宠物并合理挂载装备，但需要载具、宠物和武器三套组合动画，容易把单人开发量推高。</span><em>风险：美术与动画成本最高</em></section>
+            </div>
+            <div class="world-role-contract">
+              <section><small>玩家主体</small><b>宠物开拓员</b><span>移动、受击、拾取、武器挂载与角色特性都发生在宠物身上。</span></section>
+              <section><small>局外载体</small><b>移民飞船“尾迹号”</b><span>家园、居民、仓库、工坊、任务扫描、空投与返航结算。</span></section>
+              <section><small>战斗舞台</small><b>星球地表与殖民遗迹</b><span>竞技场结构保持简单，通过天象、地貌、危险区与目标物体现宇宙开拓。</span></section>
+            </div>
+            <div class="space-stage-language">
+              <header><small>SPACE IDENTITY IN EVERY STAGE</small><b>每关至少使用四层中的两层，不靠一张星空背景冒充宇宙</b></header>
+              <section><i>远景地标</i><b>环形行星、轨道残骸、殖民塔或弧形地平线</b><span>同一星球复用天空与地表，只替换一个强轮廓地标。</span></section>
+              <section><i>战场规则</i><b>低重力脉冲、离子风暴、陨石预警或引力异常</b><span>危险必须有清晰预警，并改变走位而不是持续遮挡画面。</span></section>
+              <section><i>任务物件</i><b>着陆信标、回收舱、扫描柱与撤离穿梭机</b><span>把搜索、坚守和撤离目标包装成开拓行动。</span></section>
+              <section><i>敌人生态</i><b>失控殖民机械、异星生物与竞争拾荒者</b><span>同一行为模板可换阵营外壳，但精英必须拥有可读的宇宙科技或生态能力。</span></section>
+              <section><i>音频通讯</i><b>头盔呼吸、短波提示、轨道播报与远处机械震动</b><span>使用低频环境声建立尺度，战斗关键信号仍保持清晰。</span></section>
+              <section><i>制作控制</i><b>共享地表模块 + 一个地标 + 一个危险规则</b><span>不为每关制作独立飞行系统、完整开放地图或大量一次性场景资产。</span></section>
+            </div>
+            <div class="deployable-fiction"><b>炮塔可以成立，但需要改成开拓装备的语言</b><span>机制上仍是固定炮塔；世界观中改称“折叠式哨戒节点”或“便携火力信标”。宠物从背包投放胶囊，落地展开磁性支架与全息控制圈。它不是飞船舰炮，也不是中世纪塔楼，而是勘探队用于守住回收点的便携装置。</span></div>
             <div class="resident-row">
               <div><i>猫</i><b data-editable id="residentCat">侦察与精准</b></div><div><i>犬</i><b data-editable id="residentDog">工程与守护</b></div><div><i>兔</i><b data-editable id="residentRabbit">幸运与搜索</b></div><div><i>+</i><b data-editable id="residentMore">后续宠物居民</b></div>
             </div>
@@ -197,7 +218,7 @@
                 <section><small>货舱已满</small><b>明确对比“新物品”和当前货舱，再选择替换或放弃。</b><span>永不自动删除已有货物；界面显示用途、占格、新品与重复状态。</span></section>
                 <section><small>重复物品</small><b>材料自动合并，蓝图自动折算，重复家具可保留或返航后回收。</b><span>重复品永远有用途，但首次获得仍然最有价值。</span></section>
               </div>
-              <div class="loot-distinction"><b>必须一眼区分</b><span><strong>经验升级</strong>只提供属性与被动技能；<strong>战斗装备箱</strong>提供本局实体武器、守护装备与炮塔；<strong>密封物资箱</strong>只装可撤离货物。三者使用不同轮廓、颜色和音效。</span></div>
+              <div class="loot-distinction"><b>必须一眼区分</b><span><strong>经验升级</strong>只提供属性与被动技能；<strong>战斗装备箱</strong>提供本局外置装备：攻击武器、防御模块与部署装置；<strong>密封物资箱</strong>只装可撤离货物。三者使用不同轮廓、颜色和音效。</span></div>
             </div>
             <div class="settlement-design">
               <header><small>BETWEEN-STAGE FLOW</small><b>关末只进入一个“整备舱”，按待处理队列连续完成</b><span>不叠加多层弹窗，不要求反复打开面板</span></header>
@@ -209,15 +230,15 @@
               </div>
               <div class="reward-channels">
                 <section><small>成长通道 A · 经验</small><b>属性与被动技能</b><span>经验在战斗中累积，关末统一选择；不把枪械、盔甲或炮塔伪装成技能卡。</span><em>重置：本次远征结束</em></section>
-                <section><small>成长通道 B · 战斗装备箱</small><b>实体武器与守护装备</b><span>获得新武器、同名合成、盔甲护盾和固定炮塔，全部进入可见装备槽。</span><em>重置：本次远征结束</em></section>
+                <section><small>成长通道 B · 战斗装备箱</small><b>统一外置装备</b><span>攻击武器、防御模块和部署装置共用同一组槽位；盔甲与护盾不再拥有免费独立槽。</span><em>重置：本次远征结束</em></section>
                 <section><small>成长通道 C · 密封物资箱</small><b>可撤离货物</b><span>回收零件、蓝图与收藏品只进入货舱，不改变当前战斗伤害。</span><em>结算：撤离或安全槽</em></section>
               </div>
               <div class="build-panel-spec">
                 <header><small>BUILD PANEL · 全程可查看</small><b>玩家每次选择前都能知道自己已经拥有什么</b></header>
                 <section><i>角色</i><b>居民特性与限制</b><span>优势、限制、当前生命和本关状态，不隐藏角色规则。</span></section>
                 <section><i>属性</i><b>攻击 · 生存 · 功能</b><span>展示全部当前值、来源和本次选择后的增减，不只显示少数“主属性”。</span></section>
-                <section><i>武器</i><b>实体槽位与攻击模式</b><span>每件武器显示等级、伤害、攻速、射程、攻击方向／锁敌方式和特殊效果。</span></section>
-                <section><i>守护装备</i><b>盔甲 · 护盾 · 炮塔</b><span>独立于武器与技能展示，明确装备数量、触发方式和当前效果。</span></section>
+                <section><i>外置装备</i><b>共用槽位与实体挂载</b><span>每格显示攻击武器、防御模块或部署装置的等级、模式、触发与当前效果。</span></section>
+                <section><i>槽位预算</i><b>攻击 · 防御 · 部署</b><span>明确当前各类型占用了几格，让增加盔甲和护盾意味着主动放弃一部分火力。</span></section>
                 <section><i>被动技能</i><b>等级与联动标签</b><span>显示技能值、来源及其影响的武器或属性，便于研究构筑。</span></section>
               </div>
               <div class="settlement-shortcuts">
@@ -250,22 +271,27 @@
             </div>
             <div class="guardrail"><b>制作约束</b><span data-editable id="systemGuardrail">任何副玩法都不能降低肉鸽战斗的开发预算、操作流畅度和重复构筑深度；家园不得阻塞下一局开始。</span></div>
             <div class="build-architecture">
-              <header><small>ROGUELITE BUILD ARCHITECTURE</small><b>五层构筑各自负责不同问题</b><span>来源、升级方式与槽位不混用</span></header>
+              <header><small>ROGUELITE BUILD ARCHITECTURE</small><b>四层构筑各自负责不同问题</b><span>盔甲、护盾与武器统一进入外置装备预算</span></header>
               <div class="build-layers">
                 <section><i>01 · 开局锁定</i><b>角色特性</b><strong>回答“为什么这样构筑”</strong><span>每个宠物提供两项优势、一项限制和一条改变规则的特性。引导方向但不禁止使用其他武器。</span></section>
                 <section><i>02 · 经验成长</i><b>基础属性</b><strong>回答“数值如何取舍”</strong><span>攻击、生存与功能属性均可查看来源；负责连续成长，不承担新攻击模式。</span></section>
                 <section><i>03 · 经验成长</i><b>被动技能</b><strong>回答“规则如何变化”</strong><span>改变触发、联动和资源转化方式，不在角色身上伪装成一把看不见的武器。</span></section>
-                <section><i>04 · 装备箱</i><b>实体武器</b><strong>回答“如何造成伤害”</strong><span>占用独立武器槽并显示在角色周围，拥有自动锁敌、射击模式、射程和攻击节奏。</span></section>
-                <section><i>05 · 装备箱</i><b>守护装备</b><strong>回答“如何生存与控场”</strong><span>使用少量独立守护槽，包含盔甲、护盾、护卫装置和可部署炮塔，不挤占武器槽。</span></section>
+                <section><i>04 · 装备箱</i><b>外置装备</b><strong>回答“如何攻击、防御与控场”</strong><span>攻击武器、防御模块和部署装置都必须实体可见，并共用同一组装备槽；穿戴盔甲或护盾就会减少可携带火力。</span></section>
               </div>
               <div class="build-source-matrix">
                 <header><span>构筑层</span><span>主要来源</span><span>局内升级</span><span>局外影响</span></header>
                 <section><b>角色特性</b><span>开局选择</span><span>规则固定，不在局内升稀有度</span><em>只解锁新角色，不增加永久倍率</em></section>
                 <section><b>基础属性</b><span>经验升级</span><span>叠加或达到软上限</span><em>每局重置</em></section>
                 <section><b>被动技能</b><span>经验升级</span><span>重复选择提升等级或机制</span><em>每局重置</em></section>
-                <section><b>实体武器</b><span>开局武器与装备箱</span><span>同名合成、等级与模式强化</span><em>蓝图只扩充可出现池</em></section>
-                <section><b>守护装备</b><span>装备箱</span><span>同名合成与效果强化</span><em>蓝图只扩充可出现池</em></section>
+                <section><b>外置装备</b><span>开局选择与装备箱</span><span>同名合成、等级、专精与替换</span><em>蓝图只扩充可出现池，不扩充槽位</em></section>
               </div>
+              <div class="external-equipment-model">
+                <header><small>SHARED EXTERNAL SLOTS · 已确认方向</small><b>首版暂沿用六格，但三种装备竞争同一容量</b><span>槽位数量在原型测试后仍可调整</span></header>
+                <section><i>攻击武器</i><b>主动造成伤害</b><span>连弩、侧炮、环刃、重炮、霰弹、喷射器与电弧等；拥有自动锁敌、攻击节奏和专精路线。</span><em>代价：占 1 格</em></section>
+                <section><i>防御模块</i><b>外置盔甲、实体盾片与能量护盾</b><span>必须显示在宠物作业服或背架上；提供减伤、拦截或屏障，不作为免费被动技能存在。</span><em>代价：占 1 格，少带一件攻击武器</em></section>
+                <section><i>部署装置</i><b>折叠式哨戒节点</b><span>投放后固定在场地自动锁敌；通过阵地范围与重新部署形成位置承诺，不等同于跟随无人机。</span><em>代价：占 1 格，离开阵地损失输出</em></section>
+              </div>
+              <div class="slot-budget-rule"><b>生存必须进入构筑取舍</b><span>六格不是“六把枪 + 免费盔甲”。玩家可以选择 5 攻击 + 1 防御的玻璃火力、3 攻击 + 2 防御 + 1 部署的均衡阵地，或其他组合。角色特性可以提高某类装备的利用方式，但不能赠送不占格的完整装备。</span></div>
               <div class="attribute-model">
                 <section><small>攻击</small><b>威力 · 攻速 · 暴击 · 精准 · 射程</b><span>影响所有匹配标签的武器，避免为每一把武器制造专属小属性。</span></section>
                 <section><small>生存</small><b>生命 · 护甲 · 闪避 · 恢复</b><span>防御来源与实际减伤可展开查看，不用模糊的综合战力代替。</span></section>
@@ -290,10 +316,10 @@
               <div class="build-arc">
                 <section><i>关卡 1–3</i><b>确立主攻击方式</b><span>首把武器、关键属性与第一条联动</span></section>
                 <section><i>关卡 4–6</i><b>形成构筑核心</b><span>叠加协同并补足生存或群体处理</span></section>
-                <section><i>关卡 7–9</i><b>专精或扩展覆盖</b><span>高风险强化与守护装备完成形态</span></section>
+                <section><i>关卡 7–9</i><b>专精或扩展覆盖</b><span>高风险强化与防御／部署装备完成形态</span></section>
                 <section><i>关卡 10</i><b>Boss 检验</b><span>验证输出、移动与防御是否形成闭环</span></section>
               </div>
-              <div class="build-principle"><b>构筑成功标准</b><span>玩家能用一句话说明“这个角色为什么搭配这些武器、被动和守护装备”，并能从完整面板追溯每项效果的来源。强力组合来自可理解的联动，而不是隐藏乘区或家园永久数值。</span></div>
+              <div class="build-principle"><b>构筑成功标准</b><span>玩家能用一句话说明“这个角色为什么把有限槽位分给这些攻击武器、防御模块和部署装置”，并能从完整面板追溯每项效果的来源。强力组合来自可理解的联动，而不是隐藏乘区或家园永久数值。</span></div>
               <div class="weapon-design">
                 <header><small>WEAPON RISK & SPECIALIZATION</small><b>武器先有明确短板，再通过升级选择如何承担代价</b><span>不是每次升级都加一层无条件正收益</span></header>
                 <div class="weapon-patterns">
@@ -318,7 +344,7 @@
                   <section><i>LV.4</i><b>深化专精</b><span>只强化已选路线，不偷偷补回它的短板。</span></section>
                   <section><i>LV.5</i><b>可选超频</b><span>接受强效果与明示代价，或保留稳定满级版。</span></section>
                 </div>
-                <div class="weapon-level-cap"><b>满级后不继续堆数值</b><span>再次获得同名装备箱时，转为一次“替换专精／维修守护装备／重抽装备箱”的局内选择。超频可以拒绝；风险是玩家主动承担的构筑承诺，不是系统强塞的惩罚。</span></div>
+                <div class="weapon-level-cap"><b>满级后不继续堆数值</b><span>再次获得同名装备箱时，转为一次“替换专精／维修防御模块／重抽装备箱”的局内选择。超频可以拒绝；风险是玩家主动承担的构筑承诺，不是系统强塞的惩罚。</span></div>
                 <div class="weapon-roster">
                   <header><small>NINE-WEAPON CONTENT SPEC</small><b>九种现有武器 · 每把两条专精与一个可选超频</b><span>以下先定义玩法，不锁最终数值</span></header>
                   <article>
@@ -370,7 +396,7 @@
                     <footer><em>超频 · 风暴线圈</em><b>附近敌人越多，充能恢复越快</b><span>只有单一目标时充能反而更慢。</span><small>偏好：狐狸／犬／仓鼠</small></footer>
                   </article>
                   <article>
-                    <header><small>09 · 部署／炮塔</small><b>铸火炮塔</b><span>固定位置自动锁敌形成阵地；转场会损失持续输出。</span></header>
+                    <header><small>09 · 部署／哨戒节点</small><b>铸火哨戒节点</b><span>固定位置自动锁敌形成阵地；转场会损失持续输出。</span></header>
                     <section><i>A · 锚定平台</i><b>只保留一座长寿命、高射程重炮塔</b><span>部署与重新部署冷却显著延长。</span></section>
                     <section><i>B · 前线节点</i><b>允许部署多座短寿命轻炮塔</b><span>单座射程和威力降低，需要频繁布置。</span></section>
                     <footer><em>超频 · 危险控制区</em><b>角色留在控制圈内时炮塔高速开火</b><span>角色离开后炮塔停止射击并加速损耗。</span><small>偏好：犬／陆龟／雪貂</small></footer>
@@ -429,10 +455,10 @@
                   </article>
                   <article class="pet-dog">
                     <header><small>02 · 犬 / 工程师</small><b>守护装置与阵地控制</b><span>宽厚轮廓 · 工具背带 · 肩部装置</span></header>
-                    <div><i>优势</i><b>工程属性收益更高；守护装备更容易形成联动</b></div>
+                    <div><i>优势</i><b>工程属性收益更高；防御模块与部署装置更容易形成联动</b></div>
                     <div><i>限制</i><b>基础移动与闪避成长较慢</b></div>
-                    <div><i>规则特性</i><b>维修协议：守护装备吸收伤害或装置完成攻击时积累维修能量，用于恢复护盾并强化下一次装备触发</b></div>
-                    <div><i>初始武器选择</i><b>铆钉枪 · 动力扳手 · 便携炮塔</b></div>
+                    <div><i>规则特性</i><b>维修协议：防御模块吸收伤害或部署装置完成攻击时积累维修能量，用于恢复护盾并强化下一次装备触发</b></div>
+                    <div><i>初始装备选择</i><b>铆钉枪 · 动力扳手 · 折叠哨戒节点</b></div>
                     <footer><span>路线 A：炮塔／光束／固定阵地</span><span>路线 B：重型近战／护甲／反击</span></footer>
                   </article>
                   <article class="pet-rabbit">
@@ -530,9 +556,11 @@
               <section data-choice="petImpact"><div><small>决策 06 · 已确认</small><h3>宠物角色是否影响战斗</h3><p>采用固定优劣势与规则特性，属性差异保持克制，外观装扮不带数值。</p></div><div class="choice-buttons"><button data-value="固定优劣势与特性">固定优劣势与特性<em>已确认</em></button><button data-value="只有外观差异">只有外观差异</button><button data-value="可以永久养成属性">可以永久养成属性</button></div></section>
               <section data-choice="rosterSize"><div><small>决策 07 · 建议确认</small><h3>内容首版角色数量</h3><p>保留原型已有八套角色机制，以 3 个起始角色和 5 个挑战解锁角色分阶段打磨。</p></div><div class="choice-buttons"><button data-value="八个角色分阶段打磨">八个角色分阶段打磨<em>推荐</em></button><button data-value="只保留三个角色">只保留三个角色</button><button data-value="立即扩充十二个角色">立即扩充十二个角色</button></div></section>
               <section data-choice="futurePetRule"><div><small>决策 08 · 已确认</small><h3>未来新增动物的角色规则</h3><p>家园居民与可玩角色分层；只有通过玩法准入检查的动物，才成为新的可玩角色。</p></div><div class="choice-buttons"><button data-value="居民与可玩角色分层">居民与可玩角色分层<em>已确认</em></button><button data-value="每个新居民都必须可玩">每个新居民都必须可玩</button><button data-value="只做皮肤不增角色">只做皮肤不增角色</button></div></section>
-              <section data-choice="weaponSpecTiming"><div><small>决策 09 · 建议确认</small><h3>单把武器的专精节奏</h3><p>等级五封顶：LV.3 选择互斥专精，LV.5 可选择风险超频，也可以保留稳定满级版。</p></div><div class="choice-buttons"><button data-value="三级专精五级可选超频">三级专精五级可选超频<em>推荐</em></button><button data-value="每级只叠加纯收益">每级只叠加纯收益</button><button data-value="随机获得一次性变异">随机获得一次性变异</button></div></section>
+              <section data-choice="weaponSpecTiming"><div><small>决策 09 · 初步确认</small><h3>单把武器的专精节奏</h3><p>等级五封顶：LV.3 选择互斥专精，LV.5 可选择风险超频，也可以保留稳定满级版。</p></div><div class="choice-buttons"><button data-value="三级专精五级可选超频">三级专精五级可选超频<em>初步确认</em></button><button data-value="每级只叠加纯收益">每级只叠加纯收益</button><button data-value="随机获得一次性变异">随机获得一次性变异</button></div></section>
+              <section data-choice="equipmentSlots"><div><small>决策 10 · 已确认</small><h3>盔甲、护盾与武器的槽位关系</h3><p>攻击武器、防御模块与部署装置共用外置装备槽；防御能力必须牺牲一部分火力容量。</p></div><div class="choice-buttons"><button data-value="共用外置装备槽">共用外置装备槽<em>已确认</em></button><button data-value="防御模块独立槽">防御模块独立槽</button><button data-value="防御只做被动技能">防御只做被动技能</button></div></section>
+              <section data-choice="combatAvatar"><div><small>决策 11 · 建议确认</small><h3>肉鸽对局中的玩家载体</h3><p>推荐宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>推荐</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>确认“LV.3 互斥专精 + LV.5 可选超频”的武器成长节奏，再细化四件守护装备，并明确它们与实体武器、炮塔的系统边界。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>先确认“宠物舱外地表战斗，飞船负责家园与撤离”的玩家载体，再为统一外置装备系统设计首批防御模块与哨戒节点。</b></div>
           </article>
         </div>
 
