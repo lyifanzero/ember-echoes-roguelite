@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#11100f" />
+    <title>产品结构蓝图 · 宠物宇宙开拓计划</title>
+    <link rel="stylesheet" href="blueprint.css" />
+  </head>
+  <body>
+    <main class="blueprint-shell">
+      <aside class="blueprint-sidebar">
+        <a class="back-link" href="index.html">← 返回游戏原型</a>
+        <div class="blueprint-brand">
+          <span>PRODUCT BLUEPRINT / 0.1</span>
+          <h1 data-editable id="projectName">宠物宇宙开拓计划</h1>
+          <p data-editable id="projectTagline">温暖家园 × 危险宇宙 × 肉鸽远征</p>
+        </div>
+        <nav id="chapterNav" aria-label="蓝图章节"></nav>
+        <div class="sidebar-status">
+          <span>当前讨论进度</span>
+          <strong id="completionText">0 / 8 已确认</strong>
+          <i><b id="completionBar"></b></i>
+        </div>
+      </aside>
+
+      <section class="blueprint-workspace">
+        <header class="workspace-header">
+          <div>
+            <span id="chapterIndex">01 / 08</span>
+            <h2 id="chapterTitle">产品定位</h2>
+          </div>
+          <div class="workspace-actions">
+            <button id="editButton" class="tool-button">编辑蓝图</button>
+            <button id="noteButton" class="tool-button selected">讨论笔记</button>
+            <button id="exportButton" class="primary-tool">导出讨论稿</button>
+          </div>
+        </header>
+
+        <div class="chapter-stage">
+          <article class="chapter active" data-chapter="vision" data-title="产品定位">
+            <div class="chapter-heading">
+              <p>01 · PRODUCT VISION</p>
+              <h2 data-editable id="visionHeadline">一群未来宠物居民，为了修复共同家园而奔赴危险星球。</h2>
+              <span data-editable id="visionSummary">玩家在短时肉鸽战斗中搜索物资、判断风险并撤离，再用带回的物资扩建和装扮自己的移民飞船。</span>
+            </div>
+            <div class="pillar-grid">
+              <section class="pillar-card warm"><small>情感支柱</small><b data-editable id="pillarHome">想回去的家</b><p data-editable id="pillarHomeCopy">每次远征都能让飞船和居民生活发生可见变化。</p></section>
+              <section class="pillar-card danger"><small>体验支柱</small><b data-editable id="pillarRisk">想再赌一次的远征</b><p data-editable id="pillarRiskCopy">越晚撤离，奖励越好，失去普通货舱物资的风险也越高。</p></section>
+              <section class="pillar-card build"><small>玩法支柱</small><b data-editable id="pillarBuild">想研究的新构筑</b><p data-editable id="pillarBuildCopy">宠物能力、实体武器与随机强化产生不同战斗解法。</p></section>
+            </div>
+            <div class="definition-strip"><span>目标玩家</span><b data-editable id="targetAudience">喜欢轻操作战斗、随机构筑、收集装扮和长期养成的玩家</b></div>
+          </article>
+
+          <article class="chapter" data-chapter="world" data-title="世界与玩家身份">
+            <div class="chapter-heading"><p>02 · WORLD & FANTASY</p><h2 data-editable id="worldHeadline">你不是拯救世界的英雄，而是为家人带回明天的开拓居民。</h2></div>
+            <div class="world-layout">
+              <section class="world-card home-world"><span>安全侧</span><h3 data-editable id="worldHome">移民飞船 · 暂名“尾迹号”</h3><p data-editable id="worldHomeCopy">破旧但温暖的共同家园。居民生活、仓库、工坊和收藏都在这里留下痕迹。</p></section>
+              <div class="world-axis"><i></i><b>情绪反差</b><i></i></div>
+              <section class="world-card wild-world"><span>危险侧</span><h3 data-editable id="worldWild">废弃星球与失控殖民地</h3><p data-editable id="worldWildCopy">失控机械、异星生物和竞争拾荒者盘踞其中，稀有物资也只存在于这里。</p></section>
+            </div>
+            <div class="resident-row">
+              <div><i>猫</i><b data-editable id="residentCat">侦察与精准</b></div><div><i>犬</i><b data-editable id="residentDog">工程与守护</b></div><div><i>兔</i><b data-editable id="residentRabbit">幸运与搜索</b></div><div><i>+</i><b data-editable id="residentMore">后续宠物居民</b></div>
+            </div>
+          </article>
+
+          <article class="chapter" data-chapter="loop" data-title="核心游戏循环">
+            <div class="chapter-heading"><p>03 · CORE LOOP</p><h2 data-editable id="loopHeadline">战斗不是终点，带着故事和物资回家才是。</h2></div>
+            <div class="loop-diagram">
+              <section><i>01</i><b>家园整备</b><span>选居民、装备与任务</span></section><em>→</em>
+              <section><i>02</i><b>星球远征</b><span>战斗、搜索与构筑</span></section><em>→</em>
+              <section><i>03</i><b>风险抉择</b><span>撤离或继续深入</span></section><em>→</em>
+              <section><i>04</i><b>返航建设</b><span>入库、制作与装扮</span></section>
+            </div>
+            <div class="resource-lanes">
+              <section><span>局内循环</span><b data-editable id="runLoop">击败敌人 → 获得经验 → 选择强化 → 改变战斗方式</b><small>本次远征结束后清空</small></section>
+              <section><span>局外循环</span><b data-editable id="metaLoop">带回物资 → 扩建飞船 → 解锁内容 → 挑战新星域</b><small>持续积累，但避免无限数值膨胀</small></section>
+            </div>
+          </article>
+
+          <article class="chapter" data-chapter="session" data-title="单次远征结构">
+            <div class="chapter-heading"><p>04 · EXPEDITION</p><h2 data-editable id="sessionHeadline">一局约 10–15 分钟，三次撤离窗口形成风险曲线。</h2></div>
+            <div class="timeline">
+              <section><i>阶段 1–3</i><b>建立构筑</b><span>基础物资 · 低风险</span></section>
+              <button data-decision="extract3">撤离 A<small>安全返航</small></button>
+              <section><i>阶段 4–6</i><b>寻找核心货物</b><span>精英出现 · 中风险</span></section>
+              <button data-decision="extract6">撤离 B<small>推荐节点</small></button>
+              <section><i>阶段 7–10</i><b>深入危险区</b><span>稀有图纸 · Boss</span></section>
+              <button data-decision="extract10">最终撤离<small>完整收益</small></button>
+            </div>
+            <div class="rule-cards">
+              <section><b>安全货舱</b><p data-editable id="secureCargo">少量格子中的物资即使战败也能保留。</p></section>
+              <section><b>普通货舱</b><p data-editable id="normalCargo">只有成功撤离才能带回，容量制造取舍。</p></section>
+              <section><b>局内强化</b><p data-editable id="runPower">用于战斗构筑，不进入家园经济。</p></section>
+            </div>
+          </article>
+
+          <article class="chapter" data-chapter="systems" data-title="系统关系图">
+            <div class="chapter-heading"><p>05 · SYSTEM MAP</p><h2 data-editable id="systemsHeadline">所有模块都必须同时服务“远征决策”或“家园变化”。</h2></div>
+            <div class="system-map">
+              <section class="system-core"><small>核心体验</small><b>宠物居民的开拓生活</b></section>
+              <div class="system-orbit">
+                <section><b>战斗构筑</b><span>武器 · 技能 · 敌人</span></section>
+                <section><b>搜索撤离</b><span>货舱 · 风险 · 宝箱</span></section>
+                <section><b>家园建设</b><span>房间 · 家具 · 居民</span></section>
+                <section><b>星域内容</b><span>任务 · 生态 · 剧情</span></section>
+                <section><b>长期记录</b><span>图鉴 · 成就 · 收藏</span></section>
+                <section><b>音画反馈</b><span>角色 · UI · 音频</span></section>
+              </div>
+            </div>
+            <div class="guardrail"><b>制作约束</b><span data-editable id="systemGuardrail">如果一个新系统既不改变远征选择，也不让家园产生可感知变化，它就不进入首个垂直切片。</span></div>
+          </article>
+
+          <article class="chapter" data-chapter="home" data-title="家园模式">
+            <div class="chapter-heading"><p>06 · HOME</p><h2 data-editable id="homeHeadline">家园首先是情感反馈和收藏空间，其次才是成长系统。</h2></div>
+            <div class="ship-layout">
+              <section><i>01</i><b>舰桥</b><span>选择任务与星域</span></section>
+              <section><i>02</i><b>居住舱</b><span>居民、换装与互动</span></section>
+              <section><i>03</i><b>工坊</b><span>蓝图与初始装备</span></section>
+              <section><i>04</i><b>仓库</b><span>物资整理与收藏</span></section>
+            </div>
+            <div class="principle-grid">
+              <section><small>必须提供</small><b data-editable id="homeMust">可摆放、可观察、可留下远征痕迹</b></section>
+              <section><small>谨慎提供</small><b data-editable id="homeCareful">横向解锁和便利功能</b></section>
+              <section><small>明确避免</small><b data-editable id="homeAvoid">无限叠加永久伤害的数值家园</b></section>
+            </div>
+          </article>
+
+          <article class="chapter" data-chapter="slice" data-title="垂直切片范围">
+            <div class="chapter-heading"><p>07 · VERTICAL SLICE</p><h2 data-editable id="sliceHeadline">先证明完整闭环有趣，再扩充角色、星球和家具数量。</h2></div>
+            <div class="scope-board">
+              <section class="scope-in"><h3>首版必须完成</h3><ul data-editable id="scopeIn"><li>3 个宠物居民</li><li>1 艘四舱室移民飞船</li><li>1 个星球与十阶段远征</li><li>9 种现有武器</li><li>12 种可带回物资</li><li>8 件可摆放家具</li><li>完整撤离与仓库闭环</li><li>6 个音乐场景与武器音效库</li></ul></section>
+              <section class="scope-out"><h3>首版暂不制作</h3><ul data-editable id="scopeOut"><li>多人联机</li><li>自由驾驶飞船</li><li>复杂居民关系模拟</li><li>大型开放世界</li><li>交易市场</li><li>无限永久属性成长</li></ul></section>
+            </div>
+            <div class="success-strip"><span>验收问题</span><b data-editable id="sliceSuccess">玩家是否因为想装扮家园、完成收藏或赌下一批货物，而主动再次开始远征？</b></div>
+          </article>
+
+          <article class="chapter" data-chapter="decisions" data-title="待确认决策">
+            <div class="chapter-heading"><p>08 · DECISIONS</p><h2>每次只确认少数关键问题，确认后再进入模块细化。</h2><span>点击选项会保存在当前设备，也会进入导出的讨论稿。</span></div>
+            <div class="decision-list">
+              <section data-choice="homeForm"><div><small>决策 01</small><h3>家园的主体形式</h3><p>决定世界观、界面结构和长期扩建方式。</p></div><div class="choice-buttons"><button data-value="移民飞船">移民飞船<em>推荐</em></button><button data-value="私人小宇宙">私人小宇宙</button><button data-value="地下堡垒">地下堡垒</button></div></section>
+              <section data-choice="lossRule"><div><small>决策 02</small><h3>撤离失败的损失</h3><p>决定风险压力和玩家挫败程度。</p></div><div class="choice-buttons"><button data-value="仅保留安全货舱">仅保留安全货舱<em>推荐</em></button><button data-value="随机损失一半">随机损失一半</button><button data-value="保留全部物资">保留全部物资</button></div></section>
+              <section data-choice="tone"><div><small>决策 03</small><h3>整体情绪基调</h3><p>决定角色、美术、音乐和叙事表达。</p></div><div class="choice-buttons"><button data-value="温暖家园与危险宇宙">温暖家园与危险宇宙<em>推荐</em></button><button data-value="轻松搞怪冒险">轻松搞怪冒险</button><button data-value="严肃末日求生">严肃末日求生</button></div></section>
+            </div>
+            <div class="next-step"><small>蓝图确认后的下一步</small><b>只细化“单次远征与撤离规则”模块，不同时展开全部系统。</b></div>
+          </article>
+        </div>
+
+        <footer class="chapter-footer">
+          <button id="prevButton">← 上一章</button>
+          <div class="chapter-state"><span>本章状态</span><select id="chapterStatus"><option value="draft">草案</option><option value="discussing">讨论中</option><option value="confirmed">已确认</option></select></div>
+          <button id="nextButton">下一章 →</button>
+        </footer>
+      </section>
+
+      <aside id="notePanel" class="note-panel open">
+        <div><span>SECTION NOTES</span><button id="closeNotes" aria-label="关闭讨论笔记">×</button></div>
+        <h2>讨论笔记</h2>
+        <p>这里只记录当前章节的问题、异议和新想法。内容自动保存在本机。</p>
+        <textarea id="noteInput" placeholder="例如：猫角色是否应该是默认主角？撤离失败的损失是否太重？"></textarea>
+        <small id="saveState">已自动保存</small>
+        <section class="discussion-rule"><b>讨论规则</b><span>一次只讨论当前章节。</span><span>先确认目标，再讨论规则。</span><span>未确认内容不进入详细设计。</span></section>
+      </aside>
+    </main>
+    <script src="blueprint.js"></script>
+  </body>
+</html>

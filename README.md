@@ -6,7 +6,11 @@
 
 [通过 GitHub Pages 打开游戏](https://lyifanzero.github.io/ember-echoes-roguelite/)
 
+[打开可交互产品结构蓝图](https://lyifanzero.github.io/ember-echoes-roguelite/blueprint.html)
+
 网页支持 PC 键盘与移动端触控。每次推送到 `main` 分支后，GitHub Actions 会自动测试、构建并更新公开网页。
+
+产品蓝图采用章节式讨论：可以直接修改蓝图文本、记录每章笔记、标记确认状态、保存关键选项，并导出 Markdown 讨论稿。修改内容默认保存在当前浏览器，不会影响玩家页面。
 
 ## 直接游玩
 

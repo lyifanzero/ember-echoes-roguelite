@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node --check balance.js && node --check game.js && node tests/balance-test.js && node tests/smoke-test.js",
+    "test": "node --check balance.js && node --check game.js && node --check blueprint.js && node tests/balance-test.js && node tests/smoke-test.js && node tests/blueprint-test.js",
     "balance": "node scripts/balance-report.js"
   }
 }
