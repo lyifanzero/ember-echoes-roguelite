@@ -623,7 +623,7 @@
               <section><i>A2 · 内容首版</i><b>扩成完整十关</b><span>切片验收后再补齐 8 宠物、9 武器、12 种物资、8 件家具、完整音效库和第 3／6／10 关撤离节奏。</span></section>
             </div>
             <div class="engine-recommendation">
-              <header><small>TECH ROUTE · 推荐</small><b>Cocos Creator 3.8 LTS + TypeScript</b><span>现有 HTML／JS 原型保留为数值与机制实验台，不继续承担正式内容生产。</span></header>
+              <header><small>TECH ROUTE · 已确认</small><b>Cocos Creator 3.8 LTS + TypeScript</b><span>现有 HTML／JS 原型保留为数值与机制实验台，不继续承担正式内容生产。</span></header>
               <div class="engine-matrix">
                 <section class="engine-head"><b>方案</b><b>与本项目匹配</b><b>发布覆盖</b><b>主要代价</b><b>结论</b></section>
                 <section class="recommended"><b>Cocos Creator + TS</b><span>2D、移动端、小游戏优先；从 JS 迁移阻力小，场景与 UI 可视化</span><span>Web、微信／抖音小游戏、Android／iOS、桌面</span><span>仍需分别接入平台登录、广告、支付、存档和包体优化</span><strong>生产原型首选</strong></section>
@@ -662,6 +662,14 @@
               <section><i>第 4–7 月</i><b>Steam Demo 分支</b><span>扩为可公开内容、Windows 打包、键鼠／手柄、Steamworks 基础接入、商店素材与公开 Demo。</span></section>
               <section><i>第 8–10 月</i><b>内容与美术生产</b><span>十关、8 宠物、9 武器、敌人池、音效库、家园资产和持续平衡。</span></section>
               <section><i>第 11–15 月</i><b>首个商业版本</b><span>优先完成 Steam 版本；随后选择 Android/iOS 或微信/抖音中的一条渠道适配，不承诺同步首发。</span></section>
+            </div>
+            <div class="design-code-policy">
+              <header><small>DESIGN × IMPLEMENTATION POLICY · 已确认</small><b>现在开始写代码，策划改为“刚好够下一轮实现”的滚动细化</b></header>
+              <section><i>现在必须冻结</i><b>A0 技术尖刺合同</b><span>1 个宠物、2 件武器、2 类敌人；移动、自动锁敌、伤害、对象池、触控和四平台空包。只设计会阻塞这两周代码的字段与规则。</span></section>
+              <section><i>切片中同步细化</i><b>家园只做一个可见闭环</b><span>先实现一个固定槽位房间、一件可带回物资和一件可摆放家具；不先写完整剧情、居民互动与家具库。</span></section>
+              <section><i>切片中同步细化</i><b>武器先验证三种攻击语言</b><span>自动锁敌单射、环绕近战和固定炮塔先进入代码；其余武器只有在这三种底层行为稳定后再批量配置。</span></section>
+              <section><i>切片中同步细化</i><b>宠物先验证三种规则入口</b><span>猫、犬、兔只先完成触发条件、收益与限制；五个解锁宠物保留概念，不提前制作完整表现和数值。</span></section>
+              <section><i>切片通过后细化</i><b>十关、完整家园与内容池</b><span>A1 没有证明构筑、撤离和回家反馈成立之前，不投入完整十关、8 宠物、9 武器、剧情和大规模美术生产。</span></section>
             </div>
             <div class="release-ladder">
               <header><small>RELEASE LADDER · 更新建议</small><b>产品按 PC 深度设计，开发期保持移动兼容，不同步首发</b></header>
@@ -703,11 +711,11 @@
               <section data-choice="combatAvatar"><div><small>决策 11 · 已确认</small><h3>肉鸽对局中的玩家载体</h3><p>宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>已确认</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
               <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>自动炮塔如何选择投放位置</h3><p>推荐冷却结束前显示短暂落点光圈，随后自动投放在宠物当前位置；光圈只是提示，不需要点击。</p></div><div class="choice-buttons"><button data-value="提示后自动投放当前位置">提示后自动投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
               <section data-choice="duplicateEquipment"><div><small>决策 13 · 建议确认</small><h3>同名装备能否占用多个槽位</h3><p>推荐攻击武器允许同名多把并独立升级；防御模块与自动炮塔同名唯一，重复获得只用于升级。</p></div><div class="choice-buttons"><button data-value="攻击武器可重复防御部署唯一">攻击可重复，防御部署唯一<em>推荐</em></button><button data-value="所有装备都同名唯一">所有装备都同名唯一</button><button data-value="所有装备都允许重复">所有装备都允许重复</button></div></section>
-              <section data-choice="productionEngine"><div><small>决策 14 · 建议确认</small><h3>新原型的生产技术栈</h3><p>若保留 PC 与移动小游戏两条未来路线，推荐 Cocos Creator 3.8 LTS + TypeScript；现有 HTML/JS 只做机制实验。若明确永久放弃小游戏并转向更复杂的 PC 原生表现，再复议 Unity。</p></div><div class="choice-buttons"><button data-value="Cocos Creator 3.8 + TypeScript">Cocos Creator + TypeScript<em>推荐</em></button><button data-value="继续原生 HTML Canvas JS">继续原生 HTML/JS</button><button data-value="Unity 或团结引擎 + CSharp">Unity／团结引擎 + C#</button></div></section>
+              <section data-choice="productionEngine"><div><small>决策 14 · 已确认</small><h3>新原型的生产技术栈</h3><p>采用 Cocos Creator 3.8 LTS + TypeScript；现有 HTML/JS 只做机制实验。核心战斗保持纯 TypeScript，引擎与平台能力通过薄适配层接入。</p></div><div class="choice-buttons"><button data-value="Cocos Creator 3.8 + TypeScript">Cocos Creator + TypeScript<em>已确认</em></button><button data-value="继续原生 HTML Canvas JS">继续原生 HTML/JS</button><button data-value="Unity 或团结引擎 + CSharp">Unity／团结引擎 + C#</button></div></section>
               <section data-choice="releaseSequence"><div><small>决策 15 · 建议确认</small><h3>主产品平台与发布顺序</h3><p>当前玩法深度更适合 PC 肉鸽玩家。推荐 Web/Windows 测试后先做 Steam Demo 与商业版本，开发期保留触控与移动性能，再依据数据选择一条移动渠道。</p></div><div class="choice-buttons"><button data-value="PC Steam主产品Web测试移动后置">PC／Steam 主产品，移动后置<em>推荐</em></button><button data-value="微信抖音小游戏主产品">微信／抖音小游戏主产品</button><button data-value="PC移动小游戏同步首发">PC 与移动小游戏同步首发</button></div></section>
               <section data-choice="prototypeDepth"><div><small>决策 16 · 建议确认</small><h3>新原型做到多深再评审</h3><p>推荐先做 1 周技术尖刺，再做支持完整循环的 3 关切片；代码和数据结构支持未来十关，但首轮不填满内容。</p></div><div class="choice-buttons"><button data-value="技术尖刺后做三关切片">技术尖刺 → 三关切片<em>推荐</em></button><button data-value="直接重做完整十关">直接重做完整十关</button><button data-value="只做三分钟战斗Demo">只做三分钟战斗 Demo</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>确认“Cocos + TypeScript”“PC／Steam 主产品、移动后置”“技术尖刺后做三关切片”三项组合。确认后先建立 12 周执行看板；第 2 周必须产出 Web、Windows、Android 与微信四个空包验证结果，再决定是否正式迁移全部玩法。</b></div>
+            <div class="next-step"><small>下一项执行动作</small><b>Cocos + TypeScript 已确认。安装并锁定 Cocos Creator 3.8 LTS，建立新工程与纯 TS 核心测试目录；第 2 周必须产出 Web、Windows、Android 与微信四个空包验证结果。平台主次与三关切片仍可继续讨论，但不再阻塞 A0 开工。</b></div>
           </article>
         </div>
 

@@ -139,6 +139,7 @@ assert.match(html, /Cocos Creator 3\.8 LTS \+ TypeScript[\s\S]*现有 HTML／JS 
 assert.match(html, /Cocos Creator \+ TS[\s\S]*Unity \/ 团结引擎 \+ C#[\s\S]*LayaAir \+ TypeScript[\s\S]*Godot \+ GDScript[\s\S]*原生 HTML \/ Canvas \/ JS/, "技术决策应比较五类候选方案");
 assert.match(html, /WebGL 不等于小游戏“一键换壳”[\s\S]*登录、广告、支付、分享、云存档/, "蓝图应明确小游戏仍需渠道适配层");
 assert.match(html, /data-choice="productionEngine"[\s\S]*Cocos Creator 3\.8 \+ TypeScript/, "生产技术栈应作为可追踪产品决策");
+assert.match(html, /data-choice="productionEngine"[\s\S]*决策 14 · 已确认[\s\S]*Cocos Creator \+ TypeScript[\s\S]*已确认/, "用户确认后 Cocos 与 TypeScript 应记录为已确认技术栈");
 assert.match(html, /data-choice="releaseSequence"[\s\S]*PC Steam主产品Web测试移动后置/, "主产品平台与发布验证顺序应作为可追踪产品决策");
 assert.match(html, /data-choice="prototypeDepth"[\s\S]*技术尖刺后做三关切片/, "新原型深度应作为可追踪产品决策");
 assert.match(html, /Cocos \+ TypeScript[\s\S]*1–2 周[\s\S]*10–12 周[\s\S]*5–7 个月[\s\S]*10–15 个月/, "Cocos 路线应给出从技术尖刺到跨平台版本的基线工期");
@@ -147,6 +148,7 @@ assert.match(html, /继续手写 TS[\s\S]*3–5 天[\s\S]*12–18 周[\s\S]*8–
 assert.match(html, /纯 TS 核心[\s\S]*薄引擎适配[\s\S]*数据驱动[\s\S]*可复现调试[\s\S]*平台隔离/, "AI 友好架构应隔离核心规则、引擎表现与平台 SDK");
 assert.match(html, /第 1–2 周[\s\S]*第 3–5 周[\s\S]*第 6–8 周[\s\S]*第 9–10 周[\s\S]*第 11–12 周[\s\S]*第 4–7 月[\s\S]*第 8–10 月[\s\S]*第 11–15 月/, "推荐 Cocos 路线应包含十二周切片与十五个月商业版本排期");
 assert.match(html, /Web \+ Windows 内测[\s\S]*Steam 私密测试[\s\S]*Steam 公开 Demo[\s\S]*Steam 商业版本[\s\S]*选择一条移动支线/, "发布阶梯应先完成 PC 主产品再选择移动渠道支线");
+assert.match(html, /现在开始写代码[\s\S]*A0 技术尖刺合同[\s\S]*家园只做一个可见闭环[\s\S]*武器先验证三种攻击语言[\s\S]*宠物先验证三种规则入口[\s\S]*十关、完整家园与内容池/, "引擎确认后应采用代码开工与滚动策划并行的制作政策");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");
