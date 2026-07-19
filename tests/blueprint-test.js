@@ -14,6 +14,9 @@ assert.deepEqual(chapters, ["vision", "world", "loop", "session", "systems", "ho
 assert.match(html, /data-choice="homeForm"/, "蓝图应记录家园形式决策");
 assert.match(html, /data-choice="lossRule"/, "蓝图应记录撤离损失决策");
 assert.match(html, /data-editable/, "蓝图正文应支持直接编辑");
+assert.match(html, /固定槽位居住舱/, "已确认的轻家园范围应写入垂直切片");
+assert.match(html, /居民复杂寻路与生活模拟/, "蓝图应明确首版不制作复杂居民模拟");
+assert.match(html, /不强迫经营，不阻塞下一次战斗/, "产品定位应说明战斗与轻家园的受众桥接原则");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");
