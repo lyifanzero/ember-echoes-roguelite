@@ -634,13 +634,42 @@
               </div>
               <div class="ai-engine-rule"><b>“适合 AI 编程”不是单独选引擎的理由</b><span>AI 最需要的是 TypeScript／C# 等结构化文本代码、清晰组件边界、数据表驱动、可重复命令行构建和自动测试。Cocos + TypeScript 已满足这些条件；编辑器场景只负责表现装配，战斗规则不得散落在场景节点里。</span></div>
             </div>
+            <div class="delivery-comparison">
+              <header><small>SOLO + AI DELIVERY ESTIMATE</small><b>开发时长、AI 协作与跨平台成本</b><span>基线：单人全职每周 30–35 小时、2D、占位美术先行；均包含 30% 返工缓冲，不含平台审核等待与市场宣传</span></header>
+              <div class="delivery-matrix">
+                <section class="delivery-head"><b>技术路线</b><b>A0 技术尖刺</b><b>A1 三关切片</b><b>公开 Steam Demo</b><b>PC + 一条移动渠道</b><b>AI 协作判断</b></section>
+                <section class="recommended"><b>Cocos + TypeScript</b><span>1–2 周</span><span>10–12 周</span><span>从开工计 5–7 个月</span><span>10–15 个月</span><strong>前期略慢，整体最快；代码清楚，编辑器与原生构建仍需人工操作</strong></section>
+                <section><b>Unity／团结 + C#</b><span>2–3 周</span><span>12–16 周</span><span>从开工计 6–9 个月</span><span>12–18 个月</span><strong>资料与 PC 生态强；C# 易生成，但场景、序列化、包与原生日志增加调试往返</strong></section>
+                <section><b>继续手写 TS</b><span>3–5 天</span><span>12–18 周</span><span>从开工计 8–12 个月</span><span>16–24+ 个月</span><strong>机制试验最快；产品后期最慢，AI 会不断代写本应由引擎提供的基础设施</strong></section>
+              </div>
+              <div class="estimate-caveat"><b>不是承诺日期</b><span>若每周只有约 15 小时，日历时间按 2–2.3 倍计算；若角色、美术、动画、音乐全部独立制作，再增加 3–6 个月。真正的排期控制点是范围冻结、素材复用和每两周一次可玩构建。</span></div>
+            </div>
+            <div class="ai-code-architecture">
+              <header><small>AI-FRIENDLY ARCHITECTURE</small><b>选择 Cocos 后，仍要刻意把项目做成 AI 容易修改和验证的形状</b></header>
+              <section><i>01 · 纯 TS 核心</i><b>战斗规则不依赖 Cocos 节点</b><span>伤害、掉落、角色特性、武器升级、随机种子和关卡节奏写成普通 TypeScript，可直接单元测试。</span></section>
+              <section><i>02 · 薄引擎适配</i><b>Cocos 只负责输入、画面、碰撞与音频</b><span>组件把引擎事件翻译为核心命令，不在场景脚本里散落数值和例外。</span></section>
+              <section><i>03 · 数据驱动</i><b>宠物、装备、敌人全部由表配置</b><span>AI 修改一张 schema 明确的数据表，而不是同时改十个 Prefab 和多个 Inspector 字段。</span></section>
+              <section><i>04 · 可复现调试</i><b>固定种子、战斗回放摘要与调试 HUD</b><span>每个 Bug 都记录版本、种子、角色、装备和事件轨迹，让 AI 能复现而不是看截图猜测。</span></section>
+              <section><i>05 · 平台隔离</i><b>Web、Steam、App、小游戏各自适配</b><span>存档、成就、登录、支付、广告和分享通过统一接口接入，核心玩法禁止直接调用平台 SDK。</span></section>
+            </div>
+            <div class="schedule-baseline">
+              <header><small>RECOMMENDED SCHEDULE · COCOS + TS</small><b>先完成共同核心，再分叉 Steam 与移动渠道</b></header>
+              <section><i>第 1–2 周</i><b>A0 技术尖刺</b><span>空工程、TS 测试框架、全屏触控、自动锁敌、对象池；尽早跑通 Web、Windows、Android 与微信空包构建。</span></section>
+              <section><i>第 3–5 周</i><b>战斗底座</b><span>移动、碰撞、伤害、刷怪、掉落、镜头、音频总线、键鼠／触控输入与调试 HUD。</span></section>
+              <section><i>第 6–8 周</i><b>构筑内容</b><span>3 宠物、6 件外置装备、普通敌人、精英、Boss、武器副本和升级分支。</span></section>
+              <section><i>第 9–10 周</i><b>完整循环</b><span>关末整备、三选一区域、撤离、物资入库、固定槽位家园与存档版本。</span></section>
+              <section><i>第 11–12 周</i><b>切片验收</b><span>性能、触控、平衡、引导、音画反馈与 10–20 名外部试玩；不通过就不扩内容。</span></section>
+              <section><i>第 4–7 月</i><b>Steam Demo 分支</b><span>扩为可公开内容、Windows 打包、键鼠／手柄、Steamworks 基础接入、商店素材与公开 Demo。</span></section>
+              <section><i>第 8–10 月</i><b>内容与美术生产</b><span>十关、8 宠物、9 武器、敌人池、音效库、家园资产和持续平衡。</span></section>
+              <section><i>第 11–15 月</i><b>首个商业版本</b><span>优先完成 Steam 版本；随后选择 Android/iOS 或微信/抖音中的一条渠道适配，不承诺同步首发。</span></section>
+            </div>
             <div class="release-ladder">
-              <header><small>RELEASE LADDER</small><b>同一项目，多次验证；不同时冲四个平台</b></header>
-              <section><i>01</i><b>Web 测试版</b><span>电脑与手机浏览器快速分享；继续使用 GitHub Pages 做开发验证。</span></section>
-              <section><i>02</i><b>微信小游戏</b><span>首个真实渠道验证触控、首包、留存、平台存档和弱网表现。</span></section>
-              <section><i>03</i><b>抖音小游戏</b><span>复用已稳定的小游戏架构，再接入平台能力与渠道测试。</span></section>
-              <section><i>04</i><b>Android / iOS App</b><span>留存和商业模型验证后再做原生商店；避免过早承担审核、SDK 与多设备运维。</span></section>
-              <section><i>05</i><b>PC 客户端</b><span>只有当玩家数据证明存在 Steam／原生 PC 需求时再评估；网页 PC 版持续保留。</span></section>
+              <header><small>RELEASE LADDER · 更新建议</small><b>产品按 PC 深度设计，开发期保持移动兼容，不同步首发</b></header>
+              <section><i>01</i><b>Web + Windows 内测</b><span>浏览器快速分享，Windows 构建验证真实桌面性能和文件系统。</span></section>
+              <section><i>02</i><b>Steam 私密测试</b><span>尽早验证启动、存档、分辨率、手柄与更新流程，不等内容做完才第一次打包。</span></section>
+              <section><i>03</i><b>Steam 公开 Demo</b><span>以构筑深度和完成度获取真实反馈，商店页与宣传素材也进入生产计划。</span></section>
+              <section><i>04</i><b>Steam 商业版本</b><span>先完成一个主版本，避免 PC、App 和小游戏三套 UI、SDK 与测试矩阵同时拖慢内容制作。</span></section>
+              <section><i>05</i><b>选择一条移动支线</b><span>根据试玩数据，在 Android/iOS 完整版与微信/抖音轻量渠道版之间只选一条先做。</span></section>
             </div>
             <div class="platform-caveat"><b>WebGL 不等于小游戏“一键换壳”</b><span>小游戏运行环境、分包、平台 SDK、存储和审核规则都不同。引擎能复用核心玩法代码与资源管线，但登录、广告、支付、分享、云存档仍要按渠道隔离成适配层。</span></div>
             <div class="scope-board">
@@ -674,11 +703,11 @@
               <section data-choice="combatAvatar"><div><small>决策 11 · 已确认</small><h3>肉鸽对局中的玩家载体</h3><p>宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>已确认</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
               <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>自动炮塔如何选择投放位置</h3><p>推荐冷却结束前显示短暂落点光圈，随后自动投放在宠物当前位置；光圈只是提示，不需要点击。</p></div><div class="choice-buttons"><button data-value="提示后自动投放当前位置">提示后自动投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
               <section data-choice="duplicateEquipment"><div><small>决策 13 · 建议确认</small><h3>同名装备能否占用多个槽位</h3><p>推荐攻击武器允许同名多把并独立升级；防御模块与自动炮塔同名唯一，重复获得只用于升级。</p></div><div class="choice-buttons"><button data-value="攻击武器可重复防御部署唯一">攻击可重复，防御部署唯一<em>推荐</em></button><button data-value="所有装备都同名唯一">所有装备都同名唯一</button><button data-value="所有装备都允许重复">所有装备都允许重复</button></div></section>
-              <section data-choice="productionEngine"><div><small>决策 14 · 建议确认</small><h3>新原型的生产技术栈</h3><p>推荐 Cocos Creator 3.8 LTS + TypeScript；现有 HTML/JS 继续做快速数值和机制实验，不再扩成正式产品工程。</p></div><div class="choice-buttons"><button data-value="Cocos Creator 3.8 + TypeScript">Cocos Creator + TypeScript<em>推荐</em></button><button data-value="继续原生 HTML Canvas JS">继续原生 HTML/JS</button><button data-value="Unity 或团结引擎 + CSharp">Unity／团结引擎 + C#</button></div></section>
-              <section data-choice="releaseSequence"><div><small>决策 15 · 建议确认</small><h3>首轮发布验证顺序</h3><p>推荐先用 Web 快速测试，再验证微信与抖音小游戏，留存和商业模型成立后才制作 Android/iOS 原生 App。</p></div><div class="choice-buttons"><button data-value="Web到微信到抖音到原生App">Web → 微信 → 抖音 → App<em>推荐</em></button><button data-value="Android iOS App优先">Android／iOS App 优先</button><button data-value="PC Steam优先">PC／Steam 优先</button></div></section>
+              <section data-choice="productionEngine"><div><small>决策 14 · 建议确认</small><h3>新原型的生产技术栈</h3><p>若保留 PC 与移动小游戏两条未来路线，推荐 Cocos Creator 3.8 LTS + TypeScript；现有 HTML/JS 只做机制实验。若明确永久放弃小游戏并转向更复杂的 PC 原生表现，再复议 Unity。</p></div><div class="choice-buttons"><button data-value="Cocos Creator 3.8 + TypeScript">Cocos Creator + TypeScript<em>推荐</em></button><button data-value="继续原生 HTML Canvas JS">继续原生 HTML/JS</button><button data-value="Unity 或团结引擎 + CSharp">Unity／团结引擎 + C#</button></div></section>
+              <section data-choice="releaseSequence"><div><small>决策 15 · 建议确认</small><h3>主产品平台与发布顺序</h3><p>当前玩法深度更适合 PC 肉鸽玩家。推荐 Web/Windows 测试后先做 Steam Demo 与商业版本，开发期保留触控与移动性能，再依据数据选择一条移动渠道。</p></div><div class="choice-buttons"><button data-value="PC Steam主产品Web测试移动后置">PC／Steam 主产品，移动后置<em>推荐</em></button><button data-value="微信抖音小游戏主产品">微信／抖音小游戏主产品</button><button data-value="PC移动小游戏同步首发">PC 与移动小游戏同步首发</button></div></section>
               <section data-choice="prototypeDepth"><div><small>决策 16 · 建议确认</small><h3>新原型做到多深再评审</h3><p>推荐先做 1 周技术尖刺，再做支持完整循环的 3 关切片；代码和数据结构支持未来十关，但首轮不填满内容。</p></div><div class="choice-buttons"><button data-value="技术尖刺后做三关切片">技术尖刺 → 三关切片<em>推荐</em></button><button data-value="直接重做完整十关">直接重做完整十关</button><button data-value="只做三分钟战斗Demo">只做三分钟战斗 Demo</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>先确认技术栈、发布顺序和“三关切片”深度。确认后暂停扩写宏观策划，转入 A0 技术尖刺规格与 Cocos 项目骨架；首颗星球的完整内容设计留到切片手感成立以后。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>确认“Cocos + TypeScript”“PC／Steam 主产品、移动后置”“技术尖刺后做三关切片”三项组合。确认后先建立 12 周执行看板；第 2 周必须产出 Web、Windows、Android 与微信四个空包验证结果，再决定是否正式迁移全部玩法。</b></div>
           </article>
         </div>
 

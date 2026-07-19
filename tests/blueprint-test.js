@@ -137,11 +137,16 @@ assert.match(html, /战斗合同[\s\S]*内容数据表[\s\S]*界面状态流[\s\
 assert.match(html, /A0 · 技术尖刺[\s\S]*1 宠物 × 2 武器 × 2 敌人[\s\S]*A1 · 可玩垂直切片[\s\S]*3 关微型远征[\s\S]*A2 · 内容首版[\s\S]*扩成完整十关/, "新原型应从技术尖刺逐步扩展到三关切片和十关内容首版");
 assert.match(html, /Cocos Creator 3\.8 LTS \+ TypeScript[\s\S]*现有 HTML／JS 原型保留为数值与机制实验台/, "蓝图应记录推荐生产技术栈与旧原型定位");
 assert.match(html, /Cocos Creator \+ TS[\s\S]*Unity \/ 团结引擎 \+ C#[\s\S]*LayaAir \+ TypeScript[\s\S]*Godot \+ GDScript[\s\S]*原生 HTML \/ Canvas \/ JS/, "技术决策应比较五类候选方案");
-assert.match(html, /Web 测试版[\s\S]*微信小游戏[\s\S]*抖音小游戏[\s\S]*Android \/ iOS App[\s\S]*PC 客户端/, "发布路线应按验证成本逐步扩展平台");
 assert.match(html, /WebGL 不等于小游戏“一键换壳”[\s\S]*登录、广告、支付、分享、云存档/, "蓝图应明确小游戏仍需渠道适配层");
 assert.match(html, /data-choice="productionEngine"[\s\S]*Cocos Creator 3\.8 \+ TypeScript/, "生产技术栈应作为可追踪产品决策");
-assert.match(html, /data-choice="releaseSequence"[\s\S]*Web到微信到抖音到原生App/, "发布验证顺序应作为可追踪产品决策");
+assert.match(html, /data-choice="releaseSequence"[\s\S]*PC Steam主产品Web测试移动后置/, "主产品平台与发布验证顺序应作为可追踪产品决策");
 assert.match(html, /data-choice="prototypeDepth"[\s\S]*技术尖刺后做三关切片/, "新原型深度应作为可追踪产品决策");
+assert.match(html, /Cocos \+ TypeScript[\s\S]*1–2 周[\s\S]*10–12 周[\s\S]*5–7 个月[\s\S]*10–15 个月/, "Cocos 路线应给出从技术尖刺到跨平台版本的基线工期");
+assert.match(html, /Unity／团结 \+ C#[\s\S]*2–3 周[\s\S]*12–16 周[\s\S]*6–9 个月[\s\S]*12–18 个月/, "Unity 路线应给出相同口径的基线工期");
+assert.match(html, /继续手写 TS[\s\S]*3–5 天[\s\S]*12–18 周[\s\S]*8–12 个月[\s\S]*16–24\+ 个月/, "手写 TS 路线应显示原型快但产品化慢的成本曲线");
+assert.match(html, /纯 TS 核心[\s\S]*薄引擎适配[\s\S]*数据驱动[\s\S]*可复现调试[\s\S]*平台隔离/, "AI 友好架构应隔离核心规则、引擎表现与平台 SDK");
+assert.match(html, /第 1–2 周[\s\S]*第 3–5 周[\s\S]*第 6–8 周[\s\S]*第 9–10 周[\s\S]*第 11–12 周[\s\S]*第 4–7 月[\s\S]*第 8–10 月[\s\S]*第 11–15 月/, "推荐 Cocos 路线应包含十二周切片与十五个月商业版本排期");
+assert.match(html, /Web \+ Windows 内测[\s\S]*Steam 私密测试[\s\S]*Steam 公开 Demo[\s\S]*Steam 商业版本[\s\S]*选择一条移动支线/, "发布阶梯应先完成 PC 主产品再选择移动渠道支线");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");
