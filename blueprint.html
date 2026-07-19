@@ -95,7 +95,7 @@
               <section><i>音频通讯</i><b>头盔呼吸、短波提示、轨道播报与远处机械震动</b><span>使用低频环境声建立尺度，战斗关键信号仍保持清晰。</span></section>
               <section><i>制作控制</i><b>共享地表模块 + 一个地标 + 一个危险规则</b><span>不为每关制作独立飞行系统、完整开放地图或大量一次性场景资产。</span></section>
             </div>
-            <div class="deployable-fiction"><b>炮塔可以成立，但需要改成开拓装备的语言</b><span>机制上仍是固定炮塔；世界观中改称“折叠式哨戒节点”或“便携火力信标”。宠物从背包投放胶囊，落地展开磁性支架与全息控制圈。它不是飞船舰炮，也不是中世纪塔楼，而是勘探队用于守住回收点的便携装置。</span></div>
+            <div class="deployable-fiction"><b>游戏内直接称“折叠式自动炮塔”</b><span>它是一枚由宠物背包投放的炮塔胶囊，落地后展开磁性支架并自动攻击；殖民队的设定文档可以称它为“哨戒节点”，但装备卡、升级和战斗提示统一使用更直观的“自动炮塔”。</span></div>
             <div class="resident-row">
               <div><i>猫</i><b data-editable id="residentCat">侦察与精准</b></div><div><i>犬</i><b data-editable id="residentDog">工程与守护</b></div><div><i>兔</i><b data-editable id="residentRabbit">幸运与搜索</b></div><div><i>+</i><b data-editable id="residentMore">后续宠物居民</b></div>
             </div>
@@ -289,7 +289,7 @@
                 <header><small>SHARED EXTERNAL SLOTS · 已确认方向</small><b>首版暂沿用六格，但三种装备竞争同一容量</b><span>槽位数量在原型测试后仍可调整</span></header>
                 <section><i>攻击武器</i><b>主动造成伤害</b><span>连弩、侧炮、环刃、重炮、霰弹、喷射器与电弧等；拥有自动锁敌、攻击节奏和专精路线。</span><em>代价：占 1 格</em></section>
                 <section><i>防御模块</i><b>外置盔甲、实体盾片与能量护盾</b><span>必须显示在宠物作业服或背架上；提供减伤、拦截或屏障，不作为免费被动技能存在。</span><em>代价：占 1 格，少带一件攻击武器</em></section>
-                <section><i>部署装置</i><b>折叠式哨戒节点</b><span>投放后固定在场地自动锁敌；通过阵地范围与重新部署形成位置承诺，不等同于跟随无人机。</span><em>代价：占 1 格，离开阵地损失输出</em></section>
+                <section><i>部署装置</i><b>折叠式自动炮塔</b><span>投放后固定在场地自动锁敌；通过阵地范围与重新部署形成位置承诺，不等同于跟随无人机。</span><em>代价：占 1 格，离开阵地损失输出</em></section>
               </div>
               <div class="slot-budget-rule"><b>生存必须进入构筑取舍</b><span>六格不是“六把枪 + 免费盔甲”。玩家可以选择 5 攻击 + 1 防御的玻璃火力、3 攻击 + 2 防御 + 1 部署的均衡阵地，或其他组合。角色特性可以提高某类装备的利用方式，但不能赠送不占格的完整装备。</span></div>
               <div class="defense-module-design">
@@ -327,19 +327,19 @@
                 <section><b>守望无人机</b><span>取消独立攻击；外形改作犬角色维修协议的跟随特效，不占槽也不造成伤害。</span></section>
               </div>
               <div class="equipment-pool-rules">
-                <section><i>01</i><b>同名唯一</b><span>重复获得用于升级，不能塞入六块相同护甲绕过构筑取舍。</span></section>
-                <section><i>02</i><b>开局装备也占格</b><span>角色可以提高利用方式，但任何初始盔甲、护盾或装置都占用正常槽位。</span></section>
-                <section><i>03</i><b>满槽必须比较替换</b><span>界面并列展示失去的攻击、防御和标签变化，绝不自动丢弃。</span></section>
-                <section><i>04</i><b>无防御也能通关</b><span>基础闪避与走位必须足以成立，防御模块是构筑选择而非难度税。</span></section>
+                <section><i>01</i><b>攻击武器允许同名多把</b><span>每把占一格、独立攻击和独立升级；同名副本可以选择不同专精。</span></section>
+                <section><i>02</i><b>防御与炮塔同名唯一</b><span>重复获得只用于升级，避免六块护甲或满地炮塔绕过构筑取舍。</span></section>
+                <section><i>03</i><b>开局装备也占格</b><span>角色可以提高利用方式，但任何初始武器、盔甲、护盾或炮塔都占正常槽位。</span></section>
+                <section><i>04</i><b>满槽必须比较替换</b><span>界面并列展示失去的攻击、防御和标签变化；无防御构筑也必须能够通关。</span></section>
               </div>
               <div class="sentry-deploy-flow">
-                <header><small>SENTRY DEPLOYMENT · 建议方案</small><b>用自动预告保留单摇杆操作，同时让站位决定节点落点</b></header>
-                <section><i>01</i><b>充能完成</b><span>装备图标与角色脚下出现清晰的投放提示。</span></section>
-                <section><i>02</i><b>全息预告</b><span>短暂倒计时期间，落点环跟随宠物当前位置移动。</span></section>
-                <section><i>03</i><b>胶囊投放</b><span>倒计时结束时在当前位置展开节点；系统自动修正到最近安全地面。</span></section>
-                <section><i>04</i><b>阵地生效</b><span>节点自动锁敌；下一次充能后才能迁移或增加节点。</span></section>
+                <header><small>AUTO TURRET DEPLOYMENT · 建议方案</small><b>炮塔冷却结束后自动落在宠物当前位置</b></header>
+                <section><i>01</i><b>即将就绪</b><span>装备图标开始闪烁，提醒玩家可以准备站位。</span></section>
+                <section><i>02</i><b>落点光圈</b><span>落地前短暂显示一个跟随宠物的圆圈，只是提示，不需要点击。</span></section>
+                <section><i>03</i><b>自动投放</b><span>倒计时结束时，炮塔胶囊落在宠物当时所在位置。</span></section>
+                <section><i>04</i><b>固定攻击</b><span>炮塔展开后留在原地自动锁敌，寿命结束或重新部署后消失。</span></section>
               </div>
-              <div class="sentry-control-rule"><b>首版不增加常驻技能按钮</b><span>玩家通过倒计时内的移动选择哨戒节点落点，移动端继续只需控制方向。落点不能生成在障碍、危险区中心或场外；预告、范围与剩余寿命必须持续可见。</span></div>
+              <div class="sentry-control-rule"><b>“预告”只是落点提示，不是一种额外操作</b><span>玩家仍然只控制移动方向；看到脚下光圈后，可以走到想建立阵地的位置。炮塔不会生成在障碍、危险区中心或场外，攻击范围与剩余寿命持续可见。</span></div>
               <div class="attribute-model">
                 <section><small>攻击</small><b>威力 · 攻速 · 暴击 · 精准 · 射程</b><span>影响所有匹配标签的武器，避免为每一把武器制造专属小属性。</span></section>
                 <section><small>生存</small><b>生命 · 护甲 · 闪避 · 恢复</b><span>防御来源与实际减伤可展开查看，不用模糊的综合战力代替。</span></section>
@@ -384,15 +384,32 @@
                   <section><small>专精分支 · 中期</small><b>两个互斥方向，各自扩大优势与短板</b><span>例如“更多弹丸但单发降低”与“更少弹丸但穿透提高”，选择后形成不同玩法。</span></section>
                   <section><small>超频改造 · 后期</small><b>强力规则变化，同时承担显著代价</b><span>例如持续速射换过热停机、爆炸范围换更长起手；代价必须在确认前完整预览。</span></section>
                 </div>
+                <div class="weapon-acquisition-contract">
+                  <header><small>WEAPON ACQUISITION · 建议规则</small><b>技能点不升级武器；武器只通过实体掉落与装备箱成长</b></header>
+                  <section><i>经验与技能点</i><b>只选属性和被动技能</b><span>提高威力、攻速、精准或改变联动，但不能凭空获得或提升一把实体武器。</span></section>
+                  <section><i>普通装备箱</i><b>战斗中拾取，关末开出一件具体外置装备</b><span>可选择新武器副本、防御模块、自动炮塔，或放弃并重抽。</span></section>
+                  <section><i>精英装备箱</i><b>关末提供更高品质或明确三选一</b><span>提高形成构筑的可靠性，但仍不直接赠送技能点式武器等级。</span></section>
+                  <section><i>同名攻击武器</i><b>增加副本或合并升级</b><span>有空槽时二选一；满槽时只能合并、替换或放弃，不会自动覆盖。</span></section>
+                </div>
+                <div class="weapon-copy-example">
+                  <header><small>六格示例</small><b>同名攻击武器可以形成真正的多武器构筑</b></header>
+                  <span><i>槽 1</i><b>余烬连弩 LV.3 · A</b></span><span><i>槽 2</i><b>余烬连弩 LV.3 · B</b></span><span><i>槽 3</i><b>裂隙轨道枪 LV.2</b></span><span><i>槽 4</i><b>炽晶盾片 LV.2</b></span><span><i>槽 5</i><b>折叠式自动炮塔 LV.3</b></span><span><i>槽 6</i><b>空槽</b></span>
+                </div>
+                <div class="weapon-merge-flow">
+                  <section><small>首次获得</small><b>装备一把 LV.1 武器并占 1 格</b></section>
+                  <section><small>再次获得 · 有空格</small><b>选择“再装一把 LV.1”或“让指定副本升 1 级”</b></section>
+                  <section><small>再次获得 · 已满格</small><b>升级指定副本、替换一格，或放弃本件</b></section>
+                  <section><small>副本达到 LV.5</small><b>仍可携带其他同名副本，但该副本不再继续升级</b></section>
+                </div>
                 <div class="weapon-progression-contract">
-                  <header><small>FIVE-LEVEL WEAPON CONTRACT</small><b>同名装备箱推动单把武器成长，等级五封顶</b></header>
+                  <header><small>FIVE-LEVEL WEAPON CONTRACT</small><b>每个武器副本独立成长，等级五封顶</b></header>
                   <section><i>LV.1</i><b>获得实体武器</b><span>完整攻击形态和固有短板立即生效。</span></section>
                   <section><i>LV.2</i><b>基础校准</b><span>一次有限纯收益，先建立成长爽感。</span></section>
-                  <section><i>LV.3</i><b>互斥专精</b><span>从 A／B 中选一条，锁定本局玩法方向。</span></section>
+                  <section><i>LV.3</i><b>互斥专精</b><span>从 A／B 中选一条；同名的另一副本可以选择不同路线。</span></section>
                   <section><i>LV.4</i><b>深化专精</b><span>只强化已选路线，不偷偷补回它的短板。</span></section>
                   <section><i>LV.5</i><b>可选超频</b><span>接受强效果与明示代价，或保留稳定满级版。</span></section>
                 </div>
-                <div class="weapon-level-cap"><b>满级后不继续堆数值</b><span>再次获得同名装备箱时，转为一次“替换专精／维修防御模块／重抽装备箱”的局内选择。超频可以拒绝；风险是玩家主动承担的构筑承诺，不是系统强塞的惩罚。</span></div>
+                <div class="weapon-level-cap"><b>LV.5 封顶的是单个副本，不是同名武器数量</b><span>攻击武器仍可在空槽中新增另一把同名 LV.1；防御模块和自动炮塔则同名唯一。若满槽且所有可升级副本都已满级，本件只能用于替换专精、维修防御模块、重抽或放弃。</span></div>
                 <div class="weapon-roster">
                   <header><small>NINE-WEAPON CONTENT SPEC</small><b>九种现有武器 · 每把两条专精与一个可选超频</b><span>以下先定义玩法，不锁最终数值</span></header>
                   <article>
@@ -444,7 +461,7 @@
                     <footer><em>超频 · 风暴线圈</em><b>附近敌人越多，充能恢复越快</b><span>只有单一目标时充能反而更慢。</span><small>偏好：狐狸／犬／仓鼠</small></footer>
                   </article>
                   <article>
-                    <header><small>09 · 部署／哨戒节点</small><b>铸火哨戒节点</b><span>固定位置自动锁敌形成阵地；转场会损失持续输出。</span></header>
+                    <header><small>09 · 部署／自动炮塔</small><b>铸火折叠炮塔</b><span>固定位置自动锁敌形成阵地；转场会损失持续输出。</span></header>
                     <section><i>A · 锚定平台</i><b>只保留一座长寿命、高射程重炮塔</b><span>部署与重新部署冷却显著延长。</span></section>
                     <section><i>B · 前线节点</i><b>允许部署多座短寿命轻炮塔</b><span>单座射程和威力降低，需要频繁布置。</span></section>
                     <footer><em>超频 · 危险控制区</em><b>角色留在控制圈内时炮塔高速开火</b><span>角色离开后炮塔停止射击并加速损耗。</span><small>偏好：犬／陆龟／雪貂</small></footer>
@@ -506,7 +523,7 @@
                     <div><i>优势</i><b>工程属性收益更高；防御模块与部署装置更容易形成联动</b></div>
                     <div><i>限制</i><b>基础移动与闪避成长较慢</b></div>
                     <div><i>规则特性</i><b>维修协议：防御模块吸收伤害或部署装置完成攻击时积累维修能量，用于恢复护盾并强化下一次装备触发</b></div>
-                    <div><i>初始装备选择</i><b>铆钉枪 · 动力扳手 · 折叠哨戒节点</b></div>
+                    <div><i>初始装备选择</i><b>铆钉枪 · 动力扳手 · 折叠式自动炮塔</b></div>
                     <footer><span>路线 A：炮塔／光束／固定阵地</span><span>路线 B：重型近战／护甲／反击</span></footer>
                   </article>
                   <article class="pet-rabbit">
@@ -607,9 +624,10 @@
               <section data-choice="weaponSpecTiming"><div><small>决策 09 · 初步确认</small><h3>单把武器的专精节奏</h3><p>等级五封顶：LV.3 选择互斥专精，LV.5 可选择风险超频，也可以保留稳定满级版。</p></div><div class="choice-buttons"><button data-value="三级专精五级可选超频">三级专精五级可选超频<em>初步确认</em></button><button data-value="每级只叠加纯收益">每级只叠加纯收益</button><button data-value="随机获得一次性变异">随机获得一次性变异</button></div></section>
               <section data-choice="equipmentSlots"><div><small>决策 10 · 已确认</small><h3>盔甲、护盾与武器的槽位关系</h3><p>攻击武器、防御模块与部署装置共用外置装备槽；防御能力必须牺牲一部分火力容量。</p></div><div class="choice-buttons"><button data-value="共用外置装备槽">共用外置装备槽<em>已确认</em></button><button data-value="防御模块独立槽">防御模块独立槽</button><button data-value="防御只做被动技能">防御只做被动技能</button></div></section>
               <section data-choice="combatAvatar"><div><small>决策 11 · 已确认</small><h3>肉鸽对局中的玩家载体</h3><p>宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>已确认</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
-              <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>哨戒节点如何选择投放位置</h3><p>推荐充能后出现短暂全息倒计时，落点跟随宠物；倒计时结束自动投放，保留单摇杆操作。</p></div><div class="choice-buttons"><button data-value="自动预告后投放当前位置">自动预告后投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
+              <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>自动炮塔如何选择投放位置</h3><p>推荐冷却结束前显示短暂落点光圈，随后自动投放在宠物当前位置；光圈只是提示，不需要点击。</p></div><div class="choice-buttons"><button data-value="提示后自动投放当前位置">提示后自动投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
+              <section data-choice="duplicateEquipment"><div><small>决策 13 · 建议确认</small><h3>同名装备能否占用多个槽位</h3><p>推荐攻击武器允许同名多把并独立升级；防御模块与自动炮塔同名唯一，重复获得只用于升级。</p></div><div class="choice-buttons"><button data-value="攻击武器可重复防御部署唯一">攻击可重复，防御部署唯一<em>推荐</em></button><button data-value="所有装备都同名唯一">所有装备都同名唯一</button><button data-value="所有装备都允许重复">所有装备都允许重复</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>确认哨戒节点采用“自动预告后投放当前位置”，再设计首颗废弃殖民星球的可复用地貌、危险规则与敌人生态。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>确认“攻击武器可同名多把、防御模块与自动炮塔同名唯一”，以及炮塔采用“提示后自动投放当前位置”，再进入首颗星球设计。</b></div>
           </article>
         </div>
 
