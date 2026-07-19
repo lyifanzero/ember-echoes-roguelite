@@ -249,6 +249,52 @@
               </div>
             </div>
             <div class="guardrail"><b>制作约束</b><span data-editable id="systemGuardrail">任何副玩法都不能降低肉鸽战斗的开发预算、操作流畅度和重复构筑深度；家园不得阻塞下一局开始。</span></div>
+            <div class="build-architecture">
+              <header><small>ROGUELITE BUILD ARCHITECTURE</small><b>五层构筑各自负责不同问题</b><span>来源、升级方式与槽位不混用</span></header>
+              <div class="build-layers">
+                <section><i>01 · 开局锁定</i><b>角色特性</b><strong>回答“为什么这样构筑”</strong><span>每个宠物提供两项优势、一项限制和一条改变规则的特性。引导方向但不禁止使用其他武器。</span></section>
+                <section><i>02 · 经验成长</i><b>基础属性</b><strong>回答“数值如何取舍”</strong><span>攻击、生存与功能属性均可查看来源；负责连续成长，不承担新攻击模式。</span></section>
+                <section><i>03 · 经验成长</i><b>被动技能</b><strong>回答“规则如何变化”</strong><span>改变触发、联动和资源转化方式，不在角色身上伪装成一把看不见的武器。</span></section>
+                <section><i>04 · 装备箱</i><b>实体武器</b><strong>回答“如何造成伤害”</strong><span>占用独立武器槽并显示在角色周围，拥有自动锁敌、射击模式、射程和攻击节奏。</span></section>
+                <section><i>05 · 装备箱</i><b>守护装备</b><strong>回答“如何生存与控场”</strong><span>使用少量独立守护槽，包含盔甲、护盾、护卫装置和可部署炮塔，不挤占武器槽。</span></section>
+              </div>
+              <div class="build-source-matrix">
+                <header><span>构筑层</span><span>主要来源</span><span>局内升级</span><span>局外影响</span></header>
+                <section><b>角色特性</b><span>开局选择</span><span>规则固定，不在局内升稀有度</span><em>只解锁新角色，不增加永久倍率</em></section>
+                <section><b>基础属性</b><span>经验升级</span><span>叠加或达到软上限</span><em>每局重置</em></section>
+                <section><b>被动技能</b><span>经验升级</span><span>重复选择提升等级或机制</span><em>每局重置</em></section>
+                <section><b>实体武器</b><span>开局武器与装备箱</span><span>同名合成、等级与模式强化</span><em>蓝图只扩充可出现池</em></section>
+                <section><b>守护装备</b><span>装备箱</span><span>同名合成与效果强化</span><em>蓝图只扩充可出现池</em></section>
+              </div>
+              <div class="attribute-model">
+                <section><small>攻击</small><b>威力 · 攻速 · 暴击 · 精准 · 射程</b><span>影响所有匹配标签的武器，避免为每一把武器制造专属小属性。</span></section>
+                <section><small>生存</small><b>生命 · 护甲 · 闪避 · 恢复</b><span>防御来源与实际减伤可展开查看，不用模糊的综合战力代替。</span></section>
+                <section><small>功能</small><b>移速 · 拾取 · 幸运 · 工程</b><span>幸运影响整局掉落；工程服务炮塔和装置，但不成为进入家园的效率税。</span></section>
+              </div>
+              <div class="targeting-contract">
+                <b>自动锁敌与精准规则</b>
+                <span>能锁敌的武器始终朝锁定目标或其预测位置攻击；“随机”只作用于伤害区间、暴击与弱点效果，不再让正常子弹无故偏离。霰弹扇形、环射和固定方向弹幕属于武器明确写出的攻击模式，不属于命中失败。精准提高伤害下限、弱点收益和目标切换质量。</span>
+              </div>
+              <div class="build-tags">
+                <header><small>SHARED TAG GRAMMAR</small><b>用少量公开标签连接角色、技能和装备</b></header>
+                <section><i>攻击形态</i><b>投射 · 近战 · 光束 · 爆炸 · 部署</b><span>定义武器如何命中敌人。</span></section>
+                <section><i>战斗节奏</i><b>速射 · 重击 · 持续 · 反击 · 控场</b><span>定义构筑想维持的节奏。</span></section>
+                <section><i>位置关系</i><b>贴身 · 远程 · 环绕 · 追踪 · 固守</b><span>定义玩家和敌人的空间选择。</span></section>
+                <section><i>公开联动</i><b>角色与被动只引用一到两个标签</b><span>面板列出所有来源，不设置隐藏套装倍率。</span></section>
+              </div>
+              <div class="choice-pool-rules">
+                <section><small>经验三选一</small><b>通用选项 + 当前联动 + 随机新方向</b><span>既保证构筑能够成长，也保留转型和意外发现；不能三张都是当前角色无法利用的死选项。</span></section>
+                <section><small>装备选择</small><b>现有装备强化 + 兼容新品 + 差异化新品</b><span>允许继续专精或改变攻击覆盖，但角色限制必须在选择前明确显示。</span></section>
+                <section><small>选择底线</small><b>不因家园进度提高卡牌强度</b><span>局外蓝图扩大选择池，不让老玩家抽到同名装备时拥有更高基础数值。</span></section>
+              </div>
+              <div class="build-arc">
+                <section><i>关卡 1–3</i><b>确立主攻击方式</b><span>首把武器、关键属性与第一条联动</span></section>
+                <section><i>关卡 4–6</i><b>形成构筑核心</b><span>叠加协同并补足生存或群体处理</span></section>
+                <section><i>关卡 7–9</i><b>专精或扩展覆盖</b><span>高风险强化与守护装备完成形态</span></section>
+                <section><i>关卡 10</i><b>Boss 检验</b><span>验证输出、移动与防御是否形成闭环</span></section>
+              </div>
+              <div class="build-principle"><b>构筑成功标准</b><span>玩家能用一句话说明“这个角色为什么搭配这些武器、被动和守护装备”，并能从完整面板追溯每项效果的来源。强力组合来自可理解的联动，而不是隐藏乘区或家园永久数值。</span></div>
+            </div>
           </article>
 
           <article class="chapter" data-chapter="home" data-title="家园模式">
@@ -284,7 +330,7 @@
               <section data-choice="routeForm"><div><small>决策 04 · 已确认</small><h3>首版随机关卡结构</h3><p>固定十关，前九关三选一区域，第十关固定 Boss，第 3/6/10 关提供撤离。</p></div><div class="choice-buttons"><button data-value="十关三选一区域">十关三选一区域<em>已确认</em></button><button data-value="可视化星图路线">可视化星图路线</button><button data-value="自由房间探索">自由房间探索</button></div></section>
               <section data-choice="levelTiming"><div><small>决策 05 · 已确认</small><h3>经验升级时机</h3><p>经验在战斗中累积，关末在整备舱统一选择属性与被动技能。</p></div><div class="choice-buttons"><button data-value="关末统一加点">关末统一加点<em>已确认</em></button><button data-value="升级时暂停战斗">升级时暂停战斗</button><button data-value="战斗中自动分配">战斗中自动分配</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>细化肉鸽构筑的五个组成部分：角色特性、属性、被动技能、实体武器、守护装备，明确各自的升级与联动边界。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>设计首发三个宠物角色：分别确定优势、限制、规则特性、可选初始武器，以及至少两条不同构筑路线。</b></div>
           </article>
         </div>
 
