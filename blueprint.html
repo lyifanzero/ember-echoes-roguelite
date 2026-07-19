@@ -197,7 +197,41 @@
                 <section><small>货舱已满</small><b>明确对比“新物品”和当前货舱，再选择替换或放弃。</b><span>永不自动删除已有货物；界面显示用途、占格、新品与重复状态。</span></section>
                 <section><small>重复物品</small><b>材料自动合并，蓝图自动折算，重复家具可保留或返航后回收。</b><span>重复品永远有用途，但首次获得仍然最有价值。</span></section>
               </div>
-              <div class="loot-distinction"><b>必须一眼区分</b><span><strong>战斗强化宝箱</strong>提供本局武器、技能与数值；<strong>密封物资箱</strong>只装可撤离货物，并在关卡结束后开启。二者使用不同轮廓、颜色和音效。</span></div>
+              <div class="loot-distinction"><b>必须一眼区分</b><span><strong>经验升级</strong>只提供属性与被动技能；<strong>战斗装备箱</strong>提供本局实体武器、守护装备与炮塔；<strong>密封物资箱</strong>只装可撤离货物。三者使用不同轮廓、颜色和音效。</span></div>
+            </div>
+            <div class="settlement-design">
+              <header><small>BETWEEN-STAGE FLOW</small><b>关末只进入一个“整备舱”，按待处理队列连续完成</b><span>不叠加多层弹窗，不要求反复打开面板</span></header>
+              <div class="settlement-flow">
+                <section><i>结果条</i><b>本关发生了什么</b><span>时间、击杀、受伤、升级次数、获得的两类箱子始终可见，但不单独占一个确认页面。</span></section>
+                <section><i>步骤 01</i><b>处理战斗构筑</b><span>依次消费本关积累的属性／技能点和战斗装备箱；选择时实时预览完整属性与武器变化。</span></section>
+                <section><i>步骤 02</i><b>处理可撤离物资</b><span>密封物资统一开启；有空位则自动装舱，只有满仓替换或精英二选一时才要求操作。</span></section>
+                <section><i>步骤 03</i><b>选择下一片区域</b><span>最后显示三张区域卡；第 3、6 关先选择撤离或继续，第 10 关胜利后直接最终结算。</span></section>
+              </div>
+              <div class="reward-channels">
+                <section><small>成长通道 A · 经验</small><b>属性与被动技能</b><span>经验在战斗中累积，关末统一选择；不把枪械、盔甲或炮塔伪装成技能卡。</span><em>重置：本次远征结束</em></section>
+                <section><small>成长通道 B · 战斗装备箱</small><b>实体武器与守护装备</b><span>获得新武器、同名合成、盔甲护盾和固定炮塔，全部进入可见装备槽。</span><em>重置：本次远征结束</em></section>
+                <section><small>成长通道 C · 密封物资箱</small><b>可撤离货物</b><span>回收零件、蓝图与收藏品只进入货舱，不改变当前战斗伤害。</span><em>结算：撤离或安全槽</em></section>
+              </div>
+              <div class="build-panel-spec">
+                <header><small>BUILD PANEL · 全程可查看</small><b>玩家每次选择前都能知道自己已经拥有什么</b></header>
+                <section><i>角色</i><b>居民特性与限制</b><span>优势、限制、当前生命和本关状态，不隐藏角色规则。</span></section>
+                <section><i>属性</i><b>攻击 · 生存 · 功能</b><span>展示全部当前值、来源和本次选择后的增减，不只显示少数“主属性”。</span></section>
+                <section><i>武器</i><b>实体槽位与攻击模式</b><span>每件武器显示等级、伤害、攻速、射程、攻击方向／锁敌方式和特殊效果。</span></section>
+                <section><i>守护装备</i><b>盔甲 · 护盾 · 炮塔</b><span>独立于武器与技能展示，明确装备数量、触发方式和当前效果。</span></section>
+                <section><i>被动技能</i><b>等级与联动标签</b><span>显示技能值、来源及其影响的武器或属性，便于研究构筑。</span></section>
+              </div>
+              <div class="settlement-shortcuts">
+                <section><b>没有升级可选</b><span>自动跳过步骤 01</span></section>
+                <section><b>物资直接放得下</b><span>自动开箱入舱，只显示结果</span></section>
+                <section><b>普通非撤离关</b><span>完成构筑后直接进入区域三选一</span></section>
+                <section><b>任何已做选择</b><span>立即保存，不再增加二次确认</span></section>
+              </div>
+              <div class="checkpoint-branch"><b>撤离节点只多一次关键决定</b><span>第 3、6 关先完成开箱，同时展示“现在带回什么”、未处理的构筑奖励，以及“继续会让哪些普通货舱处于风险中”。选择撤离立即进入远征总结；选择继续后才处理本关未用的构筑奖励，再进入下一片区域三选一，不要求即将返航的玩家继续加点。</span></div>
+              <div class="device-settlement">
+                <section><small>PC</small><b>构筑面板固定在侧栏，主区域只处理当前选择</b><span>待处理队列与下一步始终可见。</span></section>
+                <section><small>移动端</small><b>单屏单任务，底部固定主要按钮</b><span>构筑面板用抽屉查看；不依赖悬停、拖拽或横向小按钮。</span></section>
+                <section><small>共同规则</small><b>允许返回查看，但已确认奖励不反复重抽</b><span>所有触控目标至少 44px，并保留清晰的剩余处理数量。</span></section>
+              </div>
             </div>
           </article>
 
@@ -248,8 +282,9 @@
               <section data-choice="lossRule"><div><small>决策 02</small><h3>撤离失败的损失</h3><p>决定风险压力和玩家挫败程度。</p></div><div class="choice-buttons"><button data-value="仅保留安全货舱">仅保留安全货舱<em>推荐</em></button><button data-value="随机损失一半">随机损失一半</button><button data-value="保留全部物资">保留全部物资</button></div></section>
               <section data-choice="tone"><div><small>决策 03</small><h3>整体情绪基调</h3><p>决定角色、美术、音乐和叙事表达。</p></div><div class="choice-buttons"><button data-value="温暖家园与危险宇宙">温暖家园与危险宇宙<em>推荐</em></button><button data-value="轻松搞怪冒险">轻松搞怪冒险</button><button data-value="严肃末日求生">严肃末日求生</button></div></section>
               <section data-choice="routeForm"><div><small>决策 04 · 已确认</small><h3>首版随机关卡结构</h3><p>固定十关，前九关三选一区域，第十关固定 Boss，第 3/6/10 关提供撤离。</p></div><div class="choice-buttons"><button data-value="十关三选一区域">十关三选一区域<em>已确认</em></button><button data-value="可视化星图路线">可视化星图路线</button><button data-value="自由房间探索">自由房间探索</button></div></section>
+              <section data-choice="levelTiming"><div><small>决策 05 · 已确认</small><h3>经验升级时机</h3><p>经验在战斗中累积，关末在整备舱统一选择属性与被动技能。</p></div><div class="choice-buttons"><button data-value="关末统一加点">关末统一加点<em>已确认</em></button><button data-value="升级时暂停战斗">升级时暂停战斗</button><button data-value="战斗中自动分配">战斗中自动分配</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>确定关末整备顺序：属性与技能加点、物资开箱整理、区域三选一，如何在 PC 和手机上不显得繁琐。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>细化肉鸽构筑的五个组成部分：角色特性、属性、被动技能、实体武器、守护装备，明确各自的升级与联动边界。</b></div>
           </article>
         </div>
 
