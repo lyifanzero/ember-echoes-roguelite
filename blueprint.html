@@ -292,6 +292,54 @@
                 <section><i>部署装置</i><b>折叠式哨戒节点</b><span>投放后固定在场地自动锁敌；通过阵地范围与重新部署形成位置承诺，不等同于跟随无人机。</span><em>代价：占 1 格，离开阵地损失输出</em></section>
               </div>
               <div class="slot-budget-rule"><b>生存必须进入构筑取舍</b><span>六格不是“六把枪 + 免费盔甲”。玩家可以选择 5 攻击 + 1 防御的玻璃火力、3 攻击 + 2 防御 + 1 部署的均衡阵地，或其他组合。角色特性可以提高某类装备的利用方式，但不能赠送不占格的完整装备。</span></div>
+              <div class="defense-module-design">
+                <header><small>DEFENSE MODULE CONTENT SPEC</small><b>首批四件防御模块 · 全部占用一个外置装备槽</b><span>沿用五级成长节奏，LV.3 互斥专精，LV.5 可选超频</span></header>
+                <article>
+                  <header><small>01 · 外甲／稳定减伤</small><b>余震缓冲甲</b><span>背部与四肢可见的复合装甲，持续降低常规伤害；重量会削弱加速和转向。</span></header>
+                  <section><i>A · 堡垒叠层</i><b>提高稳定减伤与击退抵抗</b><span>重量增加，移动速度上限进一步降低。</span></section>
+                  <section><i>B · 脱落甲片</i><b>用有限甲片抵消数次高额伤害</b><span>甲片耗尽后只剩较低常驻减伤，需在关末维修。</span></section>
+                  <footer><em>超频 · 锚定姿态</em><b>短暂停留后进入高稳定状态</b><span>移动会立刻解除，重新锚定需要时间。</span><small>适合：陆龟／犬／重炮阵地</small></footer>
+                </article>
+                <article>
+                  <header><small>02 · 实体盾／弹丸拦截</small><b>炽晶盾片</b><span>数块实体盾片绕宠物旋转并真正拦截敌方弹丸；盾片之间始终存在空档。</span></header>
+                  <section><i>A · 密集护环</i><b>增加盾片并扩大拦截覆盖</b><span>旋转变慢，破损后的再生时间延长。</span></section>
+                  <section><i>B · 折射刃缘</i><b>减少盾片，但能把成功拦截转为反射弹</b><span>空档更大，单块盾片耐久降低。</span></section>
+                  <footer><em>超频 · 闭环封锁</em><b>弹幕逼近时短暂闭合为全向盾环</b><span>结束后全部盾片碎裂并进入长时间重构。</span><small>适合：犬／陆龟／远程蓄力构筑</small></footer>
+                </article>
+                <article>
+                  <header><small>03 · 能量盾／伤害缓冲</small><b>棱镜屏障器</b><span>背架投射一层有容量的能量屏障；脱离受击一段时间后才能开始恢复。</span></header>
+                  <section><i>A · 快充薄膜</i><b>低容量但更快恢复，适合频繁小伤害</b><span>面对精英重击时容易被一次击穿。</span></section>
+                  <section><i>B · 过载棱镜</i><b>高容量并抵抗一次重击</b><span>屏障破裂后离线更久，恢复期间没有保护。</span></section>
+                  <footer><em>超频 · 相位透支</em><b>每关一次，用全部屏障阻止致命伤害</b><span>触发后本关屏障永久离线，直到关末维修。</span><small>适合：猫／狐狸／低生命构筑</small></footer>
+                </article>
+                <article>
+                  <header><small>04 · 棘甲／近身反击</small><b>棘甲外骨骼</b><span>降低接触伤害并在受击时释放实体尖刺；几乎无法处理远程弹丸。</span></header>
+                  <section><i>A · 裂刺阵列</i><b>提高反击范围与伤害</b><span>基础接触减伤降低，更依赖主动贴近敌群。</span></section>
+                  <section><i>B · 缓冲倒钩</i><b>强化接触减伤、击退和受击稳定</b><span>尖刺伤害降低，清群速度较慢。</span></section>
+                  <footer><em>超频 · 裂火债务</em><b>部分受击伤害延迟结算，并立即转为尖刺爆发</b><span>延迟伤害仍会到期扣除，必须及时治疗或结束战斗。</span><small>适合：刺猬／陆龟／近身武器</small></footer>
+                </article>
+              </div>
+              <div class="prototype-equipment-migration">
+                <header><small>PROTOTYPE MIGRATION</small><b>现有四件守护对象如何迁移，不继续维护两套槽位代码</b></header>
+                <section><b>炽晶护盾</b><span>改为占槽的“炽晶盾片”，保留实体拦截表现。</span></section>
+                <section><b>棱镜圣衣</b><span>改为占槽的“棱镜屏障器”，由一次免伤升级为可读容量。</span></section>
+                <section><b>棘甲外骨骼</b><span>保留近身反击身份，进入统一五级装备成长。</span></section>
+                <section><b>守望无人机</b><span>取消独立攻击；外形改作犬角色维修协议的跟随特效，不占槽也不造成伤害。</span></section>
+              </div>
+              <div class="equipment-pool-rules">
+                <section><i>01</i><b>同名唯一</b><span>重复获得用于升级，不能塞入六块相同护甲绕过构筑取舍。</span></section>
+                <section><i>02</i><b>开局装备也占格</b><span>角色可以提高利用方式，但任何初始盔甲、护盾或装置都占用正常槽位。</span></section>
+                <section><i>03</i><b>满槽必须比较替换</b><span>界面并列展示失去的攻击、防御和标签变化，绝不自动丢弃。</span></section>
+                <section><i>04</i><b>无防御也能通关</b><span>基础闪避与走位必须足以成立，防御模块是构筑选择而非难度税。</span></section>
+              </div>
+              <div class="sentry-deploy-flow">
+                <header><small>SENTRY DEPLOYMENT · 建议方案</small><b>用自动预告保留单摇杆操作，同时让站位决定节点落点</b></header>
+                <section><i>01</i><b>充能完成</b><span>装备图标与角色脚下出现清晰的投放提示。</span></section>
+                <section><i>02</i><b>全息预告</b><span>短暂倒计时期间，落点环跟随宠物当前位置移动。</span></section>
+                <section><i>03</i><b>胶囊投放</b><span>倒计时结束时在当前位置展开节点；系统自动修正到最近安全地面。</span></section>
+                <section><i>04</i><b>阵地生效</b><span>节点自动锁敌；下一次充能后才能迁移或增加节点。</span></section>
+              </div>
+              <div class="sentry-control-rule"><b>首版不增加常驻技能按钮</b><span>玩家通过倒计时内的移动选择哨戒节点落点，移动端继续只需控制方向。落点不能生成在障碍、危险区中心或场外；预告、范围与剩余寿命必须持续可见。</span></div>
               <div class="attribute-model">
                 <section><small>攻击</small><b>威力 · 攻速 · 暴击 · 精准 · 射程</b><span>影响所有匹配标签的武器，避免为每一把武器制造专属小属性。</span></section>
                 <section><small>生存</small><b>生命 · 护甲 · 闪避 · 恢复</b><span>防御来源与实际减伤可展开查看，不用模糊的综合战力代替。</span></section>
@@ -558,9 +606,10 @@
               <section data-choice="futurePetRule"><div><small>决策 08 · 已确认</small><h3>未来新增动物的角色规则</h3><p>家园居民与可玩角色分层；只有通过玩法准入检查的动物，才成为新的可玩角色。</p></div><div class="choice-buttons"><button data-value="居民与可玩角色分层">居民与可玩角色分层<em>已确认</em></button><button data-value="每个新居民都必须可玩">每个新居民都必须可玩</button><button data-value="只做皮肤不增角色">只做皮肤不增角色</button></div></section>
               <section data-choice="weaponSpecTiming"><div><small>决策 09 · 初步确认</small><h3>单把武器的专精节奏</h3><p>等级五封顶：LV.3 选择互斥专精，LV.5 可选择风险超频，也可以保留稳定满级版。</p></div><div class="choice-buttons"><button data-value="三级专精五级可选超频">三级专精五级可选超频<em>初步确认</em></button><button data-value="每级只叠加纯收益">每级只叠加纯收益</button><button data-value="随机获得一次性变异">随机获得一次性变异</button></div></section>
               <section data-choice="equipmentSlots"><div><small>决策 10 · 已确认</small><h3>盔甲、护盾与武器的槽位关系</h3><p>攻击武器、防御模块与部署装置共用外置装备槽；防御能力必须牺牲一部分火力容量。</p></div><div class="choice-buttons"><button data-value="共用外置装备槽">共用外置装备槽<em>已确认</em></button><button data-value="防御模块独立槽">防御模块独立槽</button><button data-value="防御只做被动技能">防御只做被动技能</button></div></section>
-              <section data-choice="combatAvatar"><div><small>决策 11 · 建议确认</small><h3>肉鸽对局中的玩家载体</h3><p>推荐宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>推荐</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
+              <section data-choice="combatAvatar"><div><small>决策 11 · 已确认</small><h3>肉鸽对局中的玩家载体</h3><p>宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>已确认</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
+              <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>哨戒节点如何选择投放位置</h3><p>推荐充能后出现短暂全息倒计时，落点跟随宠物；倒计时结束自动投放，保留单摇杆操作。</p></div><div class="choice-buttons"><button data-value="自动预告后投放当前位置">自动预告后投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>先确认“宠物舱外地表战斗，飞船负责家园与撤离”的玩家载体，再为统一外置装备系统设计首批防御模块与哨戒节点。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>确认哨戒节点采用“自动预告后投放当前位置”，再设计首颗废弃殖民星球的可复用地貌、危险规则与敌人生态。</b></div>
           </article>
         </div>
 

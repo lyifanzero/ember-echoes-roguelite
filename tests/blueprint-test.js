@@ -71,6 +71,13 @@ assert.match(html, /四层构筑各自负责不同问题[\s\S]*角色特性[\s\S
 assert.match(html, /每个宠物提供两项优势、一项限制和一条改变规则的特性[\s\S]*引导方向但不禁止使用其他武器/, "角色应提供构筑偏好但不得硬锁武器");
 assert.match(html, /攻击武器、防御模块和部署装置都必须实体可见[\s\S]*共用同一组装备槽[\s\S]*穿戴盔甲或护盾就会减少可携带火力/, "盔甲、护盾与武器必须竞争同一外置装备预算");
 assert.match(html, /首版暂沿用六格[\s\S]*攻击武器[\s\S]*防御模块[\s\S]*部署装置[\s\S]*六格不是“六把枪 \+ 免费盔甲”/, "统一外置装备系统应包含三类装备并形成火力与生存取舍");
+assert.match(html, /余震缓冲甲[\s\S]*堡垒叠层[\s\S]*脱落甲片[\s\S]*锚定姿态/, "外置重甲应在稳定减伤与有限甲片之间专精");
+assert.match(html, /炽晶盾片[\s\S]*密集护环[\s\S]*折射刃缘[\s\S]*闭环封锁/, "实体盾片应通过拦截覆盖、反射和重构时间形成取舍");
+assert.match(html, /棱镜屏障器[\s\S]*快充薄膜[\s\S]*过载棱镜[\s\S]*相位透支/, "能量屏障应在快速恢复、重击容量与一次保命之间取舍");
+assert.match(html, /棘甲外骨骼[\s\S]*裂刺阵列[\s\S]*缓冲倒钩[\s\S]*裂火债务/, "棘甲应通过近身反击、接触减伤与延迟伤害形成取舍");
+assert.match(html, /守望无人机[\s\S]*取消独立攻击[\s\S]*犬角色维修协议的跟随特效/, "原型守望无人机应退出免费攻击槽并改作不造成伤害的角色表现");
+assert.match(html, /同名唯一[\s\S]*开局装备也占格[\s\S]*满槽必须比较替换[\s\S]*无防御也能通关/, "防御装备池必须防止重复堆甲、免费开局装备和强制防御税");
+assert.match(html, /充能完成[\s\S]*全息预告[\s\S]*胶囊投放[\s\S]*阵地生效[\s\S]*首版不增加常驻技能按钮/, "哨戒节点应通过移动中的落点预告保留单摇杆操作");
 assert.match(html, /角色特性[\s\S]*开局选择[\s\S]*基础属性[\s\S]*经验升级[\s\S]*外置装备[\s\S]*开局选择与装备箱/, "构筑矩阵应明确每一层的主要获取来源");
 assert.match(html, /自动锁敌与精准规则[\s\S]*始终朝锁定目标或其预测位置攻击[\s\S]*不再让正常子弹无故偏离/, "自动锁敌武器不得用随机方向偏差表达精准度");
 assert.match(html, /精准提高伤害下限、弱点收益和目标切换质量/, "精准属性应影响数值和目标判断而非弹道偏离");
@@ -119,7 +126,8 @@ assert.match(html, /data-choice="futurePetRule"[\s\S]*决策 08 · 已确认[\s\
 assert.match(html, /data-choice="weaponSpecTiming"[\s\S]*三级专精五级可选超频/, "武器专精节奏应作为下一项可追踪产品决策");
 assert.match(html, /data-choice="weaponSpecTiming"[\s\S]*决策 09 · 初步确认[\s\S]*三级专精五级可选超频[\s\S]*初步确认/, "武器专精节奏应记录为初步确认");
 assert.match(html, /data-choice="equipmentSlots"[\s\S]*决策 10 · 已确认[\s\S]*共用外置装备槽[\s\S]*已确认/, "外置盔甲、护盾与武器共用槽位应记录为已确认决策");
-assert.match(html, /data-choice="combatAvatar"[\s\S]*宠物舱外地表战斗[\s\S]*宠物驾驶战斗飞船[\s\S]*宠物驾驶步行机甲/, "局内玩家载体应作为下一项可追踪产品决策");
+assert.match(html, /data-choice="combatAvatar"[\s\S]*决策 11 · 已确认[\s\S]*宠物舱外地表战斗[\s\S]*已确认/, "宠物舱外地表战斗应记录为已确认的玩家载体");
+assert.match(html, /data-choice="sentryControl"[\s\S]*自动预告后投放当前位置[\s\S]*增加主动投放按钮[\s\S]*完全随机自动布置/, "哨戒节点投放方式应作为下一项可追踪产品决策");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");
