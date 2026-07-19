@@ -113,22 +113,31 @@
               </div>
               <div class="route-recommendation">
                 <section><small>首版表现</small><b>飞船扫描三个降落坐标</b><span>保留可视化地图的世界观感受，但玩家不控制角色在房间之间走动。</span></section>
-                <section><small>随机性来源</small><b>竞技场 × 敌人生态 × 战斗规则 × 奖励倾向</b><span>用少量可复用模块组合出不同关卡，不要求每个区域制作一套独立美术。</span></section>
+                <section><small>随机性来源</small><b>竞技场 × 敌人生态 × 战斗规则 × 战斗奖励</b><span>用少量可复用模块组合出不同关卡，不要求每个区域制作一套独立美术。</span></section>
                 <section><small>升级接口</small><b>区域节点从第一版就使用统一数据</b><span>后续只需增加节点连线、路径可见范围和特殊节点，即可升级成星图路线。</span></section>
               </div>
               <div class="route-tags">
-                <span>竞技场：开阔 / 障碍 / 危险区</span><span>敌人：群袭 / 远程 / 重装 / 精英</span><span>规则：限时 / 护送 / 坚守 / 首领</span><span>倾向：构筑 / 零件 / 蓝图 / 遗物</span>
+                <span>竞技场：开阔 / 障碍 / 危险区</span><span>敌人：群袭 / 远程 / 重装 / 精英</span><span>规则：限时 / 护送 / 坚守 / 首领</span><span>战斗收益：构筑 / 恢复 / 经验 / 品质</span>
               </div>
               <div class="region-card-spec">
-                <header><small>STAGE 05 · SCAN EXAMPLE</small><b>三张区域卡必须在数秒内形成不同理由</b><span>战斗信息优先，家园物资信息次之</span></header>
+                <header><small>STAGE 05 · SCAN EXAMPLE</small><b>三张区域卡必须在数秒内形成不同理由</b><span>战斗信息优先，物资只提供非专属线索</span></header>
                 <div class="region-card-demo">
-                  <section><i>稳定路线 · 威胁适中</i><b>废弃温室</b><p>群袭敌人 · 开阔竞技场</p><strong>战斗收益：治疗与经验</strong><span>货物倾向：回收零件</span><em>适合需要修复状态的构筑</em></section>
-                  <section><i>构筑路线 · 威胁适中</i><b>坠毁通讯阵列</b><p>远程敌人 · 障碍竞技场</p><strong>战斗收益：武器强化</strong><span>货物倾向：蓝图芯片</span><em>适合能处理掩体后目标的构筑</em></section>
-                  <section class="danger"><i>冒险路线 · 高威胁</i><b>泄漏反应堆</b><p>精英敌人 · 辐射危险区</p><strong>战斗收益：高品质强化</strong><span>货物倾向：陈列遗物</span><em>用更难战斗换取更高奖励档位</em></section>
+                  <section><i>稳定路线 · 威胁适中</i><b>废弃温室</b><p>群袭敌人 · 开阔竞技场</p><strong>战斗收益：治疗与经验</strong><span>物资线索：零件信号略强 · 非专属</span><em>适合需要修复状态的构筑</em></section>
+                  <section><i>构筑路线 · 威胁适中</i><b>坠毁通讯阵列</b><p>远程敌人 · 障碍竞技场</p><strong>战斗收益：武器强化</strong><span>物资线索：蓝图信号略强 · 非专属</span><em>适合能处理掩体后目标的构筑</em></section>
+                  <section class="danger"><i>冒险路线 · 高威胁</i><b>泄漏反应堆</b><p>精英敌人 · 辐射危险区</p><strong>战斗收益：高品质强化</strong><span>物资线索：遗物信号略强 · 非专属</span><em>用更难战斗换取更高奖励档位</em></section>
                 </div>
                 <div class="card-reading-order">
-                  <span><i>01</i><b>威胁等级与区域名</b></span><span><i>02</i><b>敌人生态与场地规则</b></span><span><i>03</i><b>本局战斗收益</b></span><span><i>04</i><b>可撤离货物倾向</b></span>
+                  <span><i>01</i><b>威胁等级与区域名</b></span><span><i>02</i><b>敌人生态与场地规则</b></span><span><i>03</i><b>本局战斗收益</b></span><span><i>04</i><b>物资线索 · 非保证非专属</b></span>
                 </div>
+              </div>
+              <div class="loot-distribution">
+                <header><small>SHARED LOOT POOL · 已确认</small><b>三选一不划分“家园关”和“纯战斗关”</b></header>
+                <section><i>01</i><b>所有区域都有基础机会</b><span>每关都可能出现密封物资箱；基础机会由关卡深度统一决定，不因选择哪张区域卡而消失。</span></section>
+                <section><i>02</i><b>幸运度作用于整局</b><span>幸运提高普通敌人触发物资箱和品质提升的机会，对所有区域生效，不制造特定角色的必选路线。</span></section>
+                <section><i>03</i><b>共享完整物资池</b><span>零件、蓝图和遗物来自同一物资池；区域线索只轻微调整权重，绝不排除其他类型。</span></section>
+                <section><i>04</i><b>三张卡基础期望相同</b><span>同阶段三张卡的基础物资期望保持一致；高威胁带来的额外收益单独计入风险奖励预算。</span></section>
+                <section><i>05</i><b>任务物品不绑路线</b><span>居民信物等任务物品跟随任务条件结算，不会只藏在某一张区域卡中逼迫玩家选择。</span></section>
+                <section><i>06</i><b>战斗选择始终优先</b><span>玩家可以完全按当前构筑、生命状态和挑战偏好选关，仍然拥有合理的物资获取机会。</span></section>
               </div>
               <div class="generation-guardrails">
                 <header><small>GENERATION GUARDRAILS</small><b>随机生成不是完全乱抽，而是受约束地组合</b></header>
@@ -137,7 +146,7 @@
                 <section><i>03</i><b>软克制而非封锁</b><span>规则可以压制构筑优势，但不能出现投射物免疫等让某类构筑彻底失效的条件。</span></section>
                 <section><i>04</i><b>避免连续重复</b><span>同一主敌人生态、竞技场与核心规则不连续出现两关以上。</span></section>
                 <section><i>05</i><b>难度分段解锁</b><span>前 3 关只用单一规则，4–6 关加入精英，7–9 关才允许双重规则组合。</span></section>
-                <section><i>06</i><b>奖励匹配风险</b><span>高风险必须提升战斗奖励档位；任何卡都不能只提供家园收益。</span></section>
+                <section><i>06</i><b>奖励匹配风险</b><span>高风险必须提升战斗奖励档位；任何卡都不能只提供家园收益，也不能垄断某类家园物资。</span></section>
               </div>
               <div class="route-fairness"><b>可测试、可复现</b><span>每局保存路线种子与十关节点结果。遇到异常难度时可以复现整条路线，也能用于每日挑战和玩家分享，但首版不提供免费刷新区域选项。</span></div>
               <div class="extraction-policy">
