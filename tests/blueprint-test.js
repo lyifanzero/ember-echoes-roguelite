@@ -132,6 +132,16 @@ assert.match(html, /data-choice="equipmentSlots"[\s\S]*决策 10 · 已确认[\s
 assert.match(html, /data-choice="combatAvatar"[\s\S]*决策 11 · 已确认[\s\S]*宠物舱外地表战斗[\s\S]*已确认/, "宠物舱外地表战斗应记录为已确认的玩家载体");
 assert.match(html, /data-choice="sentryControl"[\s\S]*提示后自动投放当前位置[\s\S]*增加主动投放按钮[\s\S]*完全随机自动布置/, "自动炮塔投放方式应作为下一项可追踪产品决策");
 assert.match(html, /data-choice="duplicateEquipment"[\s\S]*攻击武器可重复防御部署唯一[\s\S]*所有装备都同名唯一[\s\S]*所有装备都允许重复/, "同名装备重复规则应作为可追踪产品决策");
+assert.match(html, /产品与核心玩法约 75%[\s\S]*实现规格约 45%[\s\S]*1 周技术尖刺 \+ 3 关切片/, "蓝图应区分产品策划成熟度与可执行实现规格");
+assert.match(html, /战斗合同[\s\S]*内容数据表[\s\S]*界面状态流[\s\S]*数据与存档边界[\s\S]*技术验收线/, "开工门槛应包含五份薄实现规格");
+assert.match(html, /A0 · 技术尖刺[\s\S]*1 宠物 × 2 武器 × 2 敌人[\s\S]*A1 · 可玩垂直切片[\s\S]*3 关微型远征[\s\S]*A2 · 内容首版[\s\S]*扩成完整十关/, "新原型应从技术尖刺逐步扩展到三关切片和十关内容首版");
+assert.match(html, /Cocos Creator 3\.8 LTS \+ TypeScript[\s\S]*现有 HTML／JS 原型保留为数值与机制实验台/, "蓝图应记录推荐生产技术栈与旧原型定位");
+assert.match(html, /Cocos Creator \+ TS[\s\S]*Unity \/ 团结引擎 \+ C#[\s\S]*LayaAir \+ TypeScript[\s\S]*Godot \+ GDScript[\s\S]*原生 HTML \/ Canvas \/ JS/, "技术决策应比较五类候选方案");
+assert.match(html, /Web 测试版[\s\S]*微信小游戏[\s\S]*抖音小游戏[\s\S]*Android \/ iOS App[\s\S]*PC 客户端/, "发布路线应按验证成本逐步扩展平台");
+assert.match(html, /WebGL 不等于小游戏“一键换壳”[\s\S]*登录、广告、支付、分享、云存档/, "蓝图应明确小游戏仍需渠道适配层");
+assert.match(html, /data-choice="productionEngine"[\s\S]*Cocos Creator 3\.8 \+ TypeScript/, "生产技术栈应作为可追踪产品决策");
+assert.match(html, /data-choice="releaseSequence"[\s\S]*Web到微信到抖音到原生App/, "发布验证顺序应作为可追踪产品决策");
+assert.match(html, /data-choice="prototypeDepth"[\s\S]*技术尖刺后做三关切片/, "新原型深度应作为可追踪产品决策");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");

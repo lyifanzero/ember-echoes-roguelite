@@ -602,12 +602,60 @@
           </article>
 
           <article class="chapter" data-chapter="slice" data-title="垂直切片范围">
-            <div class="chapter-heading"><p>07 · VERTICAL SLICE</p><h2 data-editable id="sliceHeadline">先用一个固定槽位房间证明“战斗成果回家可见”，再扩充内容。</h2></div>
-            <div class="scope-board">
-              <section class="scope-in"><h3>首版必须完成</h3><ul data-editable id="scopeIn"><li>垂直切片先打磨 3 个起始宠物</li><li>内容首版保留 5 个挑战解锁宠物</li><li>3 套共享体型动画骨架</li><li>1 个固定槽位居住舱</li><li>1 个星球与十阶段远征</li><li>9 种现有武器</li><li>12 种可带回物资</li><li>8 件槽位家具</li><li>完整撤离与仓库闭环</li><li>6 个音乐场景与武器音效库</li></ul></section>
-              <section class="scope-out"><h3>首版暂不制作</h3><ul data-editable id="scopeOut"><li>自由建墙、改房屋结构和墙面</li><li>居民复杂寻路与生活模拟</li><li>居民—家具互动和事件链</li><li>多人联机与大型开放世界</li><li>复杂制作树和交易市场</li><li>无限永久属性成长</li></ul></section>
+            <div class="chapter-heading"><p>07 · VERTICAL SLICE</p><h2 data-editable id="sliceHeadline">产品规则已经足够开工；先补齐可执行规格，再做三关垂直切片，不直接重做完整十关。</h2><span>当前策划案已经回答“为什么玩、每局怎么决策、角色与装备如何形成构筑、战利品为何值得带回”。开工前不需要先填完所有数值，而需要冻结一组能被代码、界面和测试共同引用的实现合同。</span></div>
+            <div class="readiness-verdict">
+              <section><small>策划成熟度</small><b>产品与核心玩法约 75%</b><span>方向、边界和主要系统成立，已经超过“继续空谈创意”的阶段。</span></section>
+              <section><small>开工缺口</small><b>实现规格约 45%</b><span>还缺状态流、数据结构、首批内容表、触控规则与性能预算。</span></section>
+              <section><small>正确下一步</small><b>1 周技术尖刺 + 3 关切片</b><span>先验证引擎、手感和对象池，再验证构筑、结算、撤离与回家反馈。</span></section>
             </div>
-            <div class="success-strip"><span>验收问题</span><b data-editable id="sliceSuccess">玩家是否先因为想尝试新构筑而再次开局，并在过程中愿意为稀有物资承担额外风险？</b></div>
+            <div class="prototype-gates">
+              <header><small>DEFINITION OF READY</small><b>以下五份“薄规格”完成，就停止扩写总策划案并进入制作</b><span>每份控制在 1–3 页或一张可维护表格</span></header>
+              <section><i>01</i><div><b>战斗合同</b><span>移动、自动锁敌、受击无敌帧、碰撞层、弹道颜色、敌人生成与关卡结束条件。</span></div></section>
+              <section><i>02</i><div><b>内容数据表</b><span>3 宠物、6 件外置装备、6 类敌人、1 精英、1 Boss 的字段与占位数值。</span></div></section>
+              <section><i>03</i><div><b>界面状态流</b><span>开局选择 → 战斗 HUD → 关末整备 → 区域选择／撤离 → 战利品回家，全流程线框图。</span></div></section>
+              <section><i>04</i><div><b>数据与存档边界</b><span>局内构筑、局外仓库、解锁任务、配置表和版本迁移分离；永久伤害永不进入存档。</span></div></section>
+              <section><i>05</i><div><b>技术验收线</b><span>目标设备、横竖屏、触控全屏摇杆、对象池上限、加载时间、帧率底线与调试日志。</span></div></section>
+            </div>
+            <div class="prototype-ladder">
+              <header><small>IMPLEMENTATION LADDER</small><b>用两级原型避免“一上来重做整款游戏”</b></header>
+              <section><i>A0 · 技术尖刺</i><b>1 宠物 × 2 武器 × 2 敌人</b><span>只做 3 分钟灰盒战斗；验证全屏触控、自动锁敌、对象池、碰撞、音频并发和 Web／小游戏构建链。失败就换技术，不迁内容。</span></section>
+              <section><i>A1 · 可玩垂直切片</i><b>3 关微型远征</b><span>3 个起始宠物、4 件攻击武器、1 件防御模块、1 座自动炮塔、5 类普通敌人、1 精英、1 Boss；第 3 关可撤离。</span></section>
+              <section><i>A2 · 内容首版</i><b>扩成完整十关</b><span>切片验收后再补齐 8 宠物、9 武器、12 种物资、8 件家具、完整音效库和第 3／6／10 关撤离节奏。</span></section>
+            </div>
+            <div class="engine-recommendation">
+              <header><small>TECH ROUTE · 推荐</small><b>Cocos Creator 3.8 LTS + TypeScript</b><span>现有 HTML／JS 原型保留为数值与机制实验台，不继续承担正式内容生产。</span></header>
+              <div class="engine-matrix">
+                <section class="engine-head"><b>方案</b><b>与本项目匹配</b><b>发布覆盖</b><b>主要代价</b><b>结论</b></section>
+                <section class="recommended"><b>Cocos Creator + TS</b><span>2D、移动端、小游戏优先；从 JS 迁移阻力小，场景与 UI 可视化</span><span>Web、微信／抖音小游戏、Android／iOS、桌面</span><span>仍需分别接入平台登录、广告、支付、存档和包体优化</span><strong>生产原型首选</strong></section>
+                <section><b>Unity / 团结引擎 + C#</b><span>原生 App、3D、复杂动画/VFX、Steam 或更大团队更有优势</span><span>Android／iOS／PC／Web；微信链路在中国发行体系中另行处理</span><span>对当前 2D 单人项目更重；迁移跨度与编辑器资产复杂度更高</span><strong>方向升级时再选</strong></section>
+                <section><b>LayaAir + TypeScript</b><span>同样贴近 Web 与小游戏，代码迁移成本低</span><span>Web、微信／抖音小游戏、Android／iOS、桌面</span><span>可用，但本项目没有足以抵消换生态成本的独特收益</span><strong>可靠备选</strong></section>
+                <section><b>Godot + GDScript</b><span>开源、2D 体验好、代码和场景文本化</span><span>Web、Android／iOS、桌面</span><span>微信／抖音不是官方一等导出目标，需要第三方适配与额外维护</span><strong>不作为首选</strong></section>
+                <section><b>原生 HTML / Canvas / JS</b><span>AI 改代码最快，机制实验和网页试玩成本最低</span><span>浏览器最直接；小游戏和原生端需要自行维护适配层</span><span>资源、动画、场景、碰撞、性能与多平台工程成本会持续回流到主程序</span><strong>保留为实验台</strong></section>
+              </div>
+              <div class="ai-engine-rule"><b>“适合 AI 编程”不是单独选引擎的理由</b><span>AI 最需要的是 TypeScript／C# 等结构化文本代码、清晰组件边界、数据表驱动、可重复命令行构建和自动测试。Cocos + TypeScript 已满足这些条件；编辑器场景只负责表现装配，战斗规则不得散落在场景节点里。</span></div>
+            </div>
+            <div class="release-ladder">
+              <header><small>RELEASE LADDER</small><b>同一项目，多次验证；不同时冲四个平台</b></header>
+              <section><i>01</i><b>Web 测试版</b><span>电脑与手机浏览器快速分享；继续使用 GitHub Pages 做开发验证。</span></section>
+              <section><i>02</i><b>微信小游戏</b><span>首个真实渠道验证触控、首包、留存、平台存档和弱网表现。</span></section>
+              <section><i>03</i><b>抖音小游戏</b><span>复用已稳定的小游戏架构，再接入平台能力与渠道测试。</span></section>
+              <section><i>04</i><b>Android / iOS App</b><span>留存和商业模型验证后再做原生商店；避免过早承担审核、SDK 与多设备运维。</span></section>
+              <section><i>05</i><b>PC 客户端</b><span>只有当玩家数据证明存在 Steam／原生 PC 需求时再评估；网页 PC 版持续保留。</span></section>
+            </div>
+            <div class="platform-caveat"><b>WebGL 不等于小游戏“一键换壳”</b><span>小游戏运行环境、分包、平台 SDK、存储和审核规则都不同。引擎能复用核心玩法代码与资源管线，但登录、广告、支付、分享、云存档仍要按渠道隔离成适配层。</span></div>
+            <div class="scope-board">
+              <section class="scope-in"><h3>A1 切片必须完成</h3><ul data-editable id="scopeIn"><li>3 个起始宠物与至少 2 条可行构筑</li><li>6 格统一外置装备面板</li><li>4 攻击 + 1 防御 + 1 部署装备</li><li>3 关战斗、关末整备与区域选择</li><li>经验加点与实体武器合并分流</li><li>精英宝箱、物资选择与第 3 关撤离</li><li>1 个固定槽位居住舱</li><li>战利品入库并摆放 1 件家具</li><li>键鼠与全屏触控双输入</li><li>基础战斗、界面与警报音频</li></ul></section>
+              <section class="scope-out"><h3>A1 明确延期</h3><ul data-editable id="scopeOut"><li>完整十关与全部 8 个宠物</li><li>全部 9 种武器和完整数值平衡</li><li>自由建墙与修改房屋结构</li><li>居民复杂寻路与生活模拟</li><li>居民—家具互动和剧情事件链</li><li>多人联机与大型开放世界</li><li>支付、广告与正式商业化 SDK</li><li>复杂制作树和交易市场</li><li>无限永久属性成长</li></ul></section>
+            </div>
+            <div class="slice-acceptance">
+              <header><small>GO / NO-GO</small><b>切片不是看“做了多少”，而是回答五个问题</b></header>
+              <section><i>手感</i><span>移动、自动锁敌、命中反馈与敌我弹道无需解释即可辨认。</span></section>
+              <section><i>构筑</i><span>3 个宠物各有至少 2 条可行路线，玩家能说出自己为何换装或放弃升级。</span></section>
+              <section><i>节奏</i><span>关末处理顺序清楚，整备不会比战斗更疲劳。</span></section>
+              <section><i>风险</i><span>第 3 关撤离时，玩家能直观看懂“已保住什么、继续会冒什么险”。</span></section>
+              <section><i>回流</i><span>至少一部分玩家因为新构筑，而不是永久伤害，愿意立即再开一局。</span></section>
+            </div>
+            <div class="success-strip"><span>最终验收问题</span><b data-editable id="sliceSuccess">玩家是否先因为想尝试新构筑而再次开局，并在过程中愿意为稀有物资承担额外风险？如果答案是否定的，不扩十关，先改核心循环。</b></div>
           </article>
 
           <article class="chapter" data-chapter="decisions" data-title="待确认决策">
@@ -626,8 +674,11 @@
               <section data-choice="combatAvatar"><div><small>决策 11 · 已确认</small><h3>肉鸽对局中的玩家载体</h3><p>宠物本人穿舱外作业服进行地表战斗；飞船作为家园、扫描、投送与撤离载体。</p></div><div class="choice-buttons"><button data-value="宠物舱外地表战斗">宠物舱外地表战斗<em>已确认</em></button><button data-value="宠物驾驶战斗飞船">宠物驾驶战斗飞船</button><button data-value="宠物驾驶步行机甲">宠物驾驶步行机甲</button></div></section>
               <section data-choice="sentryControl"><div><small>决策 12 · 建议确认</small><h3>自动炮塔如何选择投放位置</h3><p>推荐冷却结束前显示短暂落点光圈，随后自动投放在宠物当前位置；光圈只是提示，不需要点击。</p></div><div class="choice-buttons"><button data-value="提示后自动投放当前位置">提示后自动投放当前位置<em>推荐</em></button><button data-value="增加主动投放按钮">增加主动投放按钮</button><button data-value="完全随机自动布置">完全随机自动布置</button></div></section>
               <section data-choice="duplicateEquipment"><div><small>决策 13 · 建议确认</small><h3>同名装备能否占用多个槽位</h3><p>推荐攻击武器允许同名多把并独立升级；防御模块与自动炮塔同名唯一，重复获得只用于升级。</p></div><div class="choice-buttons"><button data-value="攻击武器可重复防御部署唯一">攻击可重复，防御部署唯一<em>推荐</em></button><button data-value="所有装备都同名唯一">所有装备都同名唯一</button><button data-value="所有装备都允许重复">所有装备都允许重复</button></div></section>
+              <section data-choice="productionEngine"><div><small>决策 14 · 建议确认</small><h3>新原型的生产技术栈</h3><p>推荐 Cocos Creator 3.8 LTS + TypeScript；现有 HTML/JS 继续做快速数值和机制实验，不再扩成正式产品工程。</p></div><div class="choice-buttons"><button data-value="Cocos Creator 3.8 + TypeScript">Cocos Creator + TypeScript<em>推荐</em></button><button data-value="继续原生 HTML Canvas JS">继续原生 HTML/JS</button><button data-value="Unity 或团结引擎 + CSharp">Unity／团结引擎 + C#</button></div></section>
+              <section data-choice="releaseSequence"><div><small>决策 15 · 建议确认</small><h3>首轮发布验证顺序</h3><p>推荐先用 Web 快速测试，再验证微信与抖音小游戏，留存和商业模型成立后才制作 Android/iOS 原生 App。</p></div><div class="choice-buttons"><button data-value="Web到微信到抖音到原生App">Web → 微信 → 抖音 → App<em>推荐</em></button><button data-value="Android iOS App优先">Android／iOS App 优先</button><button data-value="PC Steam优先">PC／Steam 优先</button></div></section>
+              <section data-choice="prototypeDepth"><div><small>决策 16 · 建议确认</small><h3>新原型做到多深再评审</h3><p>推荐先做 1 周技术尖刺，再做支持完整循环的 3 关切片；代码和数据结构支持未来十关，但首轮不填满内容。</p></div><div class="choice-buttons"><button data-value="技术尖刺后做三关切片">技术尖刺 → 三关切片<em>推荐</em></button><button data-value="直接重做完整十关">直接重做完整十关</button><button data-value="只做三分钟战斗Demo">只做三分钟战斗 Demo</button></div></section>
             </div>
-            <div class="next-step"><small>下一项单点讨论</small><b>确认“攻击武器可同名多把、防御模块与自动炮塔同名唯一”，以及炮塔采用“提示后自动投放当前位置”，再进入首颗星球设计。</b></div>
+            <div class="next-step"><small>下一项单点讨论</small><b>先确认技术栈、发布顺序和“三关切片”深度。确认后暂停扩写宏观策划，转入 A0 技术尖刺规格与 Cocos 项目骨架；首颗星球的完整内容设计留到切片手感成立以后。</b></div>
           </article>
         </div>
 
