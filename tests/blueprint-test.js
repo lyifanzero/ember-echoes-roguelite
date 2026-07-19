@@ -25,6 +25,8 @@ assert.match(html, /局内战斗值[\s\S]*带出物资值[\s\S]*局外经济值/
 assert.match(html, /永久伤害、生命和战斗倍率永远不因局外成长改变/, "局外成长不得改变永久战斗倍率");
 assert.match(html, /只能完成特定任务解锁/, "仓库和货舱扩容必须由特定任务解锁");
 assert.match(html, /普通货舱与安全槽均设固定上限/, "局内背包容量不得无限膨胀");
+assert.match(html, /初始 4\+1、上限 6\+2/, "货舱数值应标明为可调整的原型占位值");
+assert.match(html, /战斗中拾取密封物资箱[\s\S]*关卡结束统一开箱[\s\S]*撤离或继续深入/, "轻度搜打撤应有不打断战斗的完整原型流程");
 assert.match(script, /localStorage\.setItem/, "讨论状态应保存在当前浏览器");
 assert.match(script, /exportDiscussion/, "蓝图应能导出讨论稿");
 assert.match(css, /@media\(max-width:760px\)/, "蓝图应提供移动端布局");
