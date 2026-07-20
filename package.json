@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build.mjs",
-    "test": "node --check balance.js && node --check game.js && node --check blueprint.js && node tests/balance-test.js && node tests/smoke-test.js && node tests/blueprint-test.js",
+    "test": "node --check balance.js && node --check game.js && node --check blueprint.js && node tests/balance-test.js && node tests/smoke-test.js && node tests/blueprint-test.js && npm run test:cocos-core",
+    "test:cocos-core": "node scripts/test-cocos-core.mjs",
     "balance": "node scripts/balance-report.js"
   }
 }

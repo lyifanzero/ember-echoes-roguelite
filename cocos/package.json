@@ -1,0 +1,13 @@
+{
+  "creator": {
+    "version": "3.8.8",
+    "dependencies": {},
+    "registry": {
+      "remote": {}
+    }
+  },
+  "name": "ember-echoes-cocos",
+  "type": "2d",
+  "uuid": "a0c0c888-3a88-4a01-9f90-0a0b0c0d8888",
+  "version": "0.1.0"
+}

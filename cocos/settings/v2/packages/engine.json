@@ -1,0 +1,27 @@
+{
+  "__version__": "1.0.12",
+  "modules": {
+    "includeModules": [
+      "2d",
+      "3d",
+      "animation",
+      "audio",
+      "base",
+      "gfx-webgl",
+      "marionette",
+      "profiler",
+      "skeletal-animation",
+      "ui",
+      "legacy-pipeline"
+    ],
+    "flags": {
+      "2d": {
+        "UI_GPU_DRIVEN": false
+      }
+    },
+    "noDeprecatedFeatures": {
+      "value": false,
+      "version": ""
+    }
+  }
+}

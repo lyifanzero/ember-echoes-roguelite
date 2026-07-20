@@ -1,0 +1,12 @@
+{
+  "extends": "./temp/tsconfig.cocos.json",
+  "compilerOptions": {
+    "lib": ["DOM", "ES2020"],
+    "skipLibCheck": true,
+    "strict": true,
+    "useDefineForClassFields": false
+  },
+  "include": [
+    "assets/**/*.ts"
+  ]
+}
